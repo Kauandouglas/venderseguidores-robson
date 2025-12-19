@@ -4,67 +4,69 @@
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
+                {{-- Mensagens de Erro e Sucesso --}}
+                @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                    <h5><i class="fas fa-exclamation-triangle mr-2"></i>Atenção!</h5>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                    <h5><i class="fas fa-check-circle mr-2"></i>Sucesso!</h5>
+                    <p class="mb-0">{{ session('success') }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                    <h5><i class="fas fa-times-circle mr-2"></i>Erro!</h5>
+                    <p class="mb-0">{{ session('error') }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('warning'))
+                <div class="alert alert-warning alert-dismissible fade show shadow-sm" role="alert">
+                    <h5><i class="fas fa-exclamation-circle mr-2"></i>Aviso!</h5>
+                    <p class="mb-0">{{ session('warning') }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('info'))
+                <div class="alert alert-info alert-dismissible fade show shadow-sm" role="alert">
+                    <h5><i class="fas fa-info-circle mr-2"></i>Informação!</h5>
+                    <p class="mb-0">{{ session('info') }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            
                 @if (!isset($instance) || $instance->status === 'error')
                     {{-- Card de Ativação --}}
                     <div class="row justify-content-center">
                         <div class="col-md-8">
                             <div class="card shadow-lg border-0">
                                 <div class="card-body text-center py-5">
-                                    {{-- Mensagens de Erro e Sucesso --}}
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-                                            <h5><i class="fas fa-exclamation-triangle mr-2"></i>Atenção!</h5>
-                                            <ul class="mb-0">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    @endif
-
-                                    @if (session('success'))
-                                        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-                                            <h5><i class="fas fa-check-circle mr-2"></i>Sucesso!</h5>
-                                            <p class="mb-0">{{ session('success') }}</p>
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    @endif
-
-                                    @if (session('error'))
-                                        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-                                            <h5><i class="fas fa-times-circle mr-2"></i>Erro!</h5>
-                                            <p class="mb-0">{{ session('error') }}</p>
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    @endif
-
-                                    @if (session('warning'))
-                                        <div class="alert alert-warning alert-dismissible fade show shadow-sm" role="alert">
-                                            <h5><i class="fas fa-exclamation-circle mr-2"></i>Aviso!</h5>
-                                            <p class="mb-0">{{ session('warning') }}</p>
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    @endif
-
-                                    @if (session('info'))
-                                        <div class="alert alert-info alert-dismissible fade show shadow-sm" role="alert">
-                                            <h5><i class="fas fa-info-circle mr-2"></i>Informação!</h5>
-                                            <p class="mb-0">{{ session('info') }}</p>
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    @endif
-
+                                    
                                     <h3 class="mb-3">WhatsApp não está ativo</h3>
                                     <p class="text-muted mb-4">Ative sua instância gratuita do WhatsApp para começar a enviar mensagens e PIX automaticamente.</p>
                                     
@@ -197,7 +199,7 @@
                                                 <img src="{{ $instance->qr_code }}" alt="QR Code WhatsApp" style="width: 280px; height: 280px; display: block;">
                                             </div>
 
-                                            <div class="alert alert-info border-0 mb-4" style="background-color: #d1ecf1;">
+                                            <div class="alert alert-info border-0 mb-4" style="background-color: #1eba6e;">
                                                 <i class="fas fa-info-circle mr-2"></i>
                                                 <strong>Como conectar:</strong>
                                                 <ol class="text-left mb-0 mt-2 pl-4" style="font-size: 13px;">
