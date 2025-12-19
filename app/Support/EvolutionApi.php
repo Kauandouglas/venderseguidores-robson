@@ -69,8 +69,8 @@ class EvolutionApi
         $endpoint = "instance/create";
         $data = [
             'instanceName' => $instanceName,
+            'integration' => 'BAILEYS', // obrigatório
             'qrcode' => true,
-            'webhook' => $webhookUrl,
             'webhookUrl' => $webhookUrl,
             'webhookByEvents' => true,
             'events' => [
