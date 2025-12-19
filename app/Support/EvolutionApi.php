@@ -69,7 +69,7 @@ class EvolutionApi
         $endpoint = "instance/create";
         $data = [
             'instanceName' => $instanceName,
-            'integration' => 'BAILEYS', // obrigatório
+            'integration' => 'WHATSAPP-BAILEYS', // obrigatório
             'qrcode' => true,
             'webhookUrl' => $webhookUrl,
             'webhookByEvents' => true,
