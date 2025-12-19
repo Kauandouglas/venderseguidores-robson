@@ -51,6 +51,7 @@ class WhatsappController extends Controller
 
         $evolutionApi = new EvolutionApi();
         $apiResponse = $evolutionApi->createInstance($instanceName, $webhookUrl);
+        dd($apiResponse);
 
         if (isset($apiResponse['instance'])) {
             $instance = WhatsappInstance::create([
