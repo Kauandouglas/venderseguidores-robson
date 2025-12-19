@@ -16,8 +16,8 @@ class EvolutionApi
     public function __construct(WhatsappInstance $instance = null)
     {
         // Assumindo que as credenciais globais estão em config/services.php ou .env
-        $this->apiUrl = config('services.evolution.url', 'http://evolution-api-url.com');
-        $this->apiKey = config('services.evolution.key', 'SEU_API_KEY_GLOBAL');
+        $this->apiUrl = config('services.evolution.url', 'https://robson-evolution-api-evolution-api.kyaafy.easypanel.host');
+        $this->apiKey = config('services.evolution.key', '8F3A91D7C2B64E0F9A7C4D128EB5F6A2');
         $this->instance = $instance;
 
         if ($instance) {
