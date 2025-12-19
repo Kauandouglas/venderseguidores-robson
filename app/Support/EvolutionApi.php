@@ -112,6 +112,33 @@ class EvolutionApi
         return $this->post($endpoint, $data);
     }
 
+     /**
+     * Configura o webhook para uma instância existente na Evolution API
+     *
+     * @param string $instanceName Nome único da instância
+     * @param string $webhookUrl URL para receber webhooks
+     * @param array $events Lista de eventos a serem recebidos
+     * @param bool $webhookByEvents Se deve filtrar por eventos
+     * @return array
+     */
+    public function setWebhook(string $instanceName, string $webhookUrl, array $events = [], bool $webhookByEvents = true): array
+    {
+        if (!$instanceName) {
+            return ['error' => true, 'message' => 'Instance name not set.'];
+        }
+
+        $endpoint = "instance/webhook";
+        $data = [
+            'instanceName' => $instanceName,
+            'webhookUrl' => $webhookUrl,
+            'webhookByEvents' => $webhookByEvents,
+            'events' => $events,
+        ];
+
+        // Usamos a sua função post() pois o método é POST
+        return $this->post($endpoint, $data);
+    }
+
     /**
      * Retorna o QR Code para conexão
      *

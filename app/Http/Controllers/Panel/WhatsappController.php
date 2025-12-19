@@ -60,6 +60,14 @@ class WhatsappController extends Controller
                 'status' => 'disconnected',
             ]);
 
+            $events = [
+                'QRCODE_UPDATED',
+                'MESSAGES_UPSERT',
+                'CONNECTION_UPDATE',
+            ];
+
+            $response = $api->setWebhook($instanceName, $webhookUrl, $events);
+
             // Após criar, tenta obter o QR Code imediatamente
             $evolutionApi = new EvolutionApi($instance);
             $qrCodeData = $evolutionApi->getQrCode();
