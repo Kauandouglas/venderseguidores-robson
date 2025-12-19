@@ -25,6 +25,35 @@ class EvolutionApi
         }
     }
 
+    private function get(string $endpoint)
+    {
+        $url = "{$this->apiUrl}/{$endpoint}";
+
+        try {
+            $response = Http::withHeaders([
+                'apikey' => $this->apiKey,
+            ])->get($url); // Mudança para o método GET
+
+            if (!$response->successful()) {
+                Log::error('Evolution API Error', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'endpoint' => $endpoint,
+                ]);
+            }
+
+            return $response->json();
+
+        } catch (\Exception $e) {
+            Log::error('Evolution API Exception', [
+                'message' => $e->getMessage(),
+                'endpoint' => $endpoint,
+            ]);
+            return ['error' => true, 'message' => $e->getMessage()];
+        }
+    }
+
+
     /**
      * Envia uma requisição POST para a Evolution API
      */
@@ -95,7 +124,7 @@ class EvolutionApi
         }
 
         $endpoint = "instance/connect/{$this->instanceName}";
-        return $this->post($endpoint);
+        return $this->get($endpoint);
     }
 
     /**

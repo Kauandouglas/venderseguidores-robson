@@ -24,9 +24,6 @@ class WhatsappController extends Controller
             $evolutionApi = new EvolutionApi($instance);
             $qrCodeData = $evolutionApi->getQrCode();
 
-            dd($qrCodeData);
-
-            
             if (isset($qrCodeData['qrcode'])) {
                 $instance->qr_code = $qrCodeData['qrcode'];
                 $instance->status = 'connecting';
