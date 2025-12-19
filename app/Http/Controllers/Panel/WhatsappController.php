@@ -66,7 +66,7 @@ class WhatsappController extends Controller
                 'CONNECTION_UPDATE',
             ];
 
-            $response = $api->setWebhook($instanceName, $webhookUrl, $events);
+            $response = $evolutionApi->setWebhook($instanceName, $webhookUrl, $events);
 
             // Após criar, tenta obter o QR Code imediatamente
             $evolutionApi = new EvolutionApi($instance);
