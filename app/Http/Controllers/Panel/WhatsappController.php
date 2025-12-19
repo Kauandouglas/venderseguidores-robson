@@ -20,7 +20,7 @@ class WhatsappController extends Controller
         $instance = $user->whatsappInstance;
 
         // Se a instância existir e estiver desconectada, tenta gerar o QR Code
-        if ($instance) {
+        if ($instance && $instance->status != 'connected') {
             $evolutionApi = new EvolutionApi($instance);
             $qrCodeData = $evolutionApi->getQrCode();
             
