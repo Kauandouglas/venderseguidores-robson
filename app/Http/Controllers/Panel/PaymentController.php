@@ -33,11 +33,21 @@ class PaymentController extends Controller
 
     public function update(PaymentRequest $request)
     {
-        $data = [
-            'option' => $request->option,
-            'public_key' => $request->public_key,
-            'access_token' => $request->access_token,
-        ];
+        if($request->payment_method_id == 1){
+            // Mercado Pago
+            $data = [
+                'option' => $request->option,
+                'public_key' => $request->public_key,
+                'access_token' => $request->access_token,
+            ];
+        }else{
+            // PushInPay
+            $data = [
+                'option' => $request->option,
+                'bearer_token' => $request->bearer_token,
+            ];
+        }
+        
 
         $payment = Auth::user()->payment()->updateOrCreate(
             ['user_id' => Auth::id()],
