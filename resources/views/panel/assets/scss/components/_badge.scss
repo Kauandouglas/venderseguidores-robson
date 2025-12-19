@@ -1,0 +1,17 @@
+.btn {
+    .badge {
+        border-radius: 50%;
+        margin-left: 5px;
+        &.bg-transparent {
+            background-color: rgba(255,255,255,.25) !important;
+        }
+    }
+}
+
+.badge {
+    color: #fff;
+}
+
+a.badge:hover {
+
+}
