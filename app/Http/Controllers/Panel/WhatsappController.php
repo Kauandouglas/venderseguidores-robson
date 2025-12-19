@@ -23,11 +23,15 @@ class WhatsappController extends Controller
         if ($instance && $instance->status === 'disconnected') {
             $evolutionApi = new EvolutionApi($instance);
             $qrCodeData = $evolutionApi->getQrCode();
+
+            dd($qrCodeData);
+
             
             if (isset($qrCodeData['qrcode'])) {
                 $instance->qr_code = $qrCodeData['qrcode'];
                 $instance->status = 'connecting';
                 $instance->save();
+                
             }
         }
 
@@ -62,8 +66,7 @@ class WhatsappController extends Controller
             // Após criar, tenta obter o QR Code imediatamente
             $evolutionApi = new EvolutionApi($instance);
             $qrCodeData = $evolutionApi->getQrCode();
-            dd($qrCodeData);
-
+   
             if (isset($qrCodeData['qrcode'])) {
                 $instance->qr_code = $qrCodeData['qrcode'];
                 $instance->status = 'connecting';
