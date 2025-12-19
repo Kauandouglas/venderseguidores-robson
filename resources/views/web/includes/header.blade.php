@@ -5,7 +5,7 @@
             <a href="{{ route('web.home') }}" class="flex items-center space-x-2 group">
                 <div class="relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-25 group-hover:opacity-50 transition-opacity"></div>
-                    <img src="{{ asset('web_assets/images/logo.png') }}" 
+                    <img src="{{ asset('web_assets/images/logo_new.png') }}" 
                          alt="{{ config('app.name') }}" 
                          class="relative h-10 w-auto">
                 </div>
