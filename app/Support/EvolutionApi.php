@@ -66,7 +66,7 @@ class EvolutionApi
      */
     public function createInstance(string $instanceName, string $webhookUrl): array
     {
-        $endpoint = "instance/create";
+        $endpoint = "api/v1/instance/create";
         $data = [
             'instanceName' => $instanceName,
             'qrcode' => true,
