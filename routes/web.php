@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Dashboard\AuthController as AuthControllerDashboard;
-use App\Http\Controllers\Dashboard\UserController as UserControllerDashboard;
+
 use App\Http\Controllers\Forgot\ForgotController;
 use App\Http\Controllers\Panel\ApiProviderController;
 use App\Http\Controllers\Panel\AuthController;
@@ -135,21 +134,6 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
 
         Route::resource('cupom-desconto', DiscountCouponController::class)
             ->parameters(['cupom-desconto' => 'discountCoupon'])->names('discountCoupons')->except('show');
-    });
-});
-
-// Dashboard
-Route::group(['as' => 'dashboard.', 'prefix' => 'dashboard'], function () {
-    Route::get('/entrar', [AuthControllerDashboard::class, 'formLogin'])->name('auth.formLogin');
-    Route::post('/entrar', [AuthControllerDashboard::class, 'login'])->name('auth.login');
-    Route::post('/sair', [AuthControllerDashboard::class, 'logout'])->name('auth.logout');
-
-    Route::middleware('role:1')->group(function () {
-        Route::controller(AuthControllerDashboard::class)->group(function () {
-            Route::get('/', 'index')->name('index');
-        });
-
-        Route::resource('users', UserControllerDashboard::class);
     });
 });
 
