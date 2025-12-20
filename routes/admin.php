@@ -6,6 +6,11 @@ use App\Http\Controllers\Admin\PaymentGatewayController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\DomainController;
+use App\Http\Controllers\Admin\WhatsappInstanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,26 +54,17 @@ Route::post('settings/clear-cache', [SettingController::class, 'clearCache'])->n
 Route::post('settings/optimize', [SettingController::class, 'optimizeSystem'])->name('settings.optimize');
 
 // Services
-Route::get('services', function() {
-    return view('admin.services.index');
-})->name('services.index');
+Route::resource('services', ServiceController::class);
 
 // Categories
-Route::get('categories', function() {
-    return view('admin.categories.index');
-})->name('categories.index');
+Route::resource('categories', CategoryController::class);
 
 // Plans
-Route::get('plans', function() {
-    return view('admin.plans.index');
-})->name('plans.index');
+Route::resource('plans', PlanController::class);
 
 // Domains
-Route::get('domains', function() {
-    return view('admin.domains.index');
-})->name('domains.index');
+Route::resource('domains', DomainController::class);
 
 // WhatsApp Instances
-Route::get('whatsapp', function() {
-    return view('admin.whatsapp.index');
-})->name('whatsapp.index');
+Route::resource('whatsapp', WhatsappInstanceController::class);
+Route::post('whatsapp/{whatsappInstance}/test', [WhatsappInstanceController::class, 'testConnection'])->name('whatsapp.test');
