@@ -47,3 +47,28 @@ Route::get('settings', [SettingController::class, 'index'])->name('settings.inde
 Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 Route::post('settings/clear-cache', [SettingController::class, 'clearCache'])->name('settings.clear-cache');
 Route::post('settings/optimize', [SettingController::class, 'optimizeSystem'])->name('settings.optimize');
+
+// Services
+Route::get('services', function() {
+    return view('admin.services.index');
+})->name('services.index');
+
+// Categories
+Route::get('categories', function() {
+    return view('admin.categories.index');
+})->name('categories.index');
+
+// Plans
+Route::get('plans', function() {
+    return view('admin.plans.index');
+})->name('plans.index');
+
+// Domains
+Route::get('domains', function() {
+    return view('admin.domains.index');
+})->name('domains.index');
+
+// WhatsApp Instances
+Route::get('whatsapp', function() {
+    return view('admin.whatsapp.index');
+})->name('whatsapp.index');
