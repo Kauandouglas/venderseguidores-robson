@@ -205,11 +205,14 @@
                                     <i class="fas fa-cog mr-2"></i> Configurações
                                 </a>
                                 <hr class="my-2">
-                                <form action="{{ route('logout') }}" method="POST" class="block">
+                                <form action="{{ url('/logout') }}" method="POST" class="block" onsubmit="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     @csrf
                                     <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
                                         <i class="fas fa-sign-out-alt mr-2"></i> Sair
                                     </button>
+                                </form>
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    @csrf
                                 </form>
                             </div>
                         </div>
