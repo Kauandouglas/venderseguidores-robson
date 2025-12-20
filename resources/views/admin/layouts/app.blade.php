@@ -19,7 +19,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] { display: block !important; }
         
         .sidebar-link {
             @apply flex items-center px-4 py-3 text-gray-300 hover:bg-indigo-700 transition-colors duration-200;
@@ -72,7 +72,7 @@
     
     @stack('styles')
 </head>
-<body class="bg-gray-100" x-cloak>
+<body class="bg-gray-100">
     <div class="flex h-screen overflow-hidden" x-data="{ sidebarOpen: true }">
         <!-- Sidebar -->
         <aside class="w-64 bg-gradient-to-b from-indigo-700 to-indigo-900 text-white overflow-y-auto transition-all duration-300" :class="{ 'w-20': !sidebarOpen }">
