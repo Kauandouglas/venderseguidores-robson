@@ -7,7 +7,7 @@
         <div class="col-md-12 mt-3">
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0"><i data-feather="globe"></i> Vincular meu domínio</h4>
+                    <h4 class="mb-0" style="color: #fff;"><i data-feather="globe"></i> Vincular meu domínio</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body">
