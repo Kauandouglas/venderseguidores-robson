@@ -92,7 +92,7 @@
             </div>
 
             <!-- Navigation -->
-            <nav class="mt-6">
+            <nav class="mt-6 flex flex-col space-y-1">
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-chart-line w-6"></i>
                     <span x-show="sidebarOpen" class="ml-3">Dashboard</span>
