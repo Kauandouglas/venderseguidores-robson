@@ -20,12 +20,6 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="{{ route('panel.whatsapp.index') }}" class='sidebar-link'>
-                    <i data-feather="message-circle" width="20"></i>
-                    <span>WhatsApp</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
                 <a href="{{ route('panel.categories.index') }}" class='sidebar-link'>
                     <i data-feather="grid" width="20"></i>
                     <span>Categorias</span>
@@ -49,7 +43,13 @@
                     <span>Cupom de desconto</span>
                 </a>
             </li>
-            @if(Auth::user()->planPurchase()->active()->where('plan_id', 3)->count() == 1)
+            @if(Auth::user()->planPurchase()->active()->where('plan_id', 2)->count() == 0)
+                <li class="sidebar-item">
+                    <a href="{{ route('panel.whatsapp.index') }}" class='sidebar-link'>
+                        <i data-feather="message-circle" width="20"></i>
+                        <span>Vincular WhatsApp</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a href="{{ route('panel.domains.create') }}" class='sidebar-link'>
                         <i data-feather="globe" width="20"></i>

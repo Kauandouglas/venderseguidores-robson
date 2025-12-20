@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Models\Domain;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,10 +20,27 @@ class DomainController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $user->domain = $request->domain;
-        $user->update();
+       // Validação customizada
+        $validator = Validator::make($request->all(), [
+            'domain' => [
+                'required',
+                'string',
+                'regex:/^(?!www\.)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/', // Domínio sem www e sem protocolo
+            ],
+        ], [
+            'domain.regex' => 'Informe apenas o domínio, sem https:// ou www.',
+        ]);
 
-        return redirect()->back()->withSuccess('Dominio cadastrado com sucesso!');
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Se passou na validação, salva ou atualiza
+        $domain = Auth::user()->domain()->updateOrCreate(
+            ['user_id' => Auth::id()],
+            ['domain' => strtolower($request->domain)]
+        );
+
+        return redirect()->back()->withSuccess('Domínio cadastrado com sucesso!');
     }
 }
