@@ -11,9 +11,6 @@
         <div>
             <p class="text-sm text-gray-600">Total de categorias: <span class="font-bold">{{ $categories->total() }}</span></p>
         </div>
-        <a href="{{ route('admin.categories.create') }}" class="btn-primary">
-            <i class="fas fa-plus mr-2"></i> Nova Categoria
-        </a>
     </div>
 
     <!-- Categories Table View -->

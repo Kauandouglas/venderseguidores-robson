@@ -6,16 +6,6 @@
 
 @section('content')
 <div x-data="servicesManager()" class="space-y-6">
-    <!-- Header with Actions -->
-    <div class="flex items-center justify-between">
-        <div>
-            <p class="text-sm text-gray-600">Total de serviços: <span class="font-bold">{{ $services->total() }}</span></p>
-        </div>
-        <a href="{{ route('admin.services.create') }}" class="btn-primary">
-            <i class="fas fa-plus mr-2"></i> Novo Serviço
-        </a>
-    </div>
-
     <!-- Filters -->
     <div class="card">
         <form action="{{ route('admin.services.index') }}" method="GET" class="flex gap-4 flex-wrap">

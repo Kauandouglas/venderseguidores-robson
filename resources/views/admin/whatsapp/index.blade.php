@@ -69,12 +69,12 @@
                                         <i class="fas fa-circle text-xs mr-1"></i> Conectado
                                     </span>
                                 @elseif($instance->status == 'disconnected')
-                                    <span class="badge-warning">
+                                    <span class="badge-danger">
                                         <i class="fas fa-circle text-xs mr-1"></i> Desconectado
                                     </span>
                                 @else
-                                    <span class="badge-danger">
-                                        <i class="fas fa-circle text-xs mr-1"></i> Erro
+                                    <span class="badge-warning">
+                                        <i class="fas fa-circle text-xs mr-1"></i> Pendente
                                     </span>
                                 @endif
                             </td>

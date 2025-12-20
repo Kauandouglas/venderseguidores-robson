@@ -222,23 +222,6 @@
                     <i class="fab fa-whatsapp w-6 text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3 font-medium">WhatsApp</span>
                 </a>
-                
-                <a href="{{ route('admin.themes.index') }}" class="sidebar-link {{ request()->routeIs('admin.themes.*') ? 'active' : '' }}">
-                    <i class="fas fa-palette w-6 text-lg"></i>
-                    <span x-show="sidebarOpen" class="ml-3 font-medium">Temas</span>
-                </a>
-                
-                <a href="{{ route('admin.payment-gateways.index') }}" class="sidebar-link {{ request()->routeIs('admin.payment-gateways.*') ? 'active' : '' }}">
-                    <i class="fas fa-credit-card w-6 text-lg"></i>
-                    <span x-show="sidebarOpen" class="ml-3 font-medium">Pagamentos</span>
-                </a>
-                
-                <div class="my-4 border-t border-indigo-500/30" x-show="sidebarOpen"></div>
-                
-                <a href="{{ route('admin.settings.index') }}" class="sidebar-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
-                    <i class="fas fa-cog w-6 text-lg"></i>
-                    <span x-show="sidebarOpen" class="ml-3 font-medium">Configurações</span>
-                </a>
             </nav>
 
             <!-- User Menu -->
