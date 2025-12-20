@@ -50,13 +50,13 @@
                                             <div class="alert alert-primary d-flex flex-column gap-2 p-3 position-relative">
                                                 <h6 class="mb-1 text-white fw-bold"><i data-feather="server"></i> Configuração de DNS</h6>
                                                 <div class="d-flex align-items-center justify-content-between bg-light rounded p-2 mt-2">
-                                                    <span id="ns1" class="text-dark fw-semibold">master.rapidcloud.com.br</span>
+                                                    <span id="ns1" class="text-dark fw-semibold">ns1.revendadiretapainel.site</span>
                                                     <button type="button" class="btn btn-sm btn-outline-primary copy-btn" data-target="ns1">
                                                         <i data-feather="copy"></i>
                                                     </button>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between bg-light rounded p-2 mt-2">
-                                                    <span id="ns2" class="text-dark fw-semibold">slave.rapidcloud.com.br</span>
+                                                    <span id="ns2" class="text-dark fw-semibold">ns2.revendadiretapainel.site</span>
                                                     <button type="button" class="btn btn-sm btn-outline-primary copy-btn" data-target="ns2">
                                                         <i data-feather="copy"></i>
                                                     </button>
