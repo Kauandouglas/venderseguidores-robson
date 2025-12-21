@@ -110,10 +110,12 @@
         }
         
         .btn-login {
-            @apply w-full px-6 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white font-semibold rounded-xl transition-all duration-300;
+            @apply w-full px-6 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white font-bold rounded-xl transition-all duration-300;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
             position: relative;
             overflow: hidden;
+            font-size: 16px;
+            letter-spacing: 0.5px;
         }
         
         .btn-login::before {
@@ -325,8 +327,8 @@
 
                     <!-- Submit Button -->
                     <button type="submit" class="btn-login mt-8">
-                        <span class="relative z-10 flex items-center justify-center text-lg">
-                            <i class="fas fa-sign-in-alt mr-3"></i> 
+                        <span class="relative z-10 flex items-center justify-center font-semibold tracking-wide">
+                            <i class="fas fa-sign-in-alt mr-2"></i> 
                             Acessar Painel
                         </span>
                     </button>
