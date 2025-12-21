@@ -29,14 +29,10 @@
                     <div class="text-center py-4 border-y border-gray-200">
                         <p class="text-gray-600 text-sm">Preço</p>
                         <p class="text-3xl font-bold text-indigo-600">R$ {{ number_format($plan->price, 2, ',', '.') }}</p>
-                        <p class="text-gray-500 text-xs mt-1">por {{ $plan->period == 'monthly' ? 'mês' : ($plan->period == 'quarterly' ? 'trimestre' : 'ano') }}</p>
+                        <p class="text-gray-500 text-xs mt-1">por mês</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 text-center py-2">
-                        <div>
-                            <p class="text-gray-600 text-xs">Assinantes</p>
-                            <p class="font-bold text-gray-900">{{ $plan->purchases_count ?? 0 }}</p>
-                        </div>
                         <div>
                             <p class="text-gray-600 text-xs">Status</p>
                             @if($plan->status)

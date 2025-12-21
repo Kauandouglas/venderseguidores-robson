@@ -10,7 +10,7 @@ class PlanController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Plan::withCount('purchases');
+        $query = Plan::get();
 
         if ($request->filled('search')) {
             $query->where('name', 'like', "%{$request->search}%");
