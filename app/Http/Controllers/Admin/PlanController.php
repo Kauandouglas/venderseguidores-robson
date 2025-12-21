@@ -10,13 +10,11 @@ class PlanController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Plan::class;
+        $query = Plan::latest()->paginate(20);
 
         if ($request->filled('search')) {
             $query->where('name', 'like', "%{$request->search}%");
         }
-
-        $plans = $query->latest()->paginate(20);
 
         return view('admin.plans.index', compact('plans'));
     }
