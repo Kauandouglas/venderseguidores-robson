@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('auth.logout');
 
 // Dashboard
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
