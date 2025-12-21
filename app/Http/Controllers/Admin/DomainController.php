@@ -43,8 +43,6 @@ class DomainController extends Controller
         $validated = $request->validate([
             'domain' => ['required', 'string', 'unique:domains'],
             'user_id' => ['required', 'exists:users,id'],
-            'expires_at' => ['nullable', 'date'],
-            'status' => ['required', 'in:active,inactive,expired'],
         ]);
 
         Domain::create($validated);
@@ -71,8 +69,6 @@ class DomainController extends Controller
         $validated = $request->validate([
             'domain' => ['required', 'string', 'unique:domains,domain,' . $domain->id],
             'user_id' => ['required', 'exists:users,id'],
-            'expires_at' => ['nullable', 'date'],
-            'status' => ['required', 'in:active,inactive,expired'],
         ]);
 
         $domain->update($validated);

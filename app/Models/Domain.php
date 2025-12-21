@@ -12,8 +12,6 @@ class Domain extends Model
     protected $fillable = [
         'domain',
         'user_id',
-        'status',
-        'expires_at',
     ];
 
     protected $casts = [
