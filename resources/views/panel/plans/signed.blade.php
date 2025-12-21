@@ -22,15 +22,6 @@
                             <strong>R${{ $plan->price }}</strong>
                         </li>
                     </ul>
-
-{{--                    <form class="card p-2">--}}
-{{--                        <div class="input-group">--}}
-{{--                            <input type="text" class="form-control" placeholder="Codigo promocional">--}}
-{{--                            <button type="submit" class="btn btn-secondary"--}}
-{{--                                    style="border-radius: 0; padding: 8px 30px;">Usar--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    </form>--}}
                 </div>
                 <div class="col-md-7 col-lg-8">
                     {{-- Form Checkout --}}
@@ -39,7 +30,6 @@
                             <div class="col-sm-12 mb-2">
                                 <label for="typePayment" class="form-label">Escolha o pagamento</label>
                                 <select class="custom-select" name="type_payment" id="typePayment" required>
-                                    <option value="card" selected>Pagar com Cartão de crédito</option>
                                     <option value="pix">Pagar com Pix</option>
                                 </select>
                             </div>

@@ -97,7 +97,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('panel.index');
+        return redirect('/painel/planos');
     }
 
     public function logout(Request $request)

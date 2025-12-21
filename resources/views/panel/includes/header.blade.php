@@ -43,7 +43,7 @@
                     <span>Cupom de desconto</span>
                 </a>
             </li>
-            @if(Auth::user()->planPurchase()->active()->where('plan_id', 2)->count() == 0)
+            @if(Auth::user()->planPurchase()->active()->where('plan_id', 2)->count() == 1)
                 <li class="sidebar-item">
                     <a href="{{ route('panel.whatsapp.index') }}" class='sidebar-link'>
                         <i data-feather="message-circle" width="20"></i>
