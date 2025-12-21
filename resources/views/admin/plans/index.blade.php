@@ -22,7 +22,7 @@
             <div class="card overflow-hidden hover:shadow-lg transition-shadow">
                 <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4 text-white">
                     <h3 class="text-xl font-bold">{{ $plan->name }}</h3>
-                    <p class="text-indigo-100 text-sm">{{ $plan->description }}</p>
+                    <p class="text-indigo-100 text-sm">{!! $plan->description !!}</p>
                 </div>
 
                 <div class="p-6 space-y-4">
@@ -44,9 +44,9 @@
                     </div>
 
                     <div class="flex gap-2 pt-2">
-                        <a href="{{ route('admin.plans.show', $plan) }}" class="flex-1 btn-secondary text-center text-sm">
+                        {{-- <a href="{{ route('admin.plans.show', $plan) }}" class="flex-1 btn-secondary text-center text-sm">
                             <i class="fas fa-eye mr-1"></i> Ver
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </div>
