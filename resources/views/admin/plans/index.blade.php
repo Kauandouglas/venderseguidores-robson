@@ -32,17 +32,6 @@
                         <p class="text-gray-500 text-xs mt-1">por mês</p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 text-center py-2">
-                        <div>
-                            <p class="text-gray-600 text-xs">Status</p>
-                            @if($plan->status)
-                                <span class="badge-success text-xs">Ativo</span>
-                            @else
-                                <span class="badge-danger text-xs">Inativo</span>
-                            @endif
-                        </div>
-                    </div>
-
                     <div class="flex gap-2 pt-2">
                         {{-- <a href="{{ route('admin.plans.show', $plan) }}" class="flex-1 btn-secondary text-center text-sm">
                             <i class="fas fa-eye mr-1"></i> Ver
