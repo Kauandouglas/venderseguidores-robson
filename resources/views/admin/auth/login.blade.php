@@ -327,7 +327,7 @@
 
                     <!-- Submit Button -->
                     <button type="submit" class="btn-login mt-8">
-                        <span class="relative z-10 flex items-center justify-center font-semibold tracking-wide">
+                        <span class="relative z-10 flex items-center justify-center font-semibold tracking-wide" style="width: 100%;background-color: #6f75d8;padding: 17px;color: #fff;border-radius: 5px;">
                             <i class="fas fa-sign-in-alt mr-2"></i> 
                             Acessar Painel
                         </span>
