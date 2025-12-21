@@ -50,8 +50,6 @@
                     <tr>
                         <th class="px-6 py-4 text-left font-semibold text-gray-700">Domínio</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-700">Usuário</th>
-                        <th class="px-6 py-4 text-left font-semibold text-gray-700">Status</th>
-                        <th class="px-6 py-4 text-left font-semibold text-gray-700">Expira em</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-700">Criado em</th>
                         <th class="px-6 py-4 text-center font-semibold text-gray-700">Ações</th>
                     </tr>
@@ -65,22 +63,6 @@
                                 </a>
                             </td>
                             <td class="px-6 py-4 text-gray-600">{{ $domain->user->name ?? 'N/A' }}</td>
-                            <td class="px-6 py-4">
-                                @if($domain->status == 'active')
-                                    <span class="badge-success">Ativo</span>
-                                @elseif($domain->status == 'inactive')
-                                    <span class="badge-warning">Inativo</span>
-                                @else
-                                    <span class="badge-danger">Expirado</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 text-gray-600 text-sm">
-                                @if($domain->expires_at)
-                                    {{ $domain->expires_at->format('d/m/Y') }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
                             <td class="px-6 py-4 text-gray-600 text-sm">{{ $domain->created_at->format('d/m/Y H:i') }}</td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex gap-2 justify-center">
