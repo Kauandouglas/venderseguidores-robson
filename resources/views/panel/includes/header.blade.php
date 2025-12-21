@@ -15,7 +15,7 @@
             </li>
             <li class="sidebar-item">
                 <a href="/painel/planos" class='sidebar-link'>
-                    <i data-feather="home" width="20"></i>
+                    <img src="https://static.vecteezy.com/system/resources/previews/068/336/780/non_2x/flat-gold-coin-with-simple-dollar-symbol-centered-free-png.png"> 
                     <span>Ser Ouro</span>
                 </a>
             </li>
