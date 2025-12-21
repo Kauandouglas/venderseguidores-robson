@@ -14,6 +14,12 @@
                 </a>
             </li>
             <li class="sidebar-item">
+                <a href="/painel/planos" class='sidebar-link'>
+                    <i data-feather="home" width="20"></i>
+                    <span>Ser Ouro</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
                 <a href="{{ route('panel.purchases.index') }}" class='sidebar-link'>
                     <i data-feather="shopping-cart" width="20"></i>
                     <span>Vendas</span>
