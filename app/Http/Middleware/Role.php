@@ -24,7 +24,7 @@ class Role
                 return $next($request);
             }
 
-            return redirect()->route('dashboard.auth.formLogin');
+            return redirect()->route('admin.auth.formLogin');
         } else if ($role == 2) {
             // Login Panel
             if (Auth::user() && Auth::user()->role == 2) {

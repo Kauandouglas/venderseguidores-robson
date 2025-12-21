@@ -11,5 +11,17 @@ class Domain extends Model
 
     protected $fillable = [
         'domain',
+        'user_id',
+        'status',
+        'expires_at',
     ];
+
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -10,4 +10,9 @@ class Plan extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

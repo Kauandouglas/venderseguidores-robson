@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Admin
-Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function () {
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['role:1']], function () {
     require __DIR__ . '/admin.php';
 });
 
