@@ -22,12 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Login
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [\App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('auth.login');
-    Route::post('/login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name('auth.login.post');
-});
-
 Route::post('/logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('auth.logout');
 
 // Dashboard

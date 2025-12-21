@@ -38,6 +38,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['role:1']]
     require __DIR__ . '/admin.php';
 });
 
+// Login
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [\App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('admin.auth.login');
+    Route::post('/login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name('admin.auth.login.post');
+});
+
+
 // Forgot
 Route::middleware('guest')->group(function () {
     Route::get('/esqueceu-a-senha', [ForgotController::class, 'passwordRequest'])->name('password.request');
