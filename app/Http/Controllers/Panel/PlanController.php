@@ -30,17 +30,32 @@ class PlanController extends Controller
     public function processSigned(Plan $plan, Request $request)
     {
         if ($request->type_payment == 'card') {
-            if($plan->id == 2){
-                return response()->json([
-                   'type' => 'card',
-                    'url' => 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c9380849198d2d60191995c4f5f0032'
-                ]);
-            }elseif($plan->id == 3){
-                return response()->json([
-                    'type' => 'card',
-                    'url' => 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c9380849198d2d60191995d59f60034'
-                ]);
-            }
+           
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => 'https://api.mercadopago.com/preapproval',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => json_encode([
+                    "preapproval_plan_id" => $planId,
+                    "payer_email" => Auth::user()->email,
+                    "external_reference" => "user_" . Auth::id(),
+                    "back_url" => route('assinatura.sucesso'),
+                    "notification_url" => route('api.plans.notification')
+                ]),
+                CURLOPT_HTTPHEADER => [
+                    "Authorization: Bearer APP_USR-bc60a153-5689-498e-b5c7-dd9595079b1d",
+                    "Content-Type: application/json",
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $callback = json_decode($response);
+
+            // Redirecionar o usuário para:
+            return redirect($callback->init_point);
         } else {
             $curl = curl_init();
 
