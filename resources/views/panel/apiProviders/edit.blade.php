@@ -34,7 +34,7 @@
                                             <div class="form-group">
                                                 <label for="url">URL</label>
                                                 <input type="url" id="url" class="form-control" name="url"
-                                                       value="https://paineldoinstabrasil.com/api/v2" disabled>
+                                                       value="https://revendadireta.com/api/v2" disabled>
                                             </div>
                                         </div>
                                         <div class="col-12">
