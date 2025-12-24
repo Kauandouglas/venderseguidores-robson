@@ -25,7 +25,13 @@ class ConfigTemplateController extends Controller
 
         foreach ($request->all() as $key => $value) {
             if ($request->hasFile($key)) {
+
                 $file = $request->file($key);
+
+                // 👇 ESSENCIAL
+                if (is_array($file)) {
+                    continue;
+                }
 
                 if ($file->isValid()) {
                     $path = $file->store('templates', 'public');
