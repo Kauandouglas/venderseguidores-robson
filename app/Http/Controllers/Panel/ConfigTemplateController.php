@@ -21,34 +21,54 @@ class ConfigTemplateController extends Controller
 
     public function update(ConfigTemplateRequest $request)
     {
+        // 1. Pegamos todos os dados de texto
         $data = $request->except(['_token', '_method']);
 
-        foreach ($request->all() as $key => $value) {
-            if ($request->hasFile($key)) {
+        // 2. Processamos os arquivos (imagens)
+        // O método allFiles() pega todos os uploads, mesmo os aninhados em arrays
+        $files = $request->allFiles();
 
-                $file = $request->file($key);
-
-                // 🔥 se for array, REMOVE do data
-                if (is_array($file)) {
-                    unset($data[$key]);
-                    continue;
+        foreach ($files as $key => $file) {
+            if (is_array($file)) {
+                foreach ($file as $index => $subFile) {
+                    if (is_array($subFile)) {
+                        // Para estruturas como services[0][image]
+                        foreach ($subFile as $subKey => $actualFile) {
+                            if ($actualFile->isValid()) {
+                                $data[$key][$index][$subKey] = $actualFile->store('templates', 'public');
+                            }
+                        }
+                    } else {
+                        // Para estruturas como header[image]
+                        if ($subFile->isValid()) {
+                            $data[$key][$index] = $subFile->store('templates', 'public');
+                        }
+                    }
                 }
-
+            } else {
+                // Para arquivos simples na raiz
                 if ($file->isValid()) {
-                    $path = $file->store('templates', 'public');
-                    $data[$key] = $path;
+                    $data[$key] = $file->store('templates', 'public');
                 }
             }
         }
 
+        // 3. Recuperamos os dados atuais para não perder o que não foi enviado agora
+        $config = Auth::user()->configTemplate;
+        $oldContent = $config ? $config->content : [];
+
+        // 4. Mesclamos os dados novos com os antigos (preserva caminhos de imagens não alteradas)
+        $finalData = array_replace_recursive($oldContent, $data);
+
+        // 5. Salvamos
         Auth::user()->configTemplate()->updateOrCreate(
             [],
             [
-                'content' => $data
+                'content' => $finalData
             ]
         );
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Configurações atualizadas!');
     }
 
     public function removeImage(Request $request)
