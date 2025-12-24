@@ -63,7 +63,7 @@ class SystemSettingController extends Controller
             'userAgentFixed' => $userAgentFixed,
             'ipFixed' => $ipFixed,
             'conversionTag' => $conversionTag,
-            'template' => $configTemplate->content
+            'template' => $configTemplate->content ?? []
         ]);
     }
 }
