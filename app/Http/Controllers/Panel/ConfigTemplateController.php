@@ -13,9 +13,17 @@ class ConfigTemplateController extends Controller
     public function edit()
     {
         $configTemplate = Auth::user()->configTemplate()->first();
+        $systemSetting = Auth::user()->systemSettings()->first();
+
+        if($systemSetting){
+            $template = $systemSetting->template()->first();
+        }else{
+            $template = Template::first();
+        }
 
         return view('panel.configTemplates.edit', [
-            'configTemplate' => $configTemplate
+            'configTemplate' => $configTemplate,
+            'template' => $template
         ]);
     }
 

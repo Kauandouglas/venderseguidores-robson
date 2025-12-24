@@ -1,48 +1,5 @@
 @php
-/* ==========================
-| SIMULANDO DADOS DO BANCO
-|==========================*/
-
-$schema = json_decode('{
-  "header": {
-    "title": "Cabeçalho",
-    "fields": [
-      { "type": "text", "key": "title", "label": "Título Principal" },
-      { "type": "textarea", "key": "text", "label": "Texto do Cabeçalho" },
-      { "type": "text", "key": "button_text", "label": "Texto do Botão" },
-      { "type": "image", "key": "image", "label": "Imagem do Cabeçalho" }
-    ]
-  },
-
-  "services": {
-    "title": "Serviços",
-    "repeatable": true,
-    "fields": [
-      { "type": "image", "key": "image", "label": "Imagem do Serviço" },
-      { "type": "text", "key": "title", "label": "Título do Serviço" },
-      { "type": "textarea", "key": "text", "label": "Descrição do Serviço" }
-    ]
-  },
-
-  "details": {
-    "title": "Detalhes",
-    "fields": [
-      { "type": "image", "key": "image", "label": "Imagem dos Detalhes" },
-      { "type": "text", "key": "title", "label": "Título dos Detalhes" },
-      { "type": "textarea", "key": "text", "label": "Texto dos Detalhes" },
-      { "type": "text", "key": "button_text", "label": "Texto do Botão" }
-    ]
-  },
-
-  "contact": {
-    "title": "Contato",
-    "fields": [
-      { "type": "text", "key": "title", "label": "Título da Seção" },
-      { "type": "textarea", "key": "text", "label": "Texto de Contato" }
-    ]
-  }
-}', true);
-
+$schema = $template->schema_json;
 $content = $configTemplate->content ?? [];
 @endphp
 
