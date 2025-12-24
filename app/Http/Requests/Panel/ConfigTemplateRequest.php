@@ -25,22 +25,7 @@ class ConfigTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nav_button' => 'max:191',
-            'header_title' => 'max:191',
-            'header_button' => 'max:191',
-            'header_image' => 'nullable|image|max:15000',
-            'service_image_1' => 'nullable|image|max:15000',
-            'service_title_1' => 'max:191',
-            'service_image_2' => 'nullable|image|max:15000',
-            'service_title_2' => 'max:191',
-            'service_image_3' => 'nullable|image|max:15000',
-            'service_title_3' => 'max:191',
-            'basic_title' => 'max:191',
-            'about_image' => 'nullable|image|max:15000',
-            'about_title' => 'max:191',
-            'about_button' => 'max:191',
-            'contact_title' => 'max:191',
-            'footer_title' => 'max:191'
+
         ];
     }
 }

@@ -11,28 +11,8 @@ class ConfigTemplate extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nav_button',
-        'header_title',
-        'header_sub_title',
-        'header_button',
-        'service_title_1',
-        'service_sub_title_1',
-        'service_description_1',
-        'service_title_2',
-        'service_sub_title_2',
-        'service_description_2',
-        'service_title_3',
-        'service_sub_title_3',
-        'service_description_3',
-        'basic_title',
-        'basic_description',
-        'about_title',
-        'about_description',
-        'about_button',
-        'contact_title',
-        'contact_description',
-        'footer_title',
+    protected $casts = [
+        'content' => 'array'
     ];
 
     public function setHeaderImage($value)

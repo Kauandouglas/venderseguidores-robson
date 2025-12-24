@@ -21,17 +21,21 @@ class ConfigTemplateController extends Controller
 
     public function update(ConfigTemplateRequest $request)
     {
-        $systemSetting = Auth::user()->configTemplate()->updateOrCreate(
-            ['user_id' => Auth::id()],
-            $request->all()
-        );
+        $data = $request->except(['_token', '_method']);
 
-        $systemSetting->setHeaderImage($request->file('header_image'));
-        $systemSetting->setServiceImage1($request->file('service_image_1'));
-        $systemSetting->setServiceImage2($request->file('service_image_2'));
-        $systemSetting->setServiceImage3($request->file('service_image_3'));
-        $systemSetting->setAboutImage($request->file('about_image'));
-        $systemSetting->update();
+        foreach ($request->files->all() as $key => $file) {
+            if ($file && $file->isValid()) {
+                $path = $file->store('templates', 'public');
+                $data[$key] = $path;
+            }
+        }
+
+        Auth::user()->configTemplate()->updateOrCreate(
+            ['user_id' => Auth::id()],
+            [
+                'content' => $data
+            ]
+        );
 
         return response()->json('Salvo com sucesso!');
     }
