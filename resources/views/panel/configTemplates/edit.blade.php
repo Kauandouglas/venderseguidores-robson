@@ -1,13 +1,10 @@
 @php
-$schema = $template->schema_json;
+$schema = json_decode($template->schema_json, true);
 $content = $configTemplate->content ?? [];
 @endphp
 
-
 @extends('panel.templates.master')
-
 @section('title', 'Configuração do Template')
-
 @section('content')
 
 <section class="container-fluid">
@@ -26,10 +23,6 @@ $content = $configTemplate->content ?? [];
     <div class="mt-5 mb-3 border-bottom pb-2">
         <h4 class="fw-bold text-primary">{{ $section['title'] }}</h4>
     </div>
-
-    {{-- =======================
-       | SEÇÃO REPEATABLE
-       ======================= --}}
     @if(!empty($section['repeatable']))
 
         @php

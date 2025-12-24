@@ -21,8 +21,6 @@ class ConfigTemplateController extends Controller
             $template = Template::first();
         }
 
-        dd($template);
-
         return view('panel.configTemplates.edit', [
             'configTemplate' => $configTemplate,
             'template' => $template
