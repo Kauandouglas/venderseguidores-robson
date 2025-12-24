@@ -13,9 +13,10 @@
                 </div>
                 <div class="col-lg-6 col-xl-7">
                     <div class="image-container">
-                        <img class="img-fluid"
-                             src="{{ Storage::url($template['header']['image']) ?? asset('images/header-image.png') }}"
-                             alt="alternative">
+                        <img class="img-fluid" src="{{ !empty($template['header']['image'])
+                                ? Storage::url($template['header']['image'])
+                                : asset('images/header-image.png') }}"
+                            alt="alternative">
                     </div>
                 </div>
             </div>
@@ -59,8 +60,12 @@
                 <div class="col-lg-6 col-xl-7">
                     <div class="image-container">
                         <img class="img-fluid"
-                             src="{{ Storage::url($template['details']['image'] ?? '') ?? asset('images/about-image.png') }}"
-                             alt="alternative">
+                            src="{{ (!empty($template['details']['image'] ?? null)
+                                    && Storage::exists($template['details']['image']))
+                                ? Storage::url($template['details']['image'])
+                                : asset('images/about-image.png') }}"
+                            alt="alternative">
+
                     </div>
                 </div>
                 <div class="col-lg-6 col-xl-5">
