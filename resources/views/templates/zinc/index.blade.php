@@ -5,16 +5,16 @@
             <div class="row">
                 <div class="col-lg-6 col-xl-5">
                     <div class="text-container">
-                        <h1 class="h1-large">{{ $configTemplate->header_title ?? config('template.header_title') }}</h1>
-                        <p class="p-large">{!! (isset($configTemplate->header_sub_title) ? nl2br(e($configTemplate->header_sub_title)) : config('template.header_sub_title')) !!}</p>
+                        <h1 class="h1-large">{{ $template['header']['title'] ?? '' }}</h1>
+                        <p class="p-large">{!! nl2br(e($data['header']['text'] ?? '')) !!}</p>
                         <a class="btn-solid-lg bg-default-primary border-default-primary color-default-primary-hover"
-                           href="#pricing">{{ $configTemplate->header_button ?? config('template.header_button') }}</a>
+                           href="#pricing">{{ $template['header']['button_text'] ?? 'Ver Planos' }}</a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-xl-7">
                     <div class="image-container">
                         <img class="img-fluid"
-                             src="{{ $configTemplate->url_header_image ?? asset(config('template.url_header_image')) }}"
+                             src="{{ $template['header']['image'] ?? asset('images/header-image.png') }}"
                              alt="alternative">
                     </div>
                 </div>
@@ -22,69 +22,29 @@
         </div>
     </header>
 
-    <div id="services" class="cards-1">
+   <div id="services" class="cards-1">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-icon blue"
-                             style="background: url('{{ $configTemplate->url_service_image_1 ?? asset(config('template.url_service_image_1')) }}') center center no-repeat;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $configTemplate->service_title_1 ?? config('template.service_title_1') }}</h5>
-                            <p>{{ $configTemplate->service_sub_title_1 ?? config('template.service_sub_title_1') }}</p>
-                            <ul class="list-unstyled li-space-lg">
-                                @isset($configTemplate->service_description_1)
-                                    @foreach($configTemplate->serviceDescriptions1() as $description)
+                    @foreach($data['services_list'] as $index => $service)
+                        <div class="card">
+                            <div class="card-icon {{ ['blue', 'yellow', 'red'][$index % 3] }}"
+                                 style="background: url('{{ $service['image'] ?? asset('images/service-icon.png') }}') center center no-repeat;">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $service['title'] ?? '' }}</h5>
+                                <p>{{ $service['text'] ?? '' }}</p>
+                                <ul class="list-unstyled li-space-lg">
+                                    @foreach($service['descriptions'] ?? [] as $description)
                                         <li class="d-flex">
                                             <i class="fas fa-check"></i>
                                             <div class="flex-grow-1">{{ $description }}</div>
                                         </li>
                                     @endforeach
-                                @endisset
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-icon yellow"
-                             style="background: url('{{ $configTemplate->url_service_image_2 ?? asset(config('template.url_service_image_2')) }}') center center no-repeat;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $configTemplate->service_title_2 ?? config('template.service_title_2') }}</h5>
-                            <p>{{ $configTemplate->service_sub_title_2 ?? config('template.service_sub_title_2') }}</p>
-                            <ul class="list-unstyled li-space-lg">
-                                @isset($configTemplate->service_description_2)
-                                    @foreach($configTemplate->serviceDescriptions2() as $description)
-                                        <li class="d-flex">
-                                            <i class="fas fa-check"></i>
-                                            <div class="flex-grow-1">{{ $description }}</div>
-                                        </li>
-                                    @endforeach
-                                @endisset
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-icon red"
-                             style="background: url('{{ $configTemplate->url_service_image_3 ?? asset(config('template.url_service_image_3')) }}') center center no-repeat;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $configTemplate->service_title_3 ?? config('template.service_title_3') }}</h5>
-                            <p>{{ $configTemplate->service_sub_title_3 ?? config('template.service_sub_title_3') }}</p>
-                            <ul class="list-unstyled li-space-lg">
-                                @isset($configTemplate->service_description_3)
-                                    @foreach($configTemplate->serviceDescriptions3() as $description)
-                                        <li class="d-flex">
-                                            <i class="fas fa-check"></i>
-                                            <div class="flex-grow-1">{{ $description }}</div>
-                                        </li>
-                                    @endforeach
-                                @endisset
-                            </ul>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -96,17 +56,17 @@
                 <div class="col-lg-6 col-xl-7">
                     <div class="image-container">
                         <img class="img-fluid"
-                             src="{{ $configTemplate->url_about_image ?? asset(config('template.url_about_image')) }}"
+                             src="{{ $template['details']['image'] ?? asset('images/about-image.png') }}"
                              alt="alternative">
                     </div>
                 </div>
                 <div class="col-lg-6 col-xl-5">
                     <div class="text-container">
-                        <h2>{{ $configTemplate->about_title ?? config('template.about_title') }}</h2>
-                        <p>{{ $configTemplate->about_description ?? config('template.about_description') }}</p>
+                        <h2>{{ $template['details']['title'] ?? '' }}</h2>
+                        <p>{{ $template['details']['text'] ?? '' }}</p>
                         <a href="#pricing"
                            class="btn-solid-reg bg-default-primary border-default-primary color-default-primary-hover">
-                            {{ $configTemplate->about_button  ?? config('template.about_button') }}
+                            {{ $template['details']['button_text'] ?? 'Saiba Mais' }}
                         </a>
                     </div>
                 </div>
@@ -141,20 +101,11 @@
                                         @endforeach
                                     </ul>
                                     <div class="price">R$ {{ $service->convert_price }}</div>
-                                    @if($service->dynamic_pricing)
-                                        <a href="{{ route('web.services.show', ['domain' => $user->domain, 'service' => $service, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}">
-                                            <button class="add-to-cart-button">
-                                                <i class="fa-solid fa-store"></i>
-                                                Comprar agora
-                                            </button>
-                                        </a>
-                                    @else
-                                        <button href="" class="add-to-cart-button addCart"
-                                                data-action="{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => $service, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}">
-                                            <i class="icon fas fa-shopping-cart"></i>
-                                            Adicionar ao carrinho
-                                        </button>
-                                    @endif
+                                    <button href="" class="add-to-cart-button addCart"
+                                            data-action="{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => $service, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}">
+                                        <i class="icon fas fa-shopping-cart"></i>
+                                        Adicionar ao carrinho
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -197,8 +148,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="h2-heading">{{ $configTemplate->contact_title ?? config('template.contact_title') }}</h2>
-                    <p class="p-heading">{{ $configTemplate->contact_description ?? config('template.contact_description') }}</p>
+                    <h2 class="h2-heading">{{ $template['contact']['title'] ?? '' }}</h2>
+                    <p class="p-heading">{{ $template['contact']['text'] ?? config('template.contact_description') }}</p>
                     <ul class="list-unstyled li-space-lg">
                         <li><i class="fab fa-whatsapp color-default-secondary"></i> &nbsp;<a
                                 href="https://api.whatsapp.com/send?phone=55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}">

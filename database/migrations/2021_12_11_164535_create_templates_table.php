@@ -17,6 +17,7 @@ class CreateTemplatesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('path');
+            $table->json('schema_json');
             $table->timestamps();
         });
     }
