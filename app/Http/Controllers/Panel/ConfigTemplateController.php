@@ -28,8 +28,9 @@ class ConfigTemplateController extends Controller
 
                 $file = $request->file($key);
 
-                // 👇 ESSENCIAL
+                // 🔥 se for array, REMOVE do data
                 if (is_array($file)) {
+                    unset($data[$key]);
                     continue;
                 }
 
