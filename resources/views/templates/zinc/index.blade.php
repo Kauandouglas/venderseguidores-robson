@@ -29,8 +29,11 @@
                     @foreach($template['services'] as $index => $service)
                         <div class="card">
                             <div class="card-icon {{ ['blue', 'yellow', 'red'][$index % 3] }}"
-                                 style="background: url('{{ Storage::url($service['image']) ?? asset('images/service-icon.png') }}') center center no-repeat;">
-                            </div>
+     style="background: url('{{ !empty($service['image'])
+        ? Storage::url($service['image'])
+        : asset('images/service-icon.png') }}') center center no-repeat;">
+</div>
+
                             <div class="card-body">
                                 <h5 class="card-title">{{ $service['title'] ?? '' }}</h5>
                                 <p>{{ $service['text'] ?? '' }}</p>
@@ -56,7 +59,7 @@
                 <div class="col-lg-6 col-xl-7">
                     <div class="image-container">
                         <img class="img-fluid"
-                             src="{{ Storage::url($template['details']['image']) ?? asset('images/about-image.png') }}"
+                             src="{{ Storage::url($template['details']['image'] ?? '') ?? asset('images/about-image.png') }}"
                              alt="alternative">
                     </div>
                 </div>
