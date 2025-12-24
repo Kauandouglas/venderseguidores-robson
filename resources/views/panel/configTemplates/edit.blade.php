@@ -1,37 +1,4 @@
 @php
-/* ==========================
-| SIMULANDO DADOS DO BANCO
-|==========================*/
-
-$schema = json_decode('{
-  "header": {
-    "title": "Cabeçalho",
-    "fields": [
-      { "type": "text", "key": "header_title", "label": "Título Principal" },
-      { "type": "textarea", "key": "header_subtitle", "label": "Subtítulo" },
-      { "type": "image", "key": "header_image", "label": "Imagem" }
-    ]
-  },
-
-  "services": {
-    "title": "Serviços",
-    "repeatable": true,
-    "fields": [
-      { "type": "text", "key": "title", "label": "Título" },
-      { "type": "textarea", "key": "description", "label": "Descrição" }
-    ]
-  },
-
-  "reviews": {
-    "title": "Avaliações",
-    "repeatable": true,
-    "fields": [
-      { "type": "text", "key": "title", "label": "Título" },
-      { "type": "textarea", "key": "description", "label": "Descrição" }
-    ]
-  }
-}', true);
-
 $content = json_decode('{
   "header_title": "Sistema Profissional",
   "header_subtitle": "Templates dinâmicos com Laravel + JSON",
@@ -67,7 +34,7 @@ $content = json_decode('{
                         @csrf
                         @method('PUT')
 
-                        @foreach($schema as $sectionKey => $section)
+                        @foreach(json_decode($schema, true) as $sectionKey => $section)
 
                             <div class="mt-5 mb-3 border-bottom pb-2">
                                 <h4 class="fw-bold text-primary">
