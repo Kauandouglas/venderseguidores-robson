@@ -1,556 +1,1864 @@
-@extends('templates.modern.templates.master')
-@section('content')
-    {{-- Hero Section - Boom Social Style --}}
-    <section class="relative min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 pt-32 pb-20 overflow-hidden">
-        {{-- Subtle Background Pattern --}}
-        <div class="absolute inset-0 opacity-5">
-            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #9333ea 1px, transparent 0); background-size: 32px 32px;"></div>
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbinamais – Crescimento real para suas redes sociais</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="title" content="Turbinamais – Crescimento real para suas redes sociais">
+    <meta name="description" content="A plataforma mais completa e segura para impulsionar perfis nas redes sociais. Serviços rápidos, garantidos e com suporte humanizado. Cresça de verdade!">   <meta name="keywords" content="comprar seguidores, seguidores Instagram, aumentar seguidores, curtidas Instagram,
+        crescimento orgânico, marketing digital, redes sociais, engajamento Instagram, seguidores reais,
+        impulsionar perfil, seguidores Instagram, comprar seguidores baratos, curtidas Instagram, aumentar engajamento,
+        crescimento de redes sociais, seguidores automáticos, marketing de influência, impulsionar Instagram,
+        seguidores brasileiros, estratégias de Instagram, comprar seguidores, seguidores reais Instagram,
+        aumentar seguidores, curtidas e visualizações, engajamento no Instagram, impulsionar redes sociais,
+        marketing para Instagram, crescimento de perfil, seguidores instantâneos, estratégias de crescimento.">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="Portuguese">
+    <meta name="author" content="Boom Viral VIP">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Turbinamais – Crescimento real para suas redes sociais">
+    <meta property="og:description" content="A plataforma mais completa e segura para impulsionar perfis nas redes sociais. Serviços rápidos, garantidos e com suporte humanizado. Cresça de verdade!">    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://turbinamais.com/">
+    <meta property="og:image" content="https://turbinamais.com/logotipo-da-lua-espacial-do-foguete_26003-161.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Turbinamais – Crescimento real para suas redes sociais">
+    <meta name="twitter:description" content="A plataforma mais completa e segura para impulsionar perfis nas redes sociais. Serviços rápidos, garantidos e com suporte humanizado. Cresça de verdade!">
+        <meta name="twitter:image" content="https://turbinamais.com/logotipo-da-lua-espacial-do-foguete_26003-161.jpg">
+    <link rel="canonical" href="https://turbinamais.com/" />
+    <style>
+ /* ============================================
+   VARIÁVEIS DE TEMA
+   ============================================ */
+:root {
+    /* Tema Escuro (padrão) */
+    --bg-primary: linear-gradient(135deg, #0a1628 0%, #1a2332 50%, #2d1b4e 100%);
+    --bg-card: rgba(15, 23, 42, 0.6);
+    --bg-card-hover: rgba(15, 23, 42, 0.95);
+    --bg-platform: rgba(30, 41, 59, 0.8);
+    --bg-platform-hover: rgba(30, 41, 59, 0.95);
+    --bg-package: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    --text-primary: #fff;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border-color: rgba(71, 85, 105, 0.3);
+    --border-active: #3b82f6;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(59, 130, 246, 0.3);
+    --star-color: #fff;
+    --star-opacity: 0.3;
+}
+
+[data-theme="light"] {
+    /* Tema Claro */
+    --bg-primary: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 50%, #f5f0ff 100%);
+    --bg-card: rgba(81, 119, 246, 0.21);
+    --bg-card-hover: rgba(255, 255, 255, 1);
+    --bg-platform: rgba(248, 250, 252, 0.95);
+    --bg-platform-hover: rgba(241, 245, 249, 1);
+    --bg-package: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(241, 245, 249, 0.95));
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --border-color: rgba(203, 213, 225, 0.5);
+    --border-active: #3b82f6;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(59, 130, 246, 0.2);
+    --star-color: #cbd5e1;
+    --star-opacity: 0.2;
+}
+
+/* ============================================
+   RESET E ESTILOS BÁSICOS
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ============================================
+   BOTÃO DE ALTERNÂNCIA DE TEMA
+   ============================================ */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10001;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--border-active);
+}
+
+.theme-toggle i {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover i {
+    transform: rotate(20deg);
+}
+
+/* ============================================
+   ESTRELAS DE FUNDO
+   ============================================ */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--star-color);
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: var(--star-opacity); }
+    50% { opacity: 1; }
+}
+
+/* ============================================
+   CONTROLE DE PÁGINAS
+   ============================================ */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ============================================
+   CONTAINER PRINCIPAL
+   ============================================ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #4a9eff, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 60px;
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   PÁGINA 1: SELEÇÃO DE PLATAFORMA
+   ============================================ */
+.platform-container {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 50px;
+    border-top: 3px solid;
+    border-image: linear-gradient(90deg, #3b82f6, #a78bfa) 1;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+.platform-container h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.platform-description {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+}
+
+.platforms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.platform-item {
+    background: var(--bg-platform);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 15px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.platform-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-active);
+    background: var(--bg-platform-hover);
+    box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.platform-item.selected {
+    border-color: var(--border-active);
+    background: rgba(59, 130, 246, 0.2);
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #8b5cf6, #6366f1);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.platform-icon {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.platform-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.next-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 15px 50px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+}
+
+.footer-text {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 30px;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   PÁGINA 2: CATEGORIAS E PACOTES
+   ============================================ */
+.tabs {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+.categories-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.tab-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    background: var(--bg-platform);
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.tab-btn.active {
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    color: #fff;
+    border-color: transparent;
+}
+
+.tab-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(59, 130, 246, 0.3);
+    color: var(--text-primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.tab-description {
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.tab-description .check {
+    color: #10b981;
+    margin-right: 5px;
+}
+
+.packages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.package-card {
+    background: var(--bg-package);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-active);
+    box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.badge {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff;
+    padding: 5px 40px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    transform: rotate(45deg);
+}
+
+.package-amount {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.package-label {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.package-price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+/* ============================================
+   PACOTE DESTACADO
+   ============================================ */
+.package-card.highlighted {
+    border: 3px solid #ffc107;
+    transform: scale(1.08);
+    box-shadow: 0 20px 50px rgba(255, 193, 7, 0.6);
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(30, 41, 59, 0.95));
+    z-index: 10;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+[data-theme="light"] .package-card.highlighted {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(248, 250, 252, 0.95));
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 20px 50px rgba(255, 193, 7, 0.6);
+    }
+    50% {
+        box-shadow: 0 25px 60px rgba(255, 193, 7, 0.8);
+    }
+}
+
+.package-card.highlighted:hover {
+    transform: scale(1.1) translateY(-8px);
+    border-color: #ff9800;
+}
+
+.highlight-badge {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+    color: #000;
+    padding: 8px 29px;
+    border-radius: 50px;
+    font-size: 8px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    box-shadow: 0 8px 20px rgba(255, 193, 7, 0.6);
+    text-transform: uppercase;
+    animation: badge-float 2s ease-in-out infinite;
+    width: 180px;
+    white-space: nowrap;
+}
+
+@keyframes badge-float {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+.highlight-badge::before {
+    content: '⭐';
+    margin-right: 5px;
+}
+
+.highlight-badge::after {
+    content: '⭐';
+    margin-left: 5px;
+}
+
+/* ============================================
+   BOTÃO VOLTAR
+   ============================================ */
+.voltar-btn {
+    padding: 12px 25px;
+    background: var(--bg-platform);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: 0.3s;
+    font-size: 1rem;
+}
+
+.voltar-btn:hover {
+    background: var(--bg-platform-hover);
+    border-color: var(--border-active);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   SEÇÃO DE VÍDEO
+   ============================================ */
+.video-section {
+    margin-top: 0px;
+    padding: 60px 20px;
+}
+
+.video-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    box-shadow: 0 10px 40px var(--shadow-color);
+}
+
+/* ============================================
+   SEÇÃO DE AVALIAÇÕES
+   ============================================ */
+.testimonials-section {
+    padding: 40px 0;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.testimonial-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.avatar-wrapper {
+    position: relative;
+}
+
+.avatar-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(147, 51, 234, 0.3);
+}
+
+.star-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.user-role {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.rating {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 18px;
+    font-size: 1rem;
+    color: #fbbf24;
+}
+
+.quote-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.quote-icon {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    font-size: 2rem;
+    color: rgba(147, 51, 234, 0.2);
+}
+
+.testimonial-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9rem;
+    padding-left: 15px;
+}
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 25px;
+    color: #10b981;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.verified-badge i {
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   NOTIFICAÇÕES DE COMPRAS
+   ============================================ */
+#notificationsContainer {
+    position: fixed;
+    top: 20px;
+    left: 90px;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.notification-popup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    margin-bottom: 10px;
+    min-width: 280px;
+    max-width: 320px;
+    animation: slideInLeft 0.5s ease-out;
+    pointer-events: auto;
+    border-left: 4px solid #8b5cf6;
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .notification-popup {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-popup.fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        transform: translateX(-400px);
+        opacity: 0;
+    }
+}
+
+.notification-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.notification-action {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.notification-time {
+    color: var(--text-muted);
+    font-size: 11px;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.notification-close:hover {
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   BOTÃO WHATSAPP
+   ============================================ */
+.whatsapp-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s;
+    z-index: 9999;
+    text-decoration: none;
+}
+
+.whatsapp-btn:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-icon {
+    font-size: 2rem;
+    color: #fff;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 21px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .package-amount {
+        font-size: 2.5rem;
+    }
+
+    .packages {
+        grid-template-columns: 1fr;
+    }
+
+    .platforms {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .platform-container {
+        padding: 10px 20px;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonial-text {
+        font-size: 0.85rem;
+    }
+
+    .user-name {
+        font-size: 1rem;
+    }
+
+    .testimonial-card {
+        padding: 25px;
+    }
+
+    #notificationsContainer {
+        left: 10px;
+        right: 10px;
+        top: 80px;
+    }
+
+    .notification-popup {
+        min-width: auto;
+        max-width: calc(100vw - 20px);
+    }
+
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        left: 15px;
+    }
+
+    .theme-toggle i {
+        font-size: 1.1rem;
+    }
+}
+
+/* ============================================
+   ESTILOS DO FAQ
+   ============================================ */
+.faq-section {
+    position: relative;
+    z-index: 1;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--border-active);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.faq-question {
+    width: 100%;
+    padding: 20px 25px;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    gap: 15px;
+}
+
+.faq-question:hover {
+    color: var(--border-active);
+}
+
+.faq-question span {
+    flex: 1;
+}
+
+.faq-icon {
+    color: var(--border-active);
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 25px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 25px 20px 25px;
+}
+
+.faq-answer p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .faq-question {
+        padding: 18px 20px;
+        font-size: 0.95rem;
+    }
+
+    .faq-answer {
+        padding: 0 20px;
+    }
+
+    .faq-item.active .faq-answer {
+        padding: 0 20px 18px 20px;
+    }
+
+    .faq-answer p {
+        font-size: 0.9rem;
+    }
+
+    .faq-contact h3 {
+        font-size: 1.3rem;
+    }
+
+    .faq-contact a {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
+    </style>
+</head>
+<body>
+<!-- BOTÃO WHATSAPP FLUTUANTE -->
+<a href="https://wa.me/62981686505" target="_blank"
+   style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      text-decoration: none;
+      z-index: 9999;
+   " target="_blank">
+   <i class="fab fa-whatsapp"></i>
+</a>
+
+<a href="/meus-pedidos"
+   style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+      text-decoration: none;
+      z-index: 9999;
+      transition: all 0.3s ease;
+   "
+   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.6)'"
+   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.4)'">
+   <i class="fas fa-history"></i>
+   <span>Meus Pedidos</span>
+</a>
+ <button class="theme-toggle" id="themeToggle" title="Alternar Tema">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+
+<!-- Container de Notificações -->
+<div id="notificationsContainer"></div>
+<div class="stars" id="stars"></div>
+
+<!-- PÁGINA 1: Seleção de Plataforma -->
+<div class="page active" id="page-platform">
+    <div class="container">
+        <h1>Impulsione seu perfil hoje</h1>
+        <p class="subtitle">Crescimento rápido, seguro e totalmente sigiloso.</p>
+
+        <div class="platform-container">
+            <h2>Escolha a plataforma ideal</h2>
+            <p class="platform-description">Escolha a rede para impulsionar seu perfil.</p>
+
+            <div class="platforms">
+                <div class="platform-item selected" data-platform="instagram">
+                    <div class="popular-badge">Popular</div>
+                    <div class="platform-icon"><i class="fa fa-brands fa-instagram"></i></div>
+                    <div class="platform-name">Instagram</div>
+                </div>
+
+                <div class="platform-item" data-platform="tiktok">
+                    <div class="platform-icon"><i class="fa fa-brands fa-tiktok"></i></div>
+                    <div class="platform-name">TikTok</div>
+                </div>
+
+                <div class="platform-item" data-platform="youtube">
+                    <div class="platform-icon"><i class="fa fa-brands fa-youtube"></i></div>
+                    <div class="platform-name">YouTube</div>
+                </div>
+
+                <div class="platform-item" data-platform="kwai">
+                    <div class="platform-icon"><i class="fa fa-solid fa-video"></i></div>
+                    <div class="platform-name">Kwai</div>
+                </div>
+            </div>
+
+            <button class="next-btn" id="btn-next-categories">Próximo →</button>
+
+            <p class="footer-text">✔ Resultados reais • 100% sigiloso • Suporte humanizado</p><br>
         </div>
+    </div>
+</div>
 
-        {{-- Floating Notification Card --}}
-        {{-- <div class="absolute top-28 left-8 bg-white rounded-2xl shadow-lg p-4 max-w-xs animate-fade-in-left z-10 hidden lg:flex items-start gap-3">
-            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center flex-shrink-0">
-                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
-                </svg>
+
+<!-- PÁGINA 2: Categorias e Pacotes -->
+<div class="page" id="page-categories">
+    <div class="container">
+        <h1>Escolha sua categoria</h1>
+        <p class="subtitle">Acelere seu crescimento digital 🚀</p>
+
+        <button id="btn-voltar" class="voltar-btn">← Voltar</button>
+
+
+        <div class="tabs">
+            <h3 class="categories-title">Categorias</h3>
+
+            <div class="tab-header" id="tab-header">
+                <!-- Tabs serão geradas dinamicamente aqui -->
             </div>
-            <div class="flex-1">
-                <p class="font-semibold text-gray-900 text-sm">Maria Silva</p>
-                <p class="text-gray-600 text-xs">Comprou 500 visualizações para seu Instagram</p>
-                <p class="text-gray-400 text-xs mt-1">agora</p>
+
+            <div id="tab-contents">
+                <!-- Conteúdos serão gerados dinamicamente aqui -->
             </div>
-            <button class="text-gray-400 hover:text-gray-600">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                </svg>
-            </button>
-        </div> --}}
-
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="max-w-4xl mx-auto text-center space-y-10">
-                {{-- Limited Time Badge --}}
-                <div class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full border-2 border-purple-200 animate-pulse-slow">
-                    <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
-                    </svg>
-                    <span class="font-bold text-purple-700">{{ $configTemplate->header_badge ?? 'Oferta Relâmpago • Tempo Limitado' }}</span>
-                </div>
-
-                {{-- Main Heading --}}
-                <div class="space-y-4">
-                    <h1 class="text-5xl lg:text-7xl font-black text-gray-900 leading-tight">
-                        {{ $configTemplate->header_title ?? 'Alcance o' }}
-                    </h1>
-                    <h2 class="text-5xl lg:text-7xl font-black leading-tight">
-                        <span class="bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 bg-clip-text text-transparent">
-                            {{ $configTemplate->header_subtitle ?? 'Sucesso no Instagram' }}
-                        </span>
-                    </h2>
-                </div>
-
-                {{-- Main Price Card --}}
-                <div class="relative max-w-2xl mx-auto">
-                    {{-- Discount Badge --}}
-                    <div class="absolute -top-4 -right-4 bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full font-black text-sm shadow-xl transform rotate-12 z-20">
-                        50% OFF
-                    </div>
-
-                    {{-- Card --}}
-                    <div class="relative bg-white rounded-3xl shadow-2xl border-4 border-transparent bg-gradient-to-br from-purple-200 via-pink-200 to-rose-200 p-1">
-                        <div class="bg-white rounded-3xl p-8 lg:p-12 space-y-8">
-                            {{-- Features Grid --}}
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <span class="text-gray-700 font-medium">100% Seguro e Sigiloso</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <span class="text-gray-700 font-medium">Perfis Ativos</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <span class="text-gray-700 font-medium">Suporte 24/7</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <span class="text-gray-700 font-medium">Garantia vitalícia</span>
-                                </div>
-                            </div>
-
-                            {{-- CTA Button --}}
-                            <a href="#pricing" class="block">
-                                <button class="group relative w-full bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white font-black text-xl py-6 rounded-2xl hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl overflow-hidden">
-                                    <span class="relative z-10 flex items-center justify-center gap-3">
-                                        GARANTIR MEU PACOTE AGORA
-                                        <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </span>
-                                    <div class="absolute inset-0 bg-gradient-to-r from-purple-700 via-pink-700 to-rose-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                </button>
-                            </a>
-
-                            {{-- Small Text --}}
-                            <p class="text-center text-sm text-gray-500">
-                                Oferta por tempo limitado • Últimas vagas disponíveis hoje
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Trust Badges --}}
-                <div class="flex flex-wrap items-center justify-center gap-8 pt-8">
-                    <div class="flex items-center gap-2 text-gray-700">
-                        <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="font-semibold">Não Pedimos sua Senha</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-gray-700">
-                        <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="font-semibold">100% Seguro e Sigiloso</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-gray-700">
-                        <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="font-semibold">Não Precisa Seguir Ninguém</span>
-                    </div>
-                </div>
+            <div style="text-align: center;">
+                <h2 class="titulo-servico" style="margin-top: 60px;margin-bottom: 16px;">Selecione um serviço</h2>
+                <p class="texto-instrucao">Selecione uma categoria e escolha o serviço perfeito para o seu perfil. É rápido, fácil e funciona!</p>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    {{-- Services Section - Card Style --}}
-    <section id="services" class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-4xl lg:text-5xl font-black text-gray-900">
-                    Nossos <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Serviços</span>
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Escolha o serviço ideal para impulsionar suas redes sociais
-                </p>
+<!-- SEÇÃO DE VÍDEO -->
+<section class="video-section" style="margin-top: 0px; padding: 60px 20px;">
+    <div class="container">
+        <!--        <h1>Impulsione seu perfil hoje</h1>-->
+        <!--<p class="subtitle">Crescimento rápido, seguro e totalmente sigiloso.<br>e eficazes.</p>-->
+
+
+        <div class="video-container" style="
+            max-width: 900px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        ">
+            <div style="
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+                border-radius: 15px;
+            ">
+                <iframe
+                    src="https://www.youtube.com/embed/wK5tOX6GOtU"
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        border: none;
+                        border-radius: 15px;
+                    "
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-                {{-- Service Card 1 --}}
-                <div class="group bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 hover:shadow-2xl transition-all duration-300 border-2 border-blue-100 hover:border-blue-300 hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
-                        </svg>
+            <div style="margin-top: 25px; text-align: center;">
+                <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: #10b981;">
+                        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                        <span>Entrega Rápida</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">
-                        {{ $configTemplate->service_title_1 ?? 'Visualizações' }}
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        {{ $configTemplate->service_sub_title_1 ?? 'Aumente o alcance dos seus vídeos' }}
-                    </p>
-                    @isset($configTemplate->service_description_1)
-                        <ul class="space-y-2">
-                            @foreach($configTemplate->serviceDescriptions1() as $description)
-                                <li class="flex items-start gap-2 text-sm text-gray-700">
-                                    <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $description }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endisset
-                </div>
-
-                {{-- Service Card 2 --}}
-                <div class="group bg-gradient-to-br from-pink-50 to-rose-50 rounded-3xl p-8 hover:shadow-2xl transition-all duration-300 border-2 border-pink-100 hover:border-pink-300 hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
-                        </svg>
+                    <div style="display: flex; align-items: center; gap: 8px; color: #10b981;">
+                        <i class="fas fa-shield-alt" style="color: #10b981;"></i>
+                        <span>100% Seguro</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">
-                        {{ $configTemplate->service_title_2 ?? 'Curtidas' }}
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        {{ $configTemplate->service_sub_title_2 ?? 'Mais engajamento nas suas publicações' }}
-                    </p>
-                    @isset($configTemplate->service_description_2)
-                        <ul class="space-y-2">
-                            @foreach($configTemplate->serviceDescriptions2() as $description)
-                                <li class="flex items-start gap-2 text-sm text-gray-700">
-                                    <svg class="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $description }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endisset
-                </div>
-
-                {{-- Service Card 3 --}}
-                <div class="group bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 hover:shadow-2xl transition-all duration-300 border-2 border-purple-100 hover:border-purple-300 hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
-                        </svg>
+                    <div style="display: flex; align-items: center; gap: 8px; color: #10b981;">
+                        <i class="fas fa-users" style="color: #10b981;"></i>
+                        <span>Perfis Reais</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">
-                        {{ $configTemplate->service_title_3 ?? 'Seguidores' }}
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        {{ $configTemplate->service_sub_title_3 ?? 'Cresça sua audiência rapidamente' }}
-                    </p>
-                    @isset($configTemplate->service_description_3)
-                        <ul class="space-y-2">
-                            @foreach($configTemplate->serviceDescriptions3() as $description)
-                                <li class="flex items-start gap-2 text-sm text-gray-700">
-                                    <svg class="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $description }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endisset
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- Pricing Section - Clean Card Style --}}
-    @foreach($categories as $category)
-        <section id="pricing" class="py-20 bg-gradient-to-br from-gray-50 to-purple-50">
-            <div class="container mx-auto px-4">
-                {{-- Category Title --}}
-                <div class="text-center mb-16" id="header{{ $category->id }}">
-                    <h2 class="inline-block text-4xl lg:text-5xl font-black text-gray-900 px-8 py-4 bg-white rounded-full shadow-lg border-4 border-purple-200">
-                        {{ $category->name }}
-                    </h2>
-                </div>
-
-                {{-- Products Grid --}}
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-                    @foreach($category->services as $service)
-                        <div class="group relative bg-white rounded-3xl p-6 hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-purple-300 hover:-translate-y-2">
-                            {{-- Popular Badge --}}
-                            @if($loop->index === 1)
-                                <div class="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg">
-                                    🔥 POPULAR
-                                </div>
-                            @endif
-
-                            {{-- Quantity Badge --}}
-                            <div class="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 font-bold rounded-full text-sm mb-4">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                </svg>
-                                {{ $service->quantity }}
-                            </div>
-
-                            {{-- Service Name --}}
-                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
-                                {{ $service->name }}
-                            </h3>
-
-                            {{-- Features --}}
-                            <ul class="space-y-2 mb-6">
-                                @foreach($service->showcaseDescriptions() as $description)
-                                    <li class="flex items-start gap-2 text-sm text-gray-700">
-                                        <svg class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                        </svg>
-                                        {{ $description }}
-                                    </li>
-                                @endforeach
-                            </ul>
-
-                            {{-- Price --}}
-                            <div class="mb-6">
-                                <div class="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                                    R$ {{ $service->convert_price }}
-                                </div>
-                            </div>
-
-                            {{-- Action Button --}}
-                            @if($service->dynamic_pricing)
-                                <a href="{{ route('web.services.show', ['domain' => $user->domain, 'service' => $service, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}" class="block">
-                                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
-                                        Comprar Agora
-                                    </button>
-                                </a>
-                            @else
-                                <button class="addCart w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 rounded-xl hover:scale-105 transition-all duration-300 shadow-lg"
-                                        data-action="{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => $service, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}">
-                                    Adicionar ao Carrinho
-                                </button>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endforeach
-
-    {{-- About Section --}}
-    <section id="details" class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <div class="grid lg:grid-cols-2 gap-16 items-center">
-                    {{-- Images --}}
-                    <div class="relative">
-                        <div class="relative rounded-3xl overflow-hidden shadow-2xl">
-                            <img src="{{ $configTemplate->url_about_image ?? 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop' }}"
-                                 alt="About"
-                                 class="w-full h-96 object-cover"
-                                 onerror="this.src='https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop'">
-                        </div>
-                        {{-- Stats Badge --}}
-                        <div class="absolute -bottom-6 -right-6 bg-gradient-to-br from-purple-600 to-pink-600 text-white p-6 rounded-3xl shadow-2xl">
-                            <div class="text-4xl font-black">50k+</div>
-                            <div class="text-sm font-semibold">Clientes Felizes</div>
-                        </div>
-                    </div>
-
-                    {{-- Content --}}
-                    <div class="space-y-6">
-                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 rounded-full text-purple-700 font-semibold text-sm">
-                            Sobre Nós
-                        </div>
-
-                        <h2 class="text-4xl lg:text-5xl font-black text-gray-900">
-                            {{ $configTemplate->about_title ?? 'Por que nos escolher?' }}
-                        </h2>
-
-                        <p class="text-lg text-gray-600 leading-relaxed">
-                            {{ $configTemplate->about_description ?? 'Somos especialistas em impulsionar perfis nas redes sociais com qualidade e segurança garantidas.' }}
-                        </p>
-
-                        {{-- Feature List --}}
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl">
-                                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-gray-900">Entrega Rápida</div>
-                                    <div class="text-sm text-gray-600">Receba em minutos</div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl">
-                                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-gray-900">100% Seguro</div>
-                                    <div class="text-sm text-gray-600">Suas informações protegidas</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="#pricing" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:scale-105 transition-all duration-300 shadow-xl">
-                            {{ $configTemplate->about_button ?? 'Ver Planos' }}
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- Floating Cart - Bottom Bar Style --}}
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 py-4 shadow-2xl">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between max-w-4xl mx-auto">
-                <div class="text-white hidden sm:block">
-                    <div class="font-bold text-lg">Tem dúvidas?</div>
-                    <div class="text-sm text-purple-200">Nossa equipe está pronta para ajudar!</div>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    {{-- WhatsApp Button --}}
-                    <a href="https://api.whatsapp.com/send?phone=55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}"
-                       target="_blank"
-                       class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl hover:scale-105 transition-all duration-300 shadow-xl">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                        </svg>
-                        <span class="hidden sm:inline">Falar no WhatsApp</span>
-                    </a>
-
-                    {{-- Cart Button --}}
-                    <a href="{{ route('api.cartProducts.index', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}"
-                       class="relative flex items-center gap-2 px-6 py-3 bg-white text-purple-600 font-bold rounded-xl hover:scale-105 transition-all duration-300 shadow-xl">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
-                        </svg>
-                        <span class="hidden sm:inline">Carrinho</span>
-                        <span class="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs font-bold rounded-full animate-pulse badge-qtd">
-                            {{$cartProductsCount}}
-                        </span>
-                    </a>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    {{-- Contact Section --}}
-    <section id="contact" class="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
-        <div class="container mx-auto px-4">
-            <div class="max-w-3xl mx-auto text-center space-y-8">
-                <h2 class="text-4xl lg:text-5xl font-black text-gray-900">
-                    {{ $configTemplate->contact_title ?? 'Entre em Contato' }}
-                </h2>
-                <p class="text-xl text-gray-600">
-                    {{ $configTemplate->contact_description ?? 'Nossa equipe está pronta para ajudar você a alcançar seus objetivos' }}
+
+<!-- SEÇÃO DE PERGUNTAS FREQUENTES (FAQ) -->
+<section class="faq-section" style="margin-top: 80px; padding: 0 20px;">
+    <div class="container">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 15px; color: var(--text-primary);">
+            Perguntas Frequentes
+        </h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px;">
+            Tire suas dúvidas sobre nossos serviços
+        </p>
+
+        <div class="faq-container">
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>É seguro e correto contratar os serviços ?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Comprar seguidores é uma estratégia de marketing digital amplamente utilizada:
+
+Ajuda a impulsionar a visibilidade inicial de perfis
+
+É legal quando feito da forma certa como nós fazemos
+
+Deve ser combinado com estratégias de engajamento orgânico
+
+Não viola termos de serviço quando feito corretamente
+
+Oferece um impulso inicial para crescimento nas redes sociais</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>É seguro comprar seguidores para minha conta?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Sim, desde que você utilize um serviço confiável.
+Com a nossa plataforma, você conta com:
+
+Entrega segura e sem necessidade de senha
+
+Métodos atualizados e compatíveis com as diretrizes das plataformas
+
+Experiência de anos no mercado
+
+Suporte especializado para qualquer dúvida</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Como funciona o processo de compra?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>O processo é simples:
+
+Escolha o pacote desejado
+
+Informe o usuário ou link do perfil
+
+Finalize o pagamento
+
+Nossa plataforma processa o pedido
+
+O envio dos seguidores começa automaticamente</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Quais métodos de pagamento são aceitos? Tem Pix?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Sim! Aceitamos Pix (QR Code ou Copia e Cola).
+Todas as transações são criptografadas e seguras.</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Minha conta pode ser banida por comprar seguidores?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Com nosso serviço, o risco de banimento é praticamente inexistente:
+
+Utilizamos métodos seguros de divulgação
+
+Não violamos os termos de serviço das redes sociais
+
+Fornecemos seguidores de qualidade
+
+Anos de experiência sem incidentes de banimento
+
+Não solicitamos ou usamos sua senha
+
+Sua conta permanece segura ao usar nossos serviços.</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Quanto tempo leva para começar a receber os seguidores após a compra?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Depende da rede social:
+
+Instagram: 0–60 min
+
+TikTok: 0–60 min
+
+YouTube: 0–24h
+
+Twitter: algumas horas
+
+O envio começa automaticamente após a confirmação do pagamento.</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Os seguidores comprados são permanentes?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>A maioria permanece, mas pequenas variações são naturais.
+Por isso oferecemos garantia de reposição por 30 dias, caso haja queda abaixo da quantidade entregue.
+
+Manter conteúdo ativo ajuda a aumentar a retenção.</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Como escolher a melhor opção de pacote de seguidores?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Considere:
+
+Seu objetivo (crescimento rápido ou gradual)
+
+Seu orçamento
+
+O tamanho atual do seu perfil
+
+A necessidade de reposição e estabilidade
+
+Nossa equipe também pode orientar a escolha ideal.</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Se o perfil estiver privado é possível receber as seguidores?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Não. A conta precisa estar pública para que o envio funcione.</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Preciso informar minha senha?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Não, jamais pediremos sua senha. Precisamos apenas que informe para qual usuário devemos enviar os seguidores.</p>
+                </div>
+            </div>
+                        <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Por que escolher o nossa site para ter mais seguidores?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+
+                <div class="faq-answer">
+                    <p>Somos uma equipe especializada com mais de 12 anos de experiência.
+Trabalhamos continuamente em testes e melhorias, garantindo:
+
+Entrega segura e otimizada
+
+Velocidade adequada para cada pedido
+
+Alta taxa de retenção
+
+Suporte especializado
+
+Processos ajustados às práticas aceitas nas plataformas</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Ainda tem dúvidas? -->
+        <div class="faq-contact" style="
+            margin-top: 50px;
+            text-align: center;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        ">
+            <h3 style="color: var(--text-primary); margin-bottom: 15px; font-size: 1.5rem;">
+                Ainda tem dúvidas?
+            </h3>
+            <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                Nossa equipe está pronta para ajudar você!
+            </p>
+            <a href="https://wa.me/62981686505" target="_blank" style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 15px 40px;
+                background: #25d366;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 30px;
+                font-weight: 600;
+                font-size: 1.1rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37, 211, 102, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37, 211, 102, 0.3)'">
+                <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+                Falar com Suporte
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- SEÇÃO DE AVALIAÇÕES -->
+<section class="testimonials-section" style="margin-top: 80px;">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 15px; color: var(--text-primary);" >O que nossos clientes dizem</h2>
+    <p style="text-align: center; color: #94a3b8; margin-bottom: 40px;">Mais de 10.000 clientes satisfeitos</p>
+
+    <div class="testimonials-grid">
+        <!-- Avaliação 1 - Joana Silva -->
+        <div class="testimonial-card">
+            <div class="testimonial-header">
+                <div class="avatar-wrapper">
+                    <img src="https://assets.propmark.com.br/uploads/2022/02/WhatsApp-Image-2022-02-18-at-08.52.06.jpeg" alt="Joana Silva" class="avatar-img">
+                    <div class="star-badge">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <h3 class="user-name">Joana Silva</h3>
+                    <p class="user-role">Influencer Digital</p>
+                </div>
+            </div>
+
+            <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+
+            <div class="quote-wrapper">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <p class="testimonial-text">
+                    Estou muito satisfeita com os serviços! Comprei seguidores para o meu perfil e o crescimento foi incrível. A entrega foi rápida e os seguidores são de alta qualidade. Recomendo a todos que querem impulsionar suas redes sociais!
                 </p>
+            </div>
 
-                <a href="https://api.whatsapp.com/send?phone=55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}"
-                   target="_blank"
-                   class="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-xl rounded-2xl hover:scale-110 transition-all duration-300 shadow-2xl">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    {{ $systemSetting->phone ?? config('template.phone') }}
-                </a>
+            <div class="verified-badge">
+                <i class="fas fa-check-circle"></i>
+                Cliente Verificado
             </div>
         </div>
-    </section>
-@endsection
 
-@push('styles')
-    <style>
-        @keyframes fade-in-left {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+<!-- Avaliação 2 - Carlos Mendes -->
+        <div class="testimonial-card">
+            <div class="testimonial-header">
+                <div class="avatar-wrapper">
+                    <img src="https://i.pinimg.com/736x/bd/7d/26/bd7d26904692d8b56b363ce85e4ec3d3.jpg" alt="Carlos Mendes" class="avatar-img">
+                    <div class="star-badge">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <h3 class="user-name">Carlos Mendes</h3>
+                    <p class="user-role">Empreendedor</p>
+                </div>
+            </div>
 
-        .animate-fade-in-left {
-            animation: fade-in-left 1s ease-out;
-        }
+            <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
 
-        @keyframes pulse-slow {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.9;
-                transform: scale(1.02);
-            }
-        }
+            <div class="quote-wrapper">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <p class="testimonial-text">
+                    Contratei o serviço para impulsionar a página da minha empresa no Facebook e os resultados foram impressionantes. A entrega foi feita de forma gradual e os seguidores são ótimos. Isso ajudou muito a aumentar a visibilidade da minha marca.
+                </p>
+            </div>
 
-        .animate-pulse-slow {
-            animation: pulse-slow 3s ease-in-out infinite;
-        }
+            <div class="verified-badge">
+                <i class="fas fa-check-circle"></i>
+                Cliente Verificado
+            </div>
+        </div>
 
-        html {
-            scroll-behavior: smooth;
-        }
+        <!-- Avaliação 3 - Fernanda Lima -->
+        <div class="testimonial-card">
+            <div class="testimonial-header">
+                <div class="avatar-wrapper">
+                    <img src="https://i.pinimg.com/736x/bd/7d/26/bd7d26904692d8b56b363ce85e4ec3d3.jpg" alt="Fernanda Lima" class="avatar-img">
+                    <div class="star-badge">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <h3 class="user-name">Fernanda Lima</h3>
+                    <p class="user-role">Social Media Manager</p>
+                </div>
+            </div>
 
-        /* Custom scrollbar to match design */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
+            <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
 
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
+            <div class="quote-wrapper">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <p class="testimonial-text">
+                    Trabalho com diversos clientes e precisava de um serviço confiável para aumentar seguidores e engajamento. Encontrei a solução perfeita aqui! A entrega é rápida, o suporte é excelente e os resultados são sempre consistentes. Recomendo!
+                </p>
+            </div>
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #9333ea, #ec4899);
-            border-radius: 5px;
-        }
+            <div class="verified-badge">
+                <i class="fas fa-check-circle"></i>
+                Cliente Verificado
+            </div>
+        </div>
+    </div>
+</section>
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #7e22ce, #db2777);
-        }
-    </style>
-@endpush
 
-@push('scripts')
-    <script>
-        // Add to Cart
-        $('.addCart').click(function (e) {
-            e.preventDefault()
-            $(this).attr('disabled', true)
+<!-- Noscript fallback for Meta Pixel -->
+<script>
+// ============================================
+// SISTEMA DE TEMA CLARO/ESCURO COM LOCALSTORAGE
+// ============================================
 
-            var badge_qtd = $('.badge-qtd').html()
-            $('.badge-qtd').html(parseInt(badge_qtd) + 1)
-            
-            Swal.fire({
-                icon: 'success',
-                title: '<span class="text-3xl font-bold">✅ Adicionado!</span>',
-                html: '<p class="text-lg text-gray-600">Produto adicionado ao carrinho com sucesso</p>',
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText: '🛒 Ver Carrinho',
-                confirmButtonColor: "#9333ea",
-                cancelButtonText: '← Continuar Comprando',
-                customClass: {
-                    popup: 'rounded-3xl shadow-2xl',
-                    title: 'font-black',
-                    confirmButton: 'rounded-2xl px-8 py-3 font-bold',
-                    cancelButton: 'rounded-2xl px-8 py-3 font-bold bg-gray-100 text-gray-800 hover:bg-gray-200'
-                }
-            }).then(function (response) {
-                if (response.isConfirmed) {
-                    window.location.href = "{{ route('api.cartProducts.index', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}";
-                }
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const htmlElement = document.documentElement;
+
+// Função para aplicar o tema
+function applyTheme(theme) {
+    // Salvar no localStorage
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+        htmlElement.setAttribute('data-theme', 'light');
+        themeIcon.className = 'fas fa-sun';
+    } else {
+        htmlElement.removeAttribute('data-theme');
+        themeIcon.className = 'fas fa-moon';
+    }
+
+    console.log('Tema aplicado e salvo:', theme);
+}
+
+// Função para alternar o tema
+function toggleTheme() {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+}
+
+// Verificar e aplicar o tema salvo ou o padrão (light)
+const savedTheme = localStorage.getItem('theme') || 'light';
+applyTheme(savedTheme);
+
+// Event listener no botão
+themeToggle.addEventListener('click', toggleTheme);
+
+    // ============================================
+    // ESTRUTURA DE DADOS - Fácil para PHP
+    // ============================================
+    const servicesData = {"instagram":{"name":"Instagram","categories":{"seguidores-brasileiros-1":{"name":"Seguidores Brasileiros","description":"Aumente sua visibilidade com seguidores brasileiros com entrega rápida e garantida!","slug":"seguidores-brasileiros-1","packages":[{"id":1,"url":1,"amount":"100","price":"R$3,50","discount":null,"highlighted":false}]},"curtidas-brasileiras-1":{"name":"Curtidas Brasileiras","description":"Aumente o engajamento com curtidas brasileiras reais!","slug":"curtidas-brasileiras-1","packages":[]},"visualizacoes-no-story-1":{"name":"Visualizações no Story","description":"Aumente o alcance dos seus stories!","slug":"visualizacoes-no-story-1","packages":[]},"visualizacoes-no-reels-1":{"name":"Visualizações no Reels","description":"Impulsione seus reels com visualizações reais!","slug":"visualizacoes-no-reels-1","packages":[]}}},"tiktok":{"name":"TikTok","categories":{"seguidores-tiktok-2":{"name":"Seguidores TikTok","description":"Cresça sua audiência no TikTok com seguidores reais!","slug":"seguidores-tiktok-2","packages":[]},"curtidas-tiktok-2":{"name":"Curtidas TikTok","description":"Mais curtidas nos seus vídeos do TikTok!","slug":"curtidas-tiktok-2","packages":[]},"visualizacoes-tiktok-2":{"name":"Visualizações TikTok","description":"Aumente as visualizações dos seus vídeos!","slug":"visualizacoes-tiktok-2","packages":[]}}},"twitch":{"name":"Twitch","categories":{"seguidores-twitch-3":{"name":"Seguidores Twitch","description":"Cresça sua comunidade na Twitch!","slug":"seguidores-twitch-3","packages":[]},"espectadores-live-3":{"name":"Espectadores Live","description":"Mais viewers nas suas transmissões!","slug":"espectadores-live-3","packages":[]}}},"youtube":{"name":"YouTube","categories":{"inscritos-youtube-4":{"name":"Inscritos YouTube","description":"Aumente seus inscritos no YouTube!","slug":"inscritos-youtube-4","packages":[]},"visualizacoes-youtube-4":{"name":"Visualizações YouTube","description":"Mais views nos seus vídeos!","slug":"visualizacoes-youtube-4","packages":[]},"likes-youtube-4":{"name":"Likes YouTube","description":"Mais likes nos seus vídeos!","slug":"likes-youtube-4","packages":[]}}}};
+    const orderRoute = "https://turbinamais.com/finalizar-pedido/SLUG_PLACEHOLDER/SERVICE_ID_PLACEHOLDER";
+
+    // ============================================
+    // VARIÁVEIS GLOBAIS
+    // ============================================
+    let selectedPlatform = 'instagram';
+
+    // ============================================
+    // CRIAR ESTRELAS
+    // ============================================
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(star);
+    }
+
+    // ============================================
+    // SELEÇÃO DE PLATAFORMA (PÁGINA 1)
+    // ============================================
+    const platformItems = document.querySelectorAll('.platform-item');
+
+    platformItems.forEach(item => {
+        item.addEventListener('click', function() {
+            platformItems.forEach(i => i.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedPlatform = this.getAttribute('data-platform');
+        });
+    });
+
+    // ============================================
+    // BOTÃO PRÓXIMO → ABRIR CATEGORIAS
+    // ============================================
+    document.getElementById('btn-next-categories').addEventListener('click', function() {
+        generateCategories(selectedPlatform);
+
+        document.getElementById('page-platform').classList.remove('active');
+        document.getElementById('page-categories').classList.add('active');
+
+        // Track category view event
+        if (typeof TrackingManager !== 'undefined') {
+            TrackingManager.trackViewContent({
+                content_name: selectedPlatform,
+                content_type: 'product_category',
+                content_ids: [selectedPlatform],
             });
+        }
 
-            var action = $(this).data('action')
-            $.post(action, function (response) {
-                $('.addCart').attr('disabled', false)
-            }, 'json')
-        })
+        // Adiciona ao histórico do navegador para funcionar o botão voltar nativo
+        history.pushState({ page: "categories" }, "");
+    });
 
-        // Smooth scroll with offset
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#') return;
-                
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    const headerOffset = 100;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    // ============================================
+    // FUNÇÃO PARA GERAR CATEGORIAS E PACOTES
+    // ============================================
+    function generateCategories(platform) {
+        const platformData = servicesData[platform];
+        const tabHeader = document.getElementById('tab-header');
+        const tabContents = document.getElementById('tab-contents');
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
+        tabHeader.innerHTML = '';
+        tabContents.innerHTML = '';
+
+        Object.keys(platformData.categories).forEach((categoryKey, index) => {
+            const category = platformData.categories[categoryKey];
+
+            // Botão da categoria
+            const btnCategory = document.createElement('button');
+            btnCategory.className = 'tab-btn';
+            btnCategory.setAttribute('data-category', categoryKey);
+            btnCategory.textContent = category.name;
+            tabHeader.appendChild(btnCategory);
+
+            // Conteúdo da categoria
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'tab-content';
+            contentDiv.id = categoryKey;
+
+            contentDiv.innerHTML = `
+                <h2>${category.name}</h2>
+                <p class="tab-description">
+                    <span class="check">✅</span>
+                    ${category.description}
+                </p>
+
+                <div class="packages">
+                    ${category.packages.map(pkg => `
+                        <div class="package-card ${pkg.highlighted ? 'highlighted' : ''}"
+                            data-service-id="${pkg.id}"
+                            data-category-slug="${category.slug}"
+                            data-amount="${pkg.quantity}"
+                            data-price="${pkg.price}">
+
+                            ${pkg.highlighted ? `<div class="highlight-badge">MAIS POPULAR</div>` : ''}
+                            ${pkg.discount ? `<div class="badge">${pkg.discount}</div>` : ''}
+                            <div class="package-amount">${pkg.amount}</div>
+                            <div class="package-label">${category.name}</div>
+                            <div class="package-price">${pkg.price}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            tabContents.appendChild(contentDiv);
+        });
+
+        setupCategoryButtons();
+    }
+
+    // ============================================
+    // CONFIGURAR BOTÕES DE CATEGORIA
+    // ============================================
+    function setupCategoryButtons() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const categoriesTitle = document.querySelector('.categories-title');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                categoriesTitle.style.display = 'none';
+
+                this.classList.add('active');
+
+                const contentToShow = document.getElementById(category);
+                if (contentToShow) {
+                    contentToShow.classList.add('active');
                 }
             });
         });
-    </script>
-@endpush
+
+        // Click nos pacotes
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.package-card')) {
+                const card = e.target.closest('.package-card');
+                const allCards = document.querySelectorAll('.package-card');
+                allCards.forEach(c => c.style.border = '1px solid rgba(71, 85, 105, 0.3)');
+                card.style.border = '2px solid #3b82f6';
+
+                const serviceId = card.getAttribute('data-service-id');
+                const categorySlug = card.getAttribute('data-category-slug');
+                const amount = card.getAttribute('data-amount');
+                const price = card.getAttribute('data-price');
+
+                window.location.href = `/finalizar-pedido/${categorySlug}/${serviceId}`;
+            }
+        });
+    }
+
+    // ============================================
+    // FUNÇÃO CENTRAL DE VOLTAR
+    // ============================================
+    function voltarPaginaInterna() {
+        const pageCategories = document.getElementById('page-categories');
+        const pagePlatform = document.getElementById('page-platform');
+
+        pageCategories.classList.remove('active');
+        pagePlatform.classList.add('active');
+    }
+
+    // ============================================
+    // BOTÃO VOLTAR - MANUAL
+    // ============================================
+    document.getElementById('btn-voltar').addEventListener('click', function () {
+        voltarPaginaInterna();
+
+        if (history.length > 1) {
+            history.back();
+        }
+    });
+
+    // ============================================
+    // VOLTAR DO NAVEGADOR / CELULAR
+    // ============================================
+    window.onpopstate = function (event) {
+        voltarPaginaInterna();
+    };
+
+    // ============================================
+// NOTIFICAÇÕES DE COMPRAS EM TEMPO REAL
+// ============================================
+const nomesBrasileiros = [
+    'João Costa', 'Maria Silva', 'Pedro Santos', 'Ana Oliveira', 'Lucas Almeida',
+    'Juliana Souza', 'Rafael Lima', 'Camila Rocha', 'Bruno Ferreira', 'Beatriz Martins',
+    'Felipe Ribeiro', 'Larissa Costa', 'Gustavo Pereira', 'Amanda Cardoso', 'Rodrigo Dias',
+    'Fernanda Gomes', 'Thiago Barbosa', 'Mariana Freitas', 'Diego Araújo', 'Carolina Mendes',
+    'Vinicius Teixeira', 'Gabriela Monteiro', 'Matheus Carvalho', 'Isabela Correia', 'Leonardo Pinto'
+];
+
+const servicos = [
+    { tipo: 'seguidores', plataforma: 'Instagram', quantidades: [500, 1000, 2000, 5000, 10000] },
+    { tipo: 'curtidas', plataforma: 'Instagram', quantidades: [100, 500, 1000, 2000, 5000] },
+    { tipo: 'visualizações', plataforma: 'TikTok', quantidades: [1000, 5000, 10000, 50000] },
+    { tipo: 'seguidores', plataforma: 'TikTok', quantidades: [500, 1000, 2000, 5000] },
+    { tipo: 'inscritos', plataforma: 'YouTube', quantidades: [100, 500, 1000, 2000] },
+    { tipo: 'visualizações', plataforma: 'YouTube', quantidades: [1000, 5000, 10000, 50000] }
+];
+
+function formatarNumero(num) {
+    return num.toLocaleString('pt-BR');
+}
+
+function getRandomItem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function getInitials(name) {
+    return name.split(' ').map(n => n[0]).join('').substring(0, 2);
+}
+
+function createNotification() {
+    const nome = getRandomItem(nomesBrasileiros);
+    const servico = getRandomItem(servicos);
+    const quantidade = getRandomItem(servico.quantidades);
+
+    const container = document.getElementById('notificationsContainer');
+
+    const notification = document.createElement('div');
+    notification.className = 'notification-popup';
+
+    notification.innerHTML = `
+        <div class="notification-avatar">
+            ${getInitials(nome)}
+        </div>
+        <div class="notification-content">
+            <div class="notification-name">${nome}</div>
+            <div class="notification-action">
+                Comprou ${formatarNumero(quantidade)} ${servico.tipo} para seu ${servico.plataforma}
+            </div>
+        </div>
+        <div class="notification-time">agora</div>
+        <button class="notification-close" onclick="this.closest('.notification-popup').remove()">
+            ✕
+        </button>
+    `;
+
+    container.appendChild(notification);
+
+    // Remover após 6 segundos
+    setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 500);
+    }, 6000);
+
+    // Limitar a 3 notificações visíveis
+    const notifications = container.querySelectorAll('.notification-popup');
+    if (notifications.length > 3) {
+        notifications[0].remove();
+    }
+}
+
+// Mostrar primeira notificação após 3 segundos
+setTimeout(() => {
+    createNotification();
+    // Depois continuar mostrando a cada 8-15 segundos
+    setInterval(() => {
+        createNotification();
+    }, Math.random() * 7000 + 8000); // Entre 8 e 15 segundos
+}, 3000);
+</script>
+
+<script>
+// ============================================
+// FUNÇÃO PARA TOGGLE FAQ
+// ============================================
+function toggleFAQ(button) {
+    const faqItem = button.parentElement;
+    const wasActive = faqItem.classList.contains('active');
+
+    // Fechar todos os outros itens
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Se não estava ativo, ativar
+    if (!wasActive) {
+        faqItem.classList.add('active');
+    }
+}
+
+// Fechar FAQ ao clicar fora
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.faq-item')) {
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('active');
+        });
+    }
+});
+</script>
+
+</body>
+</html>
