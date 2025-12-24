@@ -1,384 +1,385 @@
+@php
+/* ==========================
+| SIMULANDO DADOS DO BANCO
+|==========================*/
+
+$schema = json_decode('{
+  "header": {
+    "title": "Cabeçalho",
+    "fields": [
+      { "type": "text", "key": "header_title", "label": "Título Principal" },
+      { "type": "textarea", "key": "header_subtitle", "label": "Subtítulo" },
+      { "type": "image", "key": "header_image", "label": "Imagem" }
+    ]
+  },
+
+  "services": {
+    "title": "Serviços",
+    "repeatable": true,
+    "fields": [
+      { "type": "text", "key": "title", "label": "Título" },
+      { "type": "textarea", "key": "description", "label": "Descrição" }
+    ]
+  },
+
+  "reviews": {
+    "title": "Avaliações",
+    "repeatable": true,
+    "fields": [
+      { "type": "text", "key": "title", "label": "Título" },
+      { "type": "textarea", "key": "description", "label": "Descrição" }
+    ]
+  }
+}', true);
+
+$content = json_decode('{
+  "header_title": "Sistema Profissional",
+  "header_subtitle": "Templates dinâmicos com Laravel + JSON",
+  "header_image": "https://via.placeholder.com/1200x400",
+
+  "services": [
+    { "title": "Automação", "description": "Ganhe produtividade automatizando processos." },
+    { "title": "Performance", "description": "Sistema rápido, escalável e seguro." }
+  ],
+
+  "reviews": [
+    { "title": "Excelente sistema", "description": "Muito fácil de usar e extremamente flexível. Recomendo para qualquer projeto profissional." },
+    { "title": "Top demais", "description": "Consegui montar páginas dinâmicas sem mexer no código. Sensacional." }
+  ]
+}', true);
+@endphp
+
+
 @extends('panel.templates.master')
-@section('title', 'Configuração do template')
+
+@section('title', 'Configuração do Template')
+
 @section('content')
-    <a href="https://youtu.be/JZrWS0vB9yc" target="_blank" class="btn btn-danger mb-3">
-        <i class="mb-1" data-feather="play" width="20"></i> Vídeo Tutorial
-    </a>
-    <section id="basic-vertical-layouts">
-        <div class="row match-height">
-            <div class="col-md-12 col-12 mt-3">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <form class="form form-vertical" method="post" id="configTemplateForm"
-                                  enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <div class="form-body">
-                                    <div class="row">
-                                        <div class="col-12 mt-3">
-                                            <h4 class="font-bold">Menu</h4>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="title">Botão</label>
-                                                <input type="text" id="title" class="form-control" name="nav_button"
-                                                       value="{{ $configTemplate->nav_button ?? '' }}">
-                                            </div>
-                                        </div>
 
-                                        <div class="col-12 mt-3">
-                                            <h4 class="font-bold">Cabeçalho</h4>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="title">Título</label>
-                                                <input type="text" id="title" class="form-control" name="header_title"
-                                                       value="{{ $configTemplate->header_title ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="title">Subtitulo</label>
-                                                <textarea class="form-control" name="header_sub_title" id="title"
-                                                          cols="30"
-                                                          rows="5">{{ $configTemplate->header_sub_title ?? '' }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="title">Botão</label>
-                                                <input type="text" id="title" class="form-control" name="header_button"
-                                                       value="{{ $configTemplate->header_button ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <p>Imagem</p>
-                                                <label>
-                                                    <img width="180" style="cursor: pointer"
-                                                         src="{{ $configTemplate->url_header_image ?? asset(config('template.url_header_image')) }}">
-                                                    <input type="file" id="title" class="d-none"
-                                                           name="header_image" value="" accept="image/*">
-                                                </label>
-                                                <p>
-                                                    <a class="text-danger"
-                                                       href="{{ route('panel.configTemplates.removeImage', ['type' => 'header_image']) }}">
-                                                        Restaurar Imagem
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-12">
 
-                                        <div class="col-12 mt-3">
-                                            <h4 class="font-bold">Serviço</h4>
-                                        </div>
+            <div class="card shadow-sm">
+                <div class="card-body">
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <p>Imagem 1</p>
-                                                <label>
-                                                    <img width="180" style="cursor: pointer"
-                                                         src="{{ $configTemplate->url_service_image_1 ?? asset(config('template.url_service_image_1')) }}">
-                                                    <input type="file" id="title" class="d-none"
-                                                           name="service_image_1" value="" accept="image/*">
-                                                </label>
-                                                <p>
-                                                    <a class="text-danger"
-                                                       href="{{ route('panel.configTemplates.removeImage', ['type' => 'service_image_1']) }}">
-                                                        Restaurar Imagem
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="title">Título 1</label>
-                                                <input type="text" id="title" class="form-control"
-                                                       name="service_title_1"
-                                                       value="{{ $configTemplate->service_title_1 ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="title">Subtítulo 1</label>
-                                                <textarea class="form-control" name="service_sub_title_1" id="title"
-                                                          cols="30"
-                                                          rows="5">{{ $configTemplate->service_sub_title_1 ?? '' }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="service_description_1">Descrição 1</label>
-                                                <textarea class="form-control" name="service_description_1"
-                                                          id="service_description_1" cols="30"
-                                                          rows="5">{{ $configTemplate->service_description_1 ?? '' }}</textarea>
-                                            </div>
-                                        </div>
+                    <form id="configTemplateForm" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
 
-                                        <div class="col-12 mt-5">
-                                            <div class="form-group">
-                                                <p>Imagem 2</p>
-                                                <label>
-                                                    <img width="180" style="cursor: pointer"
-                                                         src="{{ $configTemplate->url_service_image_2 ?? asset(config('template.url_service_image_2')) }}">
-                                                    <input type="file" id="title" class="d-none"
-                                                           name="service_image_2" value="" accept="image/*">
-                                                </label>
-                                                <p>
-                                                    <a class="text-danger"
-                                                       href="{{ route('panel.configTemplates.removeImage', ['type' => 'service_image_2']) }}">
-                                                        Restaurar Imagem
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="service_title_2">Título 2</label>
-                                                <input type="text" id="service_title_2" class="form-control"
-                                                       name="service_title_2"
-                                                       value="{{ $configTemplate->service_title_2 ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="service_sub_title_2">Subtítulo 2</label>
-                                                <textarea class="form-control" name="service_sub_title_2"
-                                                          id="service_sub_title_2" cols="30"
-                                                          rows="5">{{ $configTemplate->service_sub_title_2 ?? '' }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="service_description_2">Descrição 2</label>
-                                                <textarea class="form-control" name="service_description_2"
-                                                          id="service_description_2" cols="30"
-                                                          rows="5">{{ $configTemplate->service_description_2 ?? '' }}</textarea>
-                                            </div>
-                                        </div>
+                        @foreach($schema as $sectionKey => $section)
 
+                            <div class="mt-5 mb-3 border-bottom pb-2">
+                                <h4 class="fw-bold text-primary">
+                                    {{ $section['title'] }}
+                                </h4>
+                            </div>
 
-                                        <div class="col-12 mt-5">
-                                            <div class="form-group">
-                                                <p>Imagem 3</p>
-                                                <label>
-                                                    <img width="180" style="cursor: pointer"
-                                                         src="{{ $configTemplate->url_service_image_3 ?? asset(config('template.url_service_image_3')) }}">
-                                                    <input type="file" id="title" class="d-none"
-                                                           name="service_image_3" value="" accept="image/*">
-                                                </label>
-                                                <p>
-                                                    <a class="text-danger"
-                                                       href="{{ route('panel.configTemplates.removeImage', ['type' => 'service_image_3']) }}">
-                                                        Restaurar Imagem
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="service_title_3">Título 3</label>
-                                                <input type="text" id="service_title_3" class="form-control"
-                                                       name="service_title_3"
-                                                       value="{{ $configTemplate->service_title_3 ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="service_sub_title_3">Subtítulo 3</label>
-                                                <textarea class="form-control" name="service_sub_title_3"
-                                                          id="service_sub_title_3" cols="30"
-                                                          rows="5">{{ $configTemplate->service_sub_title_3 ?? '' }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="service_description_3">Descrição 3</label>
-                                                <textarea class="form-control" name="service_description_3"
-                                                          id="service_description_3" cols="30"
-                                                          rows="5">{{ $configTemplate->service_description_3 ?? '' }}</textarea>
-                                            </div>
-                                        </div>
+                            {{-- REPEATABLE --}}
+                            @if(isset($section['repeatable']) && $section['repeatable'])
 
-                                        <div class="col-12 mt-3">
-                                            <h4 class="font-bold">Sobre</h4>
-                                        </div>
+                                @php
+                                    $items = $content[$sectionKey] ?? [];
+                                @endphp
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <p>Imagem 2</p>
-                                                <label>
-                                                    <img width="180" style="cursor: pointer"
-                                                         src="{{ $configTemplate->url_about_image ?? asset(config('template.url_about_image')) }}">
-                                                    <input type="file" id="title" class="d-none"
-                                                           name="about_image" value="" accept="image/*">
-                                                </label>
-                                                <p>
-                                                    <a class="text-danger"
-                                                       href="{{ route('panel.configTemplates.removeImage', ['type' => 'url_about_image']) }}">
-                                                        Restaurar Imagem
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
+                                <div id="{{ $sectionKey }}-wrapper">
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="about_title">Título</label>
-                                                <input type="text" id="about_title" class="form-control"
-                                                       name="about_title"
-                                                       value="{{ $configTemplate->about_title ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="about_description">Descrição</label>
-                                                <textarea class="form-control" name="about_description"
-                                                          id="about_description" cols="30"
-                                                          rows="5">{{ $configTemplate->about_description ?? '' }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="about_button">Botão</label>
-                                                <input type="text" id="about_button" class="form-control"
-                                                       name="about_button"
-                                                       value="{{ $configTemplate->about_button ?? '' }}">
-                                            </div>
-                                        </div>
+                                    @foreach($items as $index => $item)
+                                        <div class="card mb-3 shadow-sm repeatable-item">
+                                            <div class="card-body">
 
-                                        <div class="col-12 mt-3">
-                                            <h4 class="font-bold">Basico</h4>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="basic_title">Título</label>
-                                                <input type="text" id="basic_title" class="form-control"
-                                                       name="basic_title"
-                                                       value="{{ $configTemplate->basic_title ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="basic_description">Descrição</label>
-                                                <textarea class="form-control" name="basic_description"
-                                                          id="basic_description" cols="30"
-                                                          rows="5">{{ $configTemplate->basic_description ?? '' }}</textarea>
-                                            </div>
-                                        </div>
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <span class="badge bg-secondary">
+                                                        Item {{ $index + 1 }}
+                                                    </span>
 
-                                        <div class="col-12 mt-3">
-                                            <h4 class="font-bold">Contato</h4>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="contact_title">Título</label>
-                                                <input type="text" id="contact_title" class="form-control"
-                                                       name="contact_title"
-                                                       value="{{ $configTemplate->contact_title ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="contact_description">Descrição</label>
-                                                <textarea class="form-control" name="contact_description"
-                                                          id="contact_description" cols="30"
-                                                          rows="5">{{ $configTemplate->contact_description ?? '' }}</textarea>
-                                            </div>
-                                        </div>
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-outline-danger remove-item">
+                                                        ➖ Remover
+                                                    </button>
+                                                </div>
 
-                                        <div class="col-12 mt-3">
-                                            <h4 class="font-bold">Rodapé</h4>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="footer_title">Título</label>
-                                                <input type="text" id="footer_title" class="form-control"
-                                                       name="footer_title"
-                                                       value="{{ $configTemplate->footer_title ?? '' }}">
+                                                @foreach($section['fields'] as $field)
+                                                    @php
+                                                        $name  = "{$sectionKey}[{$index}][{$field['key']}]";
+                                                        $value = $item[$field['key']] ?? '';
+                                                    @endphp
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-semibold">
+                                                            {{ $field['label'] }}
+                                                        </label>
+
+                                                        @if($field['type'] === 'text')
+                                                            <input type="text"
+                                                                   name="{{ $name }}"
+                                                                   class="form-control"
+                                                                   value="{{ $value }}">
+
+                                                        @elseif($field['type'] === 'textarea')
+                                                            <textarea name="{{ $name }}"
+                                                                      class="form-control"
+                                                                      rows="3">{{ $value }}</textarea>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
 
-                                    <div class="col-12 d-flex justify-content-end">
-                                        <button type="submit" class="btn btn-primary me-1 mb-1">Salvar</button>
-                                    </div>
                                 </div>
-                            </form>
+
+                                <button type="button"
+                                        class="btn btn-outline-primary add-item"
+                                        data-section="{{ $sectionKey }}">
+                                    ➕ Adicionar {{ $section['title'] }}
+                                </button>
+
+                            {{-- SEÇÃO SIMPLES --}}
+                            @else
+
+                                <div class="row">
+                                    @foreach($section['fields'] as $field)
+                                        @php
+                                            $value = $content[$field['key']] ?? '';
+                                        @endphp
+
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-semibold">
+                                                {{ $field['label'] }}
+                                            </label>
+
+                                            @if($field['type'] === 'text')
+                                                <input type="text"
+                                                       name="{{ $field['key'] }}"
+                                                       class="form-control"
+                                                       value="{{ $value }}">
+
+                                            @elseif($field['type'] === 'textarea')
+                                                <textarea name="{{ $field['key'] }}"
+                                                          class="form-control"
+                                                          rows="3">{{ $value }}</textarea>
+
+                                            @elseif($field['type'] === 'image')
+                                                <label class="d-block" style="cursor:pointer">
+                                                    <img src="{{ $value ? asset($value) : asset('images/placeholder.png') }}"
+                                                         class="img-thumbnail mb-2"
+                                                         width="200">
+                                                    <input type="file"
+                                                           name="{{ $field['key'] }}"
+                                                           class="d-none">
+                                                </label>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                            @endif
+
+                        @endforeach
+
+                        <div class="text-end mt-5">
+                            <button class="btn btn-success px-4">
+                                💾 Salvar Configurações
+                            </button>
                         </div>
-                    </div>
+
+                    </form>
+
                 </div>
             </div>
+
         </div>
-    </section>
+    </div>
+</section>
+
+@endsection
+@extends('panel.templates.master')
+
+@section('title', 'Configuração do Template')
+
+@section('content')
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <form id="configTemplateForm" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        @foreach($schema as $sectionKey => $section)
+
+                            <div class="mt-5 mb-3 border-bottom pb-2">
+                                <h4 class="fw-bold text-primary">
+                                    {{ $section['title'] }}
+                                </h4>
+                            </div>
+
+                            {{-- REPEATABLE --}}
+                            @if(isset($section['repeatable']) && $section['repeatable'])
+
+                                @php
+                                    $items = $content[$sectionKey] ?? [];
+                                @endphp
+
+                                <div id="{{ $sectionKey }}-wrapper">
+
+                                    @foreach($items as $index => $item)
+                                        <div class="card mb-3 shadow-sm repeatable-item">
+                                            <div class="card-body">
+
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <span class="badge bg-secondary">
+                                                        Item {{ $index + 1 }}
+                                                    </span>
+
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-outline-danger remove-item">
+                                                        ➖ Remover
+                                                    </button>
+                                                </div>
+
+                                                @foreach($section['fields'] as $field)
+                                                    @php
+                                                        $name  = "{$sectionKey}[{$index}][{$field['key']}]";
+                                                        $value = $item[$field['key']] ?? '';
+                                                    @endphp
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-semibold">
+                                                            {{ $field['label'] }}
+                                                        </label>
+
+                                                        @if($field['type'] === 'text')
+                                                            <input type="text"
+                                                                   name="{{ $name }}"
+                                                                   class="form-control"
+                                                                   value="{{ $value }}">
+
+                                                        @elseif($field['type'] === 'textarea')
+                                                            <textarea name="{{ $name }}"
+                                                                      class="form-control"
+                                                                      rows="3">{{ $value }}</textarea>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                </div>
+
+                                <button type="button"
+                                        class="btn btn-outline-primary add-item"
+                                        data-section="{{ $sectionKey }}">
+                                    ➕ Adicionar {{ $section['title'] }}
+                                </button>
+
+                            {{-- SEÇÃO SIMPLES --}}
+                            @else
+
+                                <div class="row">
+                                    @foreach($section['fields'] as $field)
+                                        @php
+                                            $value = $content[$field['key']] ?? '';
+                                        @endphp
+
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-semibold">
+                                                {{ $field['label'] }}
+                                            </label>
+
+                                            @if($field['type'] === 'text')
+                                                <input type="text"
+                                                       name="{{ $field['key'] }}"
+                                                       class="form-control"
+                                                       value="{{ $value }}">
+
+                                            @elseif($field['type'] === 'textarea')
+                                                <textarea name="{{ $field['key'] }}"
+                                                          class="form-control"
+                                                          rows="3">{{ $value }}</textarea>
+
+                                            @elseif($field['type'] === 'image')
+                                                <label class="d-block" style="cursor:pointer">
+                                                    <img src="{{ $value ? asset($value) : asset('images/placeholder.png') }}"
+                                                         class="img-thumbnail mb-2"
+                                                         width="200">
+                                                    <input type="file"
+                                                           name="{{ $field['key'] }}"
+                                                           class="d-none">
+                                                </label>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                            @endif
+
+                        @endforeach
+
+                        <div class="text-end mt-5">
+                            <button class="btn btn-success px-4">
+                                💾 Salvar Configurações
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
 @endsection
 @push('scripts')
-    <script>
-        // Submit form
-        jQuery(document).ready(function () {
-            jQuery('#configTemplateForm').submit(function () {
-                var data = new FormData(this);
-                var form = $(this);
+<script>
+$(function () {
 
-                jQuery.ajax({
-                    type: "POST",
-                    data: data,
-                    url: "{{ route('panel.configTemplates.update') }}",
-                    responseType: 'json',
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    beforeSend: function (response) {
-                        displayLoading('show');
-                    },
-                    success: function (response) {
-                        Swal.fire({
-                            title: 'Sucesso!',
-                            text: response,
-                            icon: 'success',
-                            confirmButtonText: 'Confirmar',
-                        });
-                    },
-                    error: function (response) {
-                        var message = '';
-                        $.each(response.responseJSON.errors, function (index, value) {
-                            message += value + '<br>';
-                        });
+    // Adicionar item
+    $('.add-item').on('click', function () {
+        let section = $(this).data('section');
+        let wrapper = $('#' + section + '-wrapper');
+        let index = wrapper.children().length;
 
-                        Swal.fire({
-                            title: 'Erro!',
-                            html: message,
-                            icon: 'error',
-                            confirmButtonText: 'Fechar'
-                        })
-                    },
-                    complete: function (response) {
-                        displayLoading('hide');
-                    }
-                });
+        let html = `
+        <div class="card mb-3 shadow-sm repeatable-item">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-secondary">Item ${index + 1}</span>
+                    <button type="button" class="btn btn-sm btn-outline-danger remove-item">
+                        ➖ Remover
+                    </button>
+                </div>
 
-                return false;
-            });
-        });
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Título da Avaliação</label>
+                    <input type="text" name="${section}[${index}][title]" class="form-control">
+                </div>
 
-        $('input[type="file"]').change(function (event) {
-            previewImage(event);
-        });
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Descrição</label>
+                    <textarea name="${section}[${index}][description]" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+        </div>`;
 
-        function previewImage(event) {
-            var input = event.target;
-            var preview = event.target.previousElementSibling;
+        wrapper.append(html);
+    });
 
-            var reader = new FileReader();
+    // Remover item
+    $(document).on('click', '.remove-item', function () {
+        $(this).closest('.repeatable-item').remove();
+    });
 
-            reader.onload = function() {
-                preview.src = reader.result;
-            };
-
-            if (input.files && input.files[0]) {
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
+});
+</script>
 @endpush
