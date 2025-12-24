@@ -1,26 +1,41 @@
 @php
-$content = json_decode('{
-  "header_title": "Sistema Profissional",
-  "header_subtitle": "Templates dinâmicos com Laravel + JSON",
-  "header_image": "https://via.placeholder.com/1200x400",
+/* ==========================
+| SIMULANDO DADOS DO BANCO
+|==========================*/
 
-  "services": [
-    { "title": "Automação", "description": "Ganhe produtividade automatizando processos." },
-    { "title": "Performance", "description": "Sistema rápido, escalável e seguro." }
-  ],
+$schema = json_decode('{
+  "header": {
+    "title": "Cabeçalho",
+    "fields": [
+      { "type": "text", "key": "header_title", "label": "Título Principal" },
+      { "type": "textarea", "key": "header_subtitle", "label": "Subtítulo" },
+      { "type": "image", "key": "header_image", "label": "Imagem" }
+    ]
+  },
 
-  "reviews": [
-    { "title": "Excelente sistema", "description": "Muito fácil de usar e extremamente flexível. Recomendo para qualquer projeto profissional." },
-    { "title": "Top demais", "description": "Consegui montar páginas dinâmicas sem mexer no código. Sensacional." }
-  ]
+  "services": {
+    "title": "Serviços",
+    "repeatable": true,
+    "fields": [
+      { "type": "text", "key": "title", "label": "Título" },
+      { "type": "textarea", "key": "description", "label": "Descrição" }
+    ]
+  },
+
+  "reviews": {
+    "title": "Avaliações",
+    "repeatable": true,
+    "fields": [
+      { "type": "text", "key": "title", "label": "Título" },
+      { "type": "textarea", "key": "description", "label": "Descrição" }
+    ]
+  }
 }', true);
 @endphp
 
 
 @extends('panel.templates.master')
-
 @section('title', 'Configuração do Template')
-
 @section('content')
 
 <section class="container-fluid">
@@ -34,7 +49,7 @@ $content = json_decode('{
                         @csrf
                         @method('PUT')
 
-                        @foreach(json_decode($schema, true) as $sectionKey => $section)
+                        @foreach($schema as $sectionKey => $section)
 
                             <div class="mt-5 mb-3 border-bottom pb-2">
                                 <h4 class="fw-bold text-primary">
@@ -46,7 +61,7 @@ $content = json_decode('{
                             @if(isset($section['repeatable']) && $section['repeatable'])
 
                                 @php
-                                    $items = $content[$sectionKey] ?? [];
+                                    $items = json_decode($configTemplate->content, true)[$sectionKey] ?? [];
                                 @endphp
 
                                 <div id="{{ $sectionKey }}-wrapper">
