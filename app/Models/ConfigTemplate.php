@@ -15,55 +15,9 @@ class ConfigTemplate extends Model
         'content' => 'array'
     ];
 
-    public function setHeaderImage($value)
-    {
-        if (!is_null($value)) {
-            Storage::delete($this->header_image);
-
-            $upload = $value->store('configTemplates/' . $this->id);
-            $this->attributes['header_image'] = $upload;
-        }
-    }
-
-    public function setServiceImage1($value)
-    {
-        if (!is_null($value)) {
-            Storage::delete($this->service_image_1);
-
-            $upload = $value->store('configTemplates/' . $this->id);
-            $this->attributes['service_image_1'] = $upload;
-        }
-    }
-
-    public function setServiceImage2($value)
-    {
-        if (!is_null($value)) {
-            Storage::delete($this->service_image_2);
-
-            $upload = $value->store('configTemplates/' . $this->id);
-            $this->attributes['service_image_2'] = $upload;
-        }
-    }
-
-    public function setServiceImage3($value)
-    {
-        if (!is_null($value)) {
-            Storage::delete($this->service_image_3);
-
-            $upload = $value->store('configTemplates/' . $this->id);
-            $this->attributes['service_image_3'] = $upload;
-        }
-    }
-
-    public function setAboutImage($value)
-    {
-        if (!is_null($value)) {
-            Storage::delete($this->about_image);
-
-            $upload = $value->store('configTemplates/' . $this->id);
-            $this->attributes['about_image'] = $upload;
-        }
-    }
+    protected $fillable = [
+        'content',
+    ];
 
     public function getUrlHeaderImageAttribute()
     {

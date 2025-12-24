@@ -35,7 +35,7 @@ class ConfigTemplateController extends Controller
         }
 
         Auth::user()->configTemplate()->updateOrCreate(
-            ['user_id' => Auth::id()],
+            [],
             [
                 'content' => $data
             ]
