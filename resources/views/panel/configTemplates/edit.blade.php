@@ -213,7 +213,7 @@ $content = $configTemplate->content ?? [];
 
                                             @elseif($field['type'] === 'image')
                                                 <label class="d-block" style="cursor:pointer">
-                                                    <img src="{{ $value ? Storage::url($value) : asset('images/placeholder.png') }}"
+                                                    <img src="{{ $value ? Storage::url($value) : 'https://i0.wp.com/espaferro.com.br/wp-content/uploads/2024/06/placeholder-103.png?ssl=1' }}"
                                                          class="img-thumbnail mb-2 image-preview"
                                                          width="200">
                                                     <input type="file"
