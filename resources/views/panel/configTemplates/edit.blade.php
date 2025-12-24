@@ -31,11 +31,15 @@ $schema = json_decode('{
     ]
   }
 }', true);
+
+$content = $configTemplate->content;
 @endphp
 
 
 @extends('panel.templates.master')
+
 @section('title', 'Configuração do Template')
+
 @section('content')
 
 <section class="container-fluid">
@@ -61,7 +65,7 @@ $schema = json_decode('{
                             @if(isset($section['repeatable']) && $section['repeatable'])
 
                                 @php
-                                    $items = json_decode($configTemplate->content, true)[$sectionKey] ?? [];
+                                    $items = $content[$sectionKey] ?? [];
                                 @endphp
 
                                 <div id="{{ $sectionKey }}-wrapper">
