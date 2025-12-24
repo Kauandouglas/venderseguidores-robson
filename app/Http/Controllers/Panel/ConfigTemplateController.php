@@ -23,10 +23,14 @@ class ConfigTemplateController extends Controller
     {
         $data = $request->except(['_token', '_method']);
 
-        foreach ($request->files->all() as $key => $file) {
-            if ($file && $file->isValid()) {
-                $path = $file->store('templates', 'public');
-                $data[$key] = $path;
+        foreach ($request->all() as $key => $value) {
+            if ($request->hasFile($key)) {
+                $file = $request->file($key);
+
+                if ($file->isValid()) {
+                    $path = $file->store('templates', 'public');
+                    $data[$key] = $path;
+                }
             }
         }
 
