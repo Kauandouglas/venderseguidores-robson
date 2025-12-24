@@ -149,7 +149,7 @@ $content = $configTemplate->content;
 
                                             @elseif($field['type'] === 'image')
                                                 <label class="d-block" style="cursor:pointer">
-                                                    <img src="{{ $value ? asset($value) : asset('images/placeholder.png') }}"
+                                                    <img src="{{ $value ? Storage::url($value) : asset('images/placeholder.png') }}"
                                                          class="img-thumbnail mb-2 image-preview"
                                                          width="200">
                                                     <input type="file"
