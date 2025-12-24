@@ -6,7 +6,7 @@
                 <div class="col-lg-6 col-xl-5">
                     <div class="text-container">
                         <h1 class="h1-large">{{ $template['header']['title'] ?? '' }}</h1>
-                        <p class="p-large">{!! nl2br(e($data['header']['text'] ?? '')) !!}</p>
+                        <p class="p-large">{!! nl2br(e($template['header']['text'] ?? '')) !!}</p>
                         <a class="btn-solid-lg bg-default-primary border-default-primary color-default-primary-hover"
                            href="#pricing">{{ $template['header']['button_text'] ?? 'Ver Planos' }}</a>
                     </div>
@@ -26,7 +26,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    @foreach($data['services_list'] as $index => $service)
+                    @foreach($template['services_list'] as $index => $service)
                         <div class="card">
                             <div class="card-icon {{ ['blue', 'yellow', 'red'][$index % 3] }}"
                                  style="background: url('{{ $service['image'] ?? asset('images/service-icon.png') }}') center center no-repeat;">
