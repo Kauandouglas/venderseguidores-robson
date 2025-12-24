@@ -192,3 +192,60 @@ $content = $configTemplate->content ?? [];
 </section>
 
 @endsection
+@push('scripts')
+<script>
+$(function () {
+
+    // Adicionar item
+    $('.add-item').on('click', function () {
+        let section = $(this).data('section');
+        let wrapper = $('#' + section + '-wrapper');
+        let index = wrapper.children().length;
+
+        let html = `
+        <div class="card mb-3 shadow-sm repeatable-item">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-secondary">Item ${index + 1}</span>
+                    <button type="button" class="btn btn-sm btn-outline-danger remove-item">
+                        ➖ Remover
+                    </button>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Título da Avaliação</label>
+                    <input type="text" name="${section}[${index}][title]" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Descrição</label>
+                    <textarea name="${section}[${index}][description]" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+        </div>`;
+
+        wrapper.append(html);
+    });
+
+    // Remover item
+    $(document).on('click', '.remove-item', function () {
+        $(this).closest('.repeatable-item').remove();
+    });
+
+    // Pré-visualização de imagem
+    $(document).on('change', '.image-input', function() {
+        const file = this.files[0];
+        const preview = $(this).siblings('.image-preview');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.attr('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+});
+</script>
+@endpush
