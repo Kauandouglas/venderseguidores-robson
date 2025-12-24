@@ -1,5 +1,5 @@
 @php
-$schema = json_decode($template->schema_json, true);
+$schema = $template->schema_json;
 $content = $configTemplate->content ?? [];
 @endphp
 
