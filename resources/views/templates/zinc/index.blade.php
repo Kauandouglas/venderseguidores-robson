@@ -27,7 +27,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    @foreach($template['services'] as $index => $service)
+                    @foreach($template['services'] ?? [] as $index => $service)
                         <div class="card">
                             <div class="card-icon {{ ['blue', 'yellow', 'red'][$index % 3] }}"
      style="background: url('{{ !empty($service['image'])
