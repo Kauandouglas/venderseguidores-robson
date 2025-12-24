@@ -7,9 +7,26 @@ $schema = json_decode('{
   "header": {
     "title": "Cabeçalho",
     "fields": [
-      { "type": "text", "key": "header_title", "label": "Título Principal" },
-      { "type": "textarea", "key": "header_subtitle", "label": "Subtítulo" },
-      { "type": "image", "key": "header_image", "label": "Imagem" }
+      {
+        "type": "text",
+        "key": "title",
+        "label": "Título Principal"
+      },
+      {
+        "type": "textarea",
+        "key": "text",
+        "label": "Texto do Cabeçalho"
+      },
+      {
+        "type": "text",
+        "key": "button_text",
+        "label": "Texto do Botão"
+      },
+      {
+        "type": "image",
+        "key": "image",
+        "label": "Imagem do Cabeçalho"
+      }
     ]
   },
 
@@ -17,20 +34,67 @@ $schema = json_decode('{
     "title": "Serviços",
     "repeatable": true,
     "fields": [
-      { "type": "text", "key": "title", "label": "Título" },
-      { "type": "textarea", "key": "description", "label": "Descrição" }
+      {
+        "type": "image",
+        "key": "image",
+        "label": "Imagem do Serviço"
+      },
+      {
+        "type": "text",
+        "key": "title",
+        "label": "Título do Serviço"
+      },
+      {
+        "type": "textarea",
+        "key": "text",
+        "label": "Descrição do Serviço"
+      }
     ]
   },
 
-  "reviews": {
-    "title": "Avaliações",
-    "repeatable": true,
+  "details": {
+    "title": "Detalhes",
     "fields": [
-      { "type": "text", "key": "title", "label": "Título" },
-      { "type": "textarea", "key": "description", "label": "Descrição" }
+      {
+        "type": "image",
+        "key": "image",
+        "label": "Imagem dos Detalhes"
+      },
+      {
+        "type": "text",
+        "key": "title",
+        "label": "Título dos Detalhes"
+      },
+      {
+        "type": "textarea",
+        "key": "text",
+        "label": "Texto dos Detalhes"
+      },
+      {
+        "type": "text",
+        "key": "button_text",
+        "label": "Texto do Botão"
+      }
+    ]
+  },
+
+  "contact": {
+    "title": "Contato",
+    "fields": [
+      {
+        "type": "text",
+        "key": "title",
+        "label": "Título da Seção"
+      },
+      {
+        "type": "textarea",
+        "key": "text",
+        "label": "Texto de Contato"
+      }
     ]
   }
 }', true);
+
 
 $content = $configTemplate->content ?? [];
 @endphp

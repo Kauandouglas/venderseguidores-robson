@@ -41,7 +41,7 @@ class ConfigTemplateController extends Controller
             ]
         );
 
-        return response()->json('Salvo com sucesso!');
+        return redirect()->back();
     }
 
     public function removeImage(Request $request)
