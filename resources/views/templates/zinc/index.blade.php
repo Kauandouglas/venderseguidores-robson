@@ -15,7 +15,7 @@
                     <div class="image-container">
                         <img class="img-fluid" src="{{ !empty($template['header']['image'])
                                 ? Storage::url($template['header']['image'])
-                                : asset('images/header-image.png') }}"
+                                : asset('template_assets/zinc/images/header-illustration.svg') }}"
                             alt="alternative">
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                             <div class="card-icon {{ ['blue', 'yellow', 'red'][$index % 3] }}"
      style="background: url('{{ !empty($service['image'])
         ? Storage::url($service['image'])
-        : asset('images/service-icon.png') }}') center center no-repeat;">
+        : asset('template_assets/zinc/images/3.png') }}') center center no-repeat;">
 </div>
 
                             <div class="card-body">
@@ -63,7 +63,7 @@
                             src="{{ (!empty($template['details']['image'] ?? null)
                                     && Storage::exists($template['details']['image']))
                                 ? Storage::url($template['details']['image'])
-                                : asset('images/about-image.png') }}"
+                                : asset('template_assets/zinc/images/details-1.svg') }}"
                             alt="alternative">
 
                     </div>
