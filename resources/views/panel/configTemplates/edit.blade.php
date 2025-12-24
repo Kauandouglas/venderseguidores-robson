@@ -32,7 +32,7 @@ $schema = json_decode('{
   }
 }', true);
 
-$content = $configTemplate->content;
+$content = $configTemplate->content ?? [];
 @endphp
 
 
