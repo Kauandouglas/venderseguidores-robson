@@ -39,7 +39,7 @@ class SystemSettingController extends Controller
         } else {
             $template = Template::first();
         }
-        
+
 
         $configTemplate = Cache::rememberForever('configTemplate.' . $user->id, function () use ($user) {
             return $user->configTemplate()->first();
@@ -62,7 +62,8 @@ class SystemSettingController extends Controller
             'cartProductsCount' => $cartProductsCount,
             'userAgentFixed' => $userAgentFixed,
             'ipFixed' => $ipFixed,
-            'conversionTag' => $conversionTag
+            'conversionTag' => $conversionTag,
+            'template' => $configTemplate->content
         ]);
     }
 }
