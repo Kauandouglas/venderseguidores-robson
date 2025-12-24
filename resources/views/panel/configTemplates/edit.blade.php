@@ -1,6 +1,6 @@
 @php
 $schema = $template->schema_json;
-$content = $configTemplate->content ?? [];
+$content = $template->content ?? [];
 @endphp
 
 
