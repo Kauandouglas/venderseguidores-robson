@@ -1,556 +1,1055 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR" data-theme="light">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="{{ $systemSetting->description ?? '' }}">
-    <meta name="keywords" content="{{ $systemSetting->keyword ?? '' }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $systemSetting->title ?? config('template.title') }} - Home</title>
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ $systemSetting->url_favicon ?? '' }}">
-    
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <!-- Mercado Pago -->
-    <script src="https://www.mercadopago.com/v2/security.js" view="home"></script>
-
-    <!-- Custom Styles -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ $systemSetting->url_favicon ?? '' }}">
+    <meta name="title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
+    <meta name="description" content="{{ $systemSetting->description ?? '' }}">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="Portuguese">
+    <meta name="author" content="{{ $systemSetting->title ?? config('template.title') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
+    <meta property="og:description" content="{{ $systemSetting->description ?? '' }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->full() }}">
+    <meta property="og:image" content="{{ Storage::url($systemSetting->logo) }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
+    <meta name="twitter:description" content="{{ $systemSetting->description ?? '' }}">
+    <meta name="twitter:image" content="{{ Storage::url($systemSetting->logo) }}">
+    <link rel="canonical" href="{{ url()->full() }}" />
+    <meta name="keywords" content="{{ $systemSetting->keyword ?? '' }}">
     <style>
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        :root {
-            --primary-color: {{ $systemSetting->primary_color ?? '#9333ea' }};
-            --secondary-color: {{ $systemSetting->secondary_color ?? '#ec4899' }};
-        }
+ /* ============================================
+   VARIÁVEIS DE TEMA
+   ============================================ */
+:root {
+    /* Tema Escuro (padrão) */
+    --bg-primary: linear-gradient(135deg, #0a1628 0%, #1a2332 50%, #2d1b4e 100%);
+    --bg-card: rgba(15, 23, 42, 0.6);
+    --bg-card-hover: rgba(15, 23, 42, 0.95);
+    --bg-platform: rgba(30, 41, 59, 0.8);
+    --bg-platform-hover: rgba(30, 41, 59, 0.95);
+    --bg-package: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    --text-primary: #fff;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border-color: rgba(71, 85, 105, 0.3);
+    --border-active: #3b82f6;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(59, 130, 246, 0.3);
+    --star-color: #fff;
+    --star-opacity: 0.3;
+}
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-            border-radius: 6px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            opacity: 0.8;
-        }
+[data-theme="light"] {
+    /* Tema Claro */
+    --bg-primary: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 50%, #f5f0ff 100%);
+    --bg-card: rgba(81, 119, 246, 0.21);
+    --bg-card-hover: rgba(255, 255, 255, 1);
+    --bg-platform: rgba(248, 250, 252, 0.95);
+    --bg-platform-hover: rgba(241, 245, 249, 1);
+    --bg-package: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(241, 245, 249, 0.95));
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --border-color: rgba(203, 213, 225, 0.5);
+    --border-active: #3b82f6;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(59, 130, 246, 0.2);
+    --star-color: #cbd5e1;
+    --star-opacity: 0.2;
+}
 
-        /* Loading Spinner */
-        #displayLoading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
+/* ============================================
+   RESET E ESTILOS BÁSICOS
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        #displayLoading.d-none {
-            display: none !important;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+}
 
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-            border: 4px solid #f3f4f6;
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+/* ============================================
+   BOTÃO DE ALTERNÂNCIA DE TEMA
+   ============================================ */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10001;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+.theme-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--border-active);
+}
 
-        /* WhatsApp Float Button */
-        #myBtn {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            z-index: 998;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 32px;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.theme-toggle i {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    transition: transform 0.3s ease;
+}
 
-        #myBtn:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6);
-        }
+.theme-toggle:hover i {
+    transform: rotate(20deg);
+}
 
-        #myBtn:active {
-            transform: scale(0.95);
-        }
+/* ============================================
+   ESTRELAS DE FUNDO
+   ============================================ */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
 
-        /* Pulse Animation for WhatsApp */
-        #myBtn::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #25D366;
-            animation: pulse-whatsapp 2s infinite;
-            z-index: -1;
-        }
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--star-color);
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+}
 
-        @keyframes pulse-whatsapp {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.3);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0;
-            }
-        }
+@keyframes twinkle {
+    0%, 100% { opacity: var(--star-opacity); }
+    50% { opacity: 1; }
+}
 
-        /* Smooth Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+/* ============================================
+   CONTROLE DE PÁGINAS
+   ============================================ */
+.page {
+    display: none;
+}
 
-        .animate-fadeIn {
-            animation: fadeIn 0.6s ease-out;
-        }
+.page.active {
+    display: block;
+}
 
-        /* Modal Improvements */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1050;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-        }
+/* ============================================
+   CONTAINER PRINCIPAL
+   ============================================ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
 
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+h1 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #4a9eff, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-        .modal-dialog {
-            width: 600px;
-            max-width: 95%;
-            margin: auto;
-        }
+.subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 60px;
+    font-size: 1.1rem;
+}
 
-        .modal-content {
-            background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 0.3s ease-out;
-            overflow: hidden;
-        }
+/* ============================================
+   PÁGINA 1: SELEÇÃO DE PLATAFORMA
+   ============================================ */
+.platform-container {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 50px;
+    border-top: 3px solid;
+    border-image: linear-gradient(90deg, #3b82f6, #a78bfa) 1;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    transition: all 0.3s ease;
+}
 
-        .modal-header {
-            padding: 1.5rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-        }
+.platform-container h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
 
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0;
-        }
+.platform-description {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+}
 
-        .btn-close {
-            background: white;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            cursor: pointer;
-            opacity: 0.9;
-            transition: all 0.3s;
-        }
+.platforms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
 
-        .btn-close:hover {
-            opacity: 1;
-            transform: rotate(90deg);
-        }
+.platform-item {
+    background: var(--bg-platform);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 15px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
 
-        .modal-body {
-            padding: 2rem 1.5rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #4b5563;
-        }
+.platform-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-active);
+    background: var(--bg-platform-hover);
+    box-shadow: 0 10px 30px var(--shadow-hover);
+}
 
-        .modal-footer {
-            padding: 1.5rem;
-            border: none;
-            background: #f9fafb;
-        }
+.platform-item.selected {
+    border-color: var(--border-active);
+    background: rgba(59, 130, 246, 0.2);
+}
 
-        /* Custom Button Styles */
-        .btn-primary-custom {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 0.875rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
-        }
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #8b5cf6, #6366f1);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
 
-        .btn-primary-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(147, 51, 234, 0.4);
-        }
+.platform-icon {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
 
-        @if(isset($systemSetting->color_default) && $systemSetting->color_default == 0)
-        /* Dynamic Color Classes */
-        .bg-default-primary {
-            background-color: {{ $systemSetting->primary_color }} !important;
-        }
+.platform-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
 
-        .bg-default-primary:hover {
-            background-color: transparent !important;
-        }
+.next-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 15px 50px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
 
-        .border-default-primary {
-            border-color: {{ $systemSetting->primary_color }} !important;
-        }
+.next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+}
 
-        .text-default-primary {
-            color: {{ $systemSetting->primary_color }} !important;
-        }
+.footer-text {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 30px;
+    font-size: 0.95rem;
+}
 
-        .text-default-primary-hover:hover {
-            color: {{ $systemSetting->primary_color }} !important;
-        }
+/* ============================================
+   PÁGINA 2: CATEGORIAS E PACOTES
+   ============================================ */
+.tabs {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    transition: all 0.3s ease;
+}
 
-        /* Secondary Colors */
-        .bg-default-secondary {
-            background-color: {{ $systemSetting->secondary_color }} !important;
-        }
+.categories-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
 
-        .bg-default-secondary:hover {
-            background-color: transparent !important;
-        }
+.tab-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
 
-        .border-default-secondary {
-            border-color: {{ $systemSetting->secondary_color }} !important;
-        }
+.tab-btn {
+    padding: 12px 24px;
+    background: var(--bg-platform);
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
 
-        .text-default-secondary {
-            color: {{ $systemSetting->secondary_color }} !important;
-        }
+.tab-btn.active {
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    color: #fff;
+    border-color: transparent;
+}
 
-        .text-default-secondary-hover:hover {
-            color: {{ $systemSetting->secondary_color }} !important;
-        }
+.tab-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(59, 130, 246, 0.3);
+    color: var(--text-primary);
+}
 
-        .active {
-            color: {{ $systemSetting->secondary_color }} !important;
-        }
+.tab-content {
+    display: none;
+}
 
-        /* Purchase Button */
-        .btn-purchase-reg {
-            background-color: {{ $systemSetting->secondary_color }} !important;
-            border: 2px solid {{ $systemSetting->secondary_color }} !important;
-            color: #fff !important;
-            padding: 0.875rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+.tab-content.active {
+    display: block;
+}
 
-        .btn-purchase-reg:hover {
-            background-color: #fff !important;
-            color: {{ $systemSetting->secondary_color }} !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+.tab-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
 
-        .nav-fill {
-            background-color: {{ $systemSetting->primary_color }} !important;
-        }
+.tab-description {
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
 
-        .h2-heading span {
-            background-color: {{ $systemSetting->primary_color }} !important;
-            color: #fff;
-            border: 2px solid {{ $systemSetting->secondary_color }} !important;
-        }
-        @endif
+.tab-description .check {
+    color: #10b981;
+    margin-right: 5px;
+}
 
-        /* Tailwind Config Extension */
-        @layer utilities {
-            .text-balance {
-                text-wrap: balance;
-            }
-        }
+.packages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.package-card {
+    background: var(--bg-package);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-active);
+    box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.badge {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff;
+    padding: 5px 40px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    transform: rotate(45deg);
+}
+
+.package-amount {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.package-label {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.package-price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+/* ============================================
+   PACOTE DESTACADO
+   ============================================ */
+.package-card.highlighted {
+    border: 3px solid #ffc107;
+    transform: scale(1.08);
+    box-shadow: 0 20px 50px rgba(255, 193, 7, 0.6);
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(30, 41, 59, 0.95));
+    z-index: 10;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+[data-theme="light"] .package-card.highlighted {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(248, 250, 252, 0.95));
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 20px 50px rgba(255, 193, 7, 0.6);
+    }
+    50% {
+        box-shadow: 0 25px 60px rgba(255, 193, 7, 0.8);
+    }
+}
+
+.package-card.highlighted:hover {
+    transform: scale(1.1) translateY(-8px);
+    border-color: #ff9800;
+}
+
+.highlight-badge {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+    color: #000;
+    padding: 8px 29px;
+    border-radius: 50px;
+    font-size: 8px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    box-shadow: 0 8px 20px rgba(255, 193, 7, 0.6);
+    text-transform: uppercase;
+    animation: badge-float 2s ease-in-out infinite;
+    width: 180px;
+    white-space: nowrap;
+}
+
+@keyframes badge-float {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+.highlight-badge::before {
+    content: '⭐';
+    margin-right: 5px;
+}
+
+.highlight-badge::after {
+    content: '⭐';
+    margin-left: 5px;
+}
+
+/* ============================================
+   BOTÃO VOLTAR
+   ============================================ */
+.voltar-btn {
+    padding: 12px 25px;
+    background: var(--bg-platform);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: 0.3s;
+    font-size: 1rem;
+}
+
+.voltar-btn:hover {
+    background: var(--bg-platform-hover);
+    border-color: var(--border-active);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   SEÇÃO DE VÍDEO
+   ============================================ */
+.video-section {
+    margin-top: 0px;
+    padding: 60px 20px;
+}
+
+.video-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    box-shadow: 0 10px 40px var(--shadow-color);
+}
+
+/* ============================================
+   SEÇÃO DE AVALIAÇÕES
+   ============================================ */
+.testimonials-section {
+    padding: 40px 0;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.testimonial-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.avatar-wrapper {
+    position: relative;
+}
+
+.avatar-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(147, 51, 234, 0.3);
+}
+
+.star-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.user-role {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.rating {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 18px;
+    font-size: 1rem;
+    color: #fbbf24;
+}
+
+.quote-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.quote-icon {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    font-size: 2rem;
+    color: rgba(147, 51, 234, 0.2);
+}
+
+.testimonial-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9rem;
+    padding-left: 15px;
+}
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 25px;
+    color: #10b981;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.verified-badge i {
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   NOTIFICAÇÕES DE COMPRAS
+   ============================================ */
+#notificationsContainer {
+    position: fixed;
+    top: 20px;
+    left: 90px;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.notification-popup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    margin-bottom: 10px;
+    min-width: 280px;
+    max-width: 320px;
+    animation: slideInLeft 0.5s ease-out;
+    pointer-events: auto;
+    border-left: 4px solid #8b5cf6;
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .notification-popup {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-popup.fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        transform: translateX(-400px);
+        opacity: 0;
+    }
+}
+
+.notification-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.notification-action {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.notification-time {
+    color: var(--text-muted);
+    font-size: 11px;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.notification-close:hover {
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   BOTÃO WHATSAPP
+   ============================================ */
+.whatsapp-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s;
+    z-index: 9999;
+    text-decoration: none;
+}
+
+.whatsapp-btn:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-icon {
+    font-size: 2rem;
+    color: #fff;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 21px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .package-amount {
+        font-size: 2.5rem;
+    }
+
+    .packages {
+        grid-template-columns: 1fr;
+    }
+
+    .platforms {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .platform-container {
+        padding: 10px 20px;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonial-text {
+        font-size: 0.85rem;
+    }
+
+    .user-name {
+        font-size: 1rem;
+    }
+
+    .testimonial-card {
+        padding: 25px;
+    }
+
+    #notificationsContainer {
+        left: 10px;
+        right: 10px;
+        top: 80px;
+    }
+
+    .notification-popup {
+        min-width: auto;
+        max-width: calc(100vw - 20px);
+    }
+
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        left: 15px;
+    }
+
+    .theme-toggle i {
+        font-size: 1.1rem;
+    }
+}
+
+/* ============================================
+   ESTILOS DO FAQ
+   ============================================ */
+.faq-section {
+    position: relative;
+    z-index: 1;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--border-active);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.faq-question {
+    width: 100%;
+    padding: 20px 25px;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    gap: 15px;
+}
+
+.faq-question:hover {
+    color: var(--border-active);
+}
+
+.faq-question span {
+    flex: 1;
+}
+
+.faq-icon {
+    color: var(--border-active);
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 25px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 25px 20px 25px;
+}
+
+.faq-answer p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .faq-question {
+        padding: 18px 20px;
+        font-size: 0.95rem;
+    }
+
+    .faq-answer {
+        padding: 0 20px;
+    }
+
+    .faq-item.active .faq-answer {
+        padding: 0 20px 18px 20px;
+    }
+
+    .faq-answer p {
+        font-size: 0.9rem;
+    }
+
+    .faq-contact h3 {
+        font-size: 1.3rem;
+    }
+
+    .faq-contact a {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
     </style>
 
-    <!-- Original CSS (if needed for compatibility) -->
-    <link href="{{ asset(mix('template_assets/zinc/css/style.css')) }}" rel="stylesheet">
-
-    <!-- Custom Code from Settings -->
     {!! $systemSetting->code ?? '' !!}
 
-    <!-- Google Ads Pixel -->
-    @if(!empty($conversionTag->pixel_google_ads))
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $conversionTag->pixel_google_ads }}"></script>
+ @if(!empty($conversionTag->pixel_google_ads))
+        <script async
+                src="https://www.googletagmanager.com/gtag/js?id={{ $conversionTag->pixel_google_ads }}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
             gtag('js', new Date());
+
             gtag('config', '{{ $conversionTag->pixel_google_ads }}');
         </script>
     @endif
 
-    <!-- Google Analytics -->
     @if(!empty($conversionTag->pixel_analytics))
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $conversionTag->pixel_analytics }}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+
             gtag('config', '{{ $conversionTag->pixel_analytics }}');
         </script>
     @endif
-
-    @stack('styles')
 </head>
+<body>
 
-<body class="antialiased bg-gray-50" data-bs-spy="scroll" data-bs-target="#navbarExample">
-    <!-- Loading Spinner -->
-    <div id="displayLoading" class="d-none">
-        <div class="flex flex-col items-center gap-4">
-            <div class="spinner-border" role="status"></div>
-            <span class="text-gray-600 font-medium">Carregando...</span>
-        </div>
-    </div>
+<!-- BOTÃO WHATSAPP FLUTUANTE -->
+<a href="https://wa.me/55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}" target="_blank"
+   style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      text-decoration: none;
+      z-index: 9999;
+   " target="_blank">
+   <i class="fab fa-whatsapp"></i>
+</a>
 
-    <!-- Header -->
-    @include('templates.modern.includes.header')
+ <button class="theme-toggle" id="themeToggle" title="Alternar Tema">
+    <i class="fas fa-moon" id="themeIcon"></i>
+</button>
 
-    <!-- Main Content -->
-    <main class="min-h-screen">
-        @yield('content')
-    </main>
 
-    <!-- Footer -->
-    @include('templates.modern.includes.footer')
+<!-- Container de Notificações -->
+<div id="notificationsContainer"></div>
+<div class="stars" id="stars"></div>
 
-    <!-- Notification Modal -->
-    @if(isset($systemSetting->notify_popup_status) && $systemSetting->notify_popup_status)
-        <div class="modal fade" id="alertModalWhatsapp" data-backdrop="static" data-keyboard="false" tabindex="-1"
-             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            {{ $systemSetting->notify_popup_title }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        {{ $systemSetting->notify_popup_description }}
-                    </div>
-                    <div class="modal-footer">
-                        <a target="_blank" href="{{ $systemSetting->notify_popup_url }}" rel="noopener noreferrer">
-                            <button style="background-color: {{ $systemSetting->notify_popup_button_color ?? 'var(--primary-color)' }}"
-                                    id="buttonGroup"
-                                    type="button" 
-                                    class="btn-primary-custom">
-                                {{ $systemSetting->notify_popup_button_name }}
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset(mix('template_assets/zinc/js/scripts.js')) }}"></script>
+@yield('content')
 
-    <script>
-        // CSRF Token Setup
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-        // Mobile Menu Toggle
-        $('.dropdown-item, #navbarsExampleDefault .bg-default-secondary').click(function () {
-            const offcanvas = document.querySelector(".offcanvas-collapse");
-            if (offcanvas) {
-                offcanvas.classList.toggle("open");
-            }
-        });
-
-        // Smooth Scroll Enhancement
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#') return;
-                
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Scroll to Top on Page Load
-        window.addEventListener('load', function() {
-            window.scrollTo(0, 0);
-        });
-
-        // Add Animation on Scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const fadeInObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fadeIn');
-                    fadeInObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.card, .group, section > div').forEach(el => {
-            fadeInObserver.observe(el);
-        });
-
-        // Enhanced SweetAlert2 Defaults
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-
-        // Custom SweetAlert2 Theme
-        window.Swal = Swal.mixin({
-            customClass: {
-                popup: 'rounded-2xl shadow-2xl',
-                title: 'text-2xl font-bold',
-                confirmButton: 'btn-primary-custom px-6 py-3',
-                cancelButton: 'bg-gray-200 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-gray-300 transition-all'
-            },
-            buttonsStyling: false
-        });
-    </script>
-
-    <!-- Popup Modal Script -->
-    @if(isset($systemSetting->notify_popup_status) && $systemSetting->notify_popup_status)
-        <script>
-            $(function () {
-                const modalKey = 'modalAlertdx{{ $systemSetting->id }}';
-                
-                if (localStorage.getItem(modalKey) !== "open") {
-                    setTimeout(() => {
-                        $('#alertModalWhatsapp').addClass('show');
-                    }, 500);
-                }
-
-                $('#buttonGroup, .btn-close').on('click', function () {
-                    localStorage.setItem(modalKey, 'open');
-                    $('#alertModalWhatsapp').removeClass('show');
-                });
-
-                // Close modal on backdrop click
-                $('#alertModalWhatsapp').on('click', function(e) {
-                    if (e.target === this) {
-                        localStorage.setItem(modalKey, 'open');
-                        $(this).removeClass('show');
-                    }
-                });
-
-                // Close modal on ESC key
-                $(document).on('keydown', function(e) {
-                    if (e.key === 'Escape' && $('#alertModalWhatsapp').hasClass('show')) {
-                        localStorage.setItem(modalKey, 'open');
-                        $('#alertModalWhatsapp').removeClass('show');
-                    }
-                });
-            });
-        </script>
-    @endif
-
-    @stack('scripts')
+    $('.dropdown-item, #navbarsExampleDefault .bg-default-secondary').click(function () {
+        document.querySelector(".offcanvas-collapse").classList.toggle("open")
+    })
+</script>
+@stack('scripts')
 </body>
 </html>
