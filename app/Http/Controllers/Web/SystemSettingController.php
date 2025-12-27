@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+
 
 class SystemSettingController extends Controller
 {
@@ -67,9 +69,9 @@ class SystemSettingController extends Controller
         $servicesData[$network] = ['categories' => []];
 
         foreach ($cats as $category) {
-            $servicesData[$network]['categories'][$category->slug] = [
+            $servicesData[$network]['categories'][Str::slug($category->name . '-' . $category->id)] = [
                 'name' => $category->name,
-                'slug' => $category->slug,
+                'slug' => Str::slug($category->name . '-' . $category->id),
                 'description' => $category->description,
                 'packages' => $category->services->map(function($service) {
                     return [
