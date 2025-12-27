@@ -504,7 +504,7 @@ themeToggle.addEventListener('click', toggleTheme);
     // ============================================
     // ESTRUTURA DE DADOS - Fácil para PHP
     // ============================================
-    const servicesData = @json($servicesData);
+    const servicesData = [];
     const orderRoute = "https://turbinamais.com/finalizar-pedido/SLUG_PLACEHOLDER/SERVICE_ID_PLACEHOLDER";
 
     // ============================================
