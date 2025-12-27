@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Cache;
 
 class SystemSettingController extends Controller
 {
-
     public function template(Request $request)
     {
         $user = User::users()->where('domain', $request->domain)->firstOrFail();
@@ -25,6 +24,7 @@ class SystemSettingController extends Controller
 
         $payment = $user->payment()->first();
 
+        // Buscamos as categorias e serviços com cache
         $categories = Cache::rememberForever('systemSettingCategories.' . $user->id, function () use ($user) {
             return $user->categories()->with(['services' => function ($query) {
                 $query->oldest('quantity')->active();
@@ -55,17 +55,33 @@ class SystemSettingController extends Controller
 
         $cartProductsCount = CartProduct::where('hash', $hash)->count();
 
+        // ---------------------------------------------------------
+        // GERAÇÃO DO JSON PARA O FRONT-END (servicesData)
+        // ---------------------------------------------------------
         $servicesData = [];
 
         foreach ($categories as $category) {
             foreach ($category->services as $service) {
-                // Normaliza a chave da rede social para bater com o data-platform do HTML
-                $networkKey = strtolower(trim($service->network));
+                // Normalização da rede social
+                $networkRaw = strtolower(trim($service->network));
+
+                // Mapeamento simples para garantir compatibilidade com os IDs do front-end
+                $networkKey = match(true) {
+                    str_contains($networkRaw, 'insta') => 'instagram',
+                    str_contains($networkRaw, 'tik')   => 'tiktok',
+                    str_contains($networkRaw, 'you')   => 'youtube',
+                    str_contains($networkRaw, 'kwai')  => 'kwai',
+                    str_contains($networkRaw, 'face')  => 'facebook',
+                    str_contains($networkRaw, 'twit')  => 'twitter',
+                    str_contains($networkRaw, 'threa') => 'threads',
+                    default => $networkRaw,
+                };
 
                 if (empty($networkKey)) {
                     continue;
                 }
 
+                // Inicializa a rede se não existir
                 if (!isset($servicesData[$networkKey])) {
                     $servicesData[$networkKey] = [
                         'name' => ucfirst($networkKey),
@@ -73,44 +89,43 @@ class SystemSettingController extends Controller
                     ];
                 }
 
-                // Usamos um slug consistente para a categoria
+                // Slug único para a categoria (Nome + ID para evitar conflitos)
                 $categoryKey = Str::slug($category->name . '-' . $category->id);
 
+                // Inicializa a categoria dentro da rede se não existir
                 if (!isset($servicesData[$networkKey]['categories'][$categoryKey])) {
                     $servicesData[$networkKey]['categories'][$categoryKey] = [
-                        'name' => $category->name,
-                        'description' => $category->description ?? '',
-                        'slug' => $categoryKey,
-                        'packages' => []
+                        'name'        => $category->name,
+                        'description' => $category->description ?? 'Selecione o melhor pacote para você.',
+                        'slug'        => $categoryKey,
+                        'packages'    => []
                     ];
                 }
 
-                // Adicionamos os campos necessários para o JavaScript
+                // Adiciona o pacote (serviço)
                 $servicesData[$networkKey]['categories'][$categoryKey]['packages'][] = [
                     'id'          => $service->id,
-                    'url'         => $service->id,
-                    'quantity'    => $service->quantity, // Adicionado para bater com data-amount="${pkg.quantity}"
-                    'amount'      => number_format($service->quantity, 0, '', '.'), // Formatado para exibição
+                    'quantity'    => $service->quantity,
+                    'amount'      => number_format($service->quantity, 0, '', '.'),
                     'price'       => 'R$ ' . number_format($service->price, 2, ',', '.'),
-                    'discount'    => $service->discount ?? null, // Garantindo que a chave exista
+                    'discount'    => $service->discount > 0 ? $service->discount . '% OFF' : null,
                     'highlighted' => (bool) $service->highlighted,
                 ];
             }
         }
-        // -----------------------------
 
         return view('templates.' . $template->path . '.index', [
-            'categories' => $categories,
-            'systemSetting' => $systemSetting,
-            'user' => $user,
-            'configTemplate' => $configTemplate,
-            'payment' => $payment,
+            'categories'        => $categories,
+            'systemSetting'     => $systemSetting,
+            'user'              => $user,
+            'configTemplate'    => $configTemplate,
+            'payment'           => $payment,
             'cartProductsCount' => $cartProductsCount,
-            'userAgentFixed' => $userAgentFixed,
-            'ipFixed' => $ipFixed,
-            'conversionTag' => $conversionTag,
-            'template' => $configTemplate->content ?? [],
-            'servicesData' => $servicesData,
+            'userAgentFixed'    => $userAgentFixed,
+            'ipFixed'           => $ipFixed,
+            'conversionTag'     => $conversionTag,
+            'template'          => $configTemplate->content ?? [],
+            'servicesData'      => $servicesData,
         ]);
     }
 }
