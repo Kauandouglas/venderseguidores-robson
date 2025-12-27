@@ -72,7 +72,7 @@ class SystemSettingController extends Controller
             $servicesData[$network]['categories'][Str::slug($category->name . '-' . $category->id)] = [
                 'name' => $category->name,
                 'slug' => Str::slug($category->name . '-' . $category->id),
-                'description' => $category->description,
+                'description' => 'Comprar Serviço - ' . $category->name,
                 'packages' => $category->services->map(function($service) {
                     return [
                         'id' => $service->id,
