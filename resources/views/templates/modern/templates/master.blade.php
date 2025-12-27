@@ -1,29 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="light">
 <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{-- Título da página --}}
     <title>{{ $systemSetting->title ?? config('template.title') }} - Home</title>
+
+    {{-- Font Awesome --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="{{ $systemSetting->url_favicon ?? '' }}">
+
+    {{-- Favicon --}}
+    <link rel="icon" type="image/x-icon" href="{{ $systemSetting->url_favicon ?? asset('images/default-favicon.ico') }}">
+
+    {{-- Meta básicos --}}
     <meta name="title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
-    <meta name="description" content="{{ $systemSetting->description ?? '' }}">
+    <meta name="description" content="{{ $systemSetting->description ?? config('template.description') ?? '' }}">
+    <meta name="keywords" content="{{ $systemSetting->keyword ?? '' }}">
     <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="Portuguese">
     <meta name="author" content="{{ $systemSetting->title ?? config('template.title') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{-- Open Graph --}}
     <meta property="og:title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
     <meta property="og:description" content="{{ $systemSetting->description ?? '' }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->full() }}">
-    <meta property="og:image" content="{{ Storage::url($systemSetting->logo) }}">
+    <meta property="og:image" content="{{ $systemSetting?->logo ? Storage::url($systemSetting->logo) : asset('images/default-logo.png') }}">
+
+    {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
     <meta name="twitter:description" content="{{ $systemSetting->description ?? '' }}">
-    <meta name="twitter:image" content="{{ Storage::url($systemSetting->logo) }}">
+    <meta name="twitter:image" content="{{ $systemSetting?->logo ? Storage::url($systemSetting->logo) : asset('images/default-logo.png') }}">
+
+    {{-- Canonical --}}
     <link rel="canonical" href="{{ url()->full() }}" />
-    <meta name="keywords" content="{{ $systemSetting->keyword ?? '' }}">
+
     <style>
  /* ============================================
    VARIÁVEIS DE TEMA
