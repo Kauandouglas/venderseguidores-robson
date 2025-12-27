@@ -12,26 +12,14 @@
             <p class="platform-description">Escolha a rede para impulsionar seu perfil.</p>
 
             <div class="platforms">
-                <div class="platform-item selected" data-platform="instagram">
-                    <div class="popular-badge">Popular</div>
-                    <div class="platform-icon"><i class="fa fa-brands fa-instagram"></i></div>
-                    <div class="platform-name">Instagram</div>
-                </div>
 
-                <div class="platform-item" data-platform="tiktok">
-                    <div class="platform-icon"><i class="fa fa-brands fa-tiktok"></i></div>
-                    <div class="platform-name">TikTok</div>
-                </div>
-
-                <div class="platform-item" data-platform="youtube">
-                    <div class="platform-icon"><i class="fa fa-brands fa-youtube"></i></div>
-                    <div class="platform-name">YouTube</div>
-                </div>
-
-                <div class="platform-item" data-platform="kwai">
-                    <div class="platform-icon"><i class="fa fa-solid fa-video"></i></div>
-                    <div class="platform-name">Kwai</div>
-                </div>
+                @foreach ($sociais as $social)
+                    <div class="platform-item selected" data-platform="{{ $social->social_network }}">
+                        {{-- <div class="popular-badge">Popular</div> --}}
+                        <div class="platform-icon"><i class="fa fa-brands fa-{{ $social->social_network }}"></i></div>
+                        <div class="platform-name">{{ $social->social_network }}</div>
+                    </div>
+                @endforeach
             </div>
 
             <button class="next-btn" id="btn-next-categories">Próximo →</button>
