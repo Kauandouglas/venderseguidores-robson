@@ -14,7 +14,7 @@
             <div class="platforms">
 
                 @foreach ($sociais as $network => $categorias)
-                    <div class="platform-item selected" data-platform="{{ $network }}">
+                    <div class="platform-item" data-platform="{{ $network }}">
                         <div class="platform-icon"><i class="fa fa-brands fa-{{ $network }}"></i></div>
                         <div class="platform-name">{{ $network }}</div>
                     </div>
