@@ -13,13 +13,13 @@
 
             <div class="platforms">
 
-                @foreach ($sociais as $social)
-                    <div class="platform-item selected" data-platform="{{ $social->social_network }}">
-                        {{-- <div class="popular-badge">Popular</div> --}}
-                        <div class="platform-icon"><i class="fa fa-brands fa-{{ $social->social_network }}"></i></div>
-                        <div class="platform-name">{{ $social->social_network }}</div>
+                @foreach ($sociais as $network => $categorias)
+                    <div class="platform-item selected" data-platform="{{ $network }}">
+                        <div class="platform-icon"><i class="fa fa-brands fa-{{ $network }}"></i></div>
+                        <div class="platform-name">{{ $network }}</div>
                     </div>
                 @endforeach
+
             </div>
 
             <button class="next-btn" id="btn-next-categories">Próximo →</button>
