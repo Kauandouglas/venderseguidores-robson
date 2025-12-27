@@ -55,12 +55,16 @@ class SystemSettingController extends Controller
 
         $cartProductsCount = CartProduct::where('hash', $hash)->count();
 
-        // -----------------------------
-        // Aqui geramos o JSON do servicesData
         $servicesData = [];
+
         foreach ($categories as $category) {
             foreach ($category->services as $service) {
-                $networkKey = strtolower($service->network); // ou ajuste para o campo correto
+                // Normaliza a chave da rede social para bater com o data-platform do HTML
+                $networkKey = strtolower(trim($service->network));
+
+                if (empty($networkKey)) {
+                    continue;
+                }
 
                 if (!isset($servicesData[$networkKey])) {
                     $servicesData[$networkKey] = [
@@ -69,6 +73,7 @@ class SystemSettingController extends Controller
                     ];
                 }
 
+                // Usamos um slug consistente para a categoria
                 $categoryKey = Str::slug($category->name . '-' . $category->id);
 
                 if (!isset($servicesData[$networkKey]['categories'][$categoryKey])) {
@@ -80,12 +85,14 @@ class SystemSettingController extends Controller
                     ];
                 }
 
+                // Adicionamos os campos necessários para o JavaScript
                 $servicesData[$networkKey]['categories'][$categoryKey]['packages'][] = [
-                    'id' => $service->id,
-                    'url' => $service->id,
-                    'amount' => (string) $service->quantity,
-                    'price' => 'R$ ' . number_format($service->price, 2, ',', '.'),
-                    'discount' => null,
+                    'id'          => $service->id,
+                    'url'         => $service->id,
+                    'quantity'    => $service->quantity, // Adicionado para bater com data-amount="${pkg.quantity}"
+                    'amount'      => number_format($service->quantity, 0, '', '.'), // Formatado para exibição
+                    'price'       => 'R$ ' . number_format($service->price, 2, ',', '.'),
+                    'discount'    => $service->discount ?? null, // Garantindo que a chave exista
                     'highlighted' => (bool) $service->highlighted,
                 ];
             }
