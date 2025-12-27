@@ -72,10 +72,6 @@
 <!-- SEÇÃO DE VÍDEO -->
 <section class="video-section" style="margin-top: 0px; padding: 60px 20px;">
     <div class="container">
-        <!--        <h1>Impulsione seu perfil hoje</h1>-->
-        <!--<p class="subtitle">Crescimento rápido, seguro e totalmente sigiloso.<br>e eficazes.</p>-->
-
-
         <div class="video-container" style="
             max-width: 900px;
             margin: 0 auto;
@@ -520,7 +516,7 @@ themeToggle.addEventListener('click', toggleTheme);
     // ============================================
     // ESTRUTURA DE DADOS - Fácil para PHP
     // ============================================
-    const servicesData = {"instagram":{"name":"Instagram","categories":{"seguidores-brasileiros-1":{"name":"Seguidores Brasileiros","description":"Aumente sua visibilidade com seguidores brasileiros com entrega rápida e garantida!","slug":"seguidores-brasileiros-1","packages":[{"id":1,"url":1,"amount":"100","price":"R$3,50","discount":null,"highlighted":false}]},"curtidas-brasileiras-1":{"name":"Curtidas Brasileiras","description":"Aumente o engajamento com curtidas brasileiras reais!","slug":"curtidas-brasileiras-1","packages":[]},"visualizacoes-no-story-1":{"name":"Visualizações no Story","description":"Aumente o alcance dos seus stories!","slug":"visualizacoes-no-story-1","packages":[]},"visualizacoes-no-reels-1":{"name":"Visualizações no Reels","description":"Impulsione seus reels com visualizações reais!","slug":"visualizacoes-no-reels-1","packages":[]}}},"tiktok":{"name":"TikTok","categories":{"seguidores-tiktok-2":{"name":"Seguidores TikTok","description":"Cresça sua audiência no TikTok com seguidores reais!","slug":"seguidores-tiktok-2","packages":[]},"curtidas-tiktok-2":{"name":"Curtidas TikTok","description":"Mais curtidas nos seus vídeos do TikTok!","slug":"curtidas-tiktok-2","packages":[]},"visualizacoes-tiktok-2":{"name":"Visualizações TikTok","description":"Aumente as visualizações dos seus vídeos!","slug":"visualizacoes-tiktok-2","packages":[]}}},"twitch":{"name":"Twitch","categories":{"seguidores-twitch-3":{"name":"Seguidores Twitch","description":"Cresça sua comunidade na Twitch!","slug":"seguidores-twitch-3","packages":[]},"espectadores-live-3":{"name":"Espectadores Live","description":"Mais viewers nas suas transmissões!","slug":"espectadores-live-3","packages":[]}}},"youtube":{"name":"YouTube","categories":{"inscritos-youtube-4":{"name":"Inscritos YouTube","description":"Aumente seus inscritos no YouTube!","slug":"inscritos-youtube-4","packages":[]},"visualizacoes-youtube-4":{"name":"Visualizações YouTube","description":"Mais views nos seus vídeos!","slug":"visualizacoes-youtube-4","packages":[]},"likes-youtube-4":{"name":"Likes YouTube","description":"Mais likes nos seus vídeos!","slug":"likes-youtube-4","packages":[]}}}};
+    const servicesData = @json($servicesData);
     const orderRoute = "https://turbinamais.com/finalizar-pedido/SLUG_PLACEHOLDER/SERVICE_ID_PLACEHOLDER";
 
     // ============================================

@@ -1023,7 +1023,7 @@ h1 {
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       text-decoration: none;
       z-index: 9999;
-   " target="_blank">
+   ">
    <i class="fab fa-whatsapp"></i>
 </a>
 

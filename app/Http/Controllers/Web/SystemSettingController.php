@@ -8,10 +8,12 @@ use App\Models\Template;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 
 class SystemSettingController extends Controller
 {
+
     public function template(Request $request)
     {
         $user = User::users()->where('domain', $request->domain)->firstOrFail();
@@ -28,6 +30,7 @@ class SystemSettingController extends Controller
                 $query->oldest('quantity')->active();
             }])->active()->oldest('order')->get();
         });
+
         $systemSetting = Cache::rememberForever('systemSetting.' . $user->id, function () use ($user) {
             return $user->systemSetting()->first();
         });
@@ -39,7 +42,6 @@ class SystemSettingController extends Controller
         } else {
             $template = Template::first();
         }
-
 
         $configTemplate = Cache::rememberForever('configTemplate.' . $user->id, function () use ($user) {
             return $user->configTemplate()->first();
@@ -53,6 +55,43 @@ class SystemSettingController extends Controller
 
         $cartProductsCount = CartProduct::where('hash', $hash)->count();
 
+        // -----------------------------
+        // Aqui geramos o JSON do servicesData
+        $servicesData = [];
+        foreach ($categories as $category) {
+            foreach ($category->services as $service) {
+                $networkKey = strtolower($service->network); // ou ajuste para o campo correto
+
+                if (!isset($servicesData[$networkKey])) {
+                    $servicesData[$networkKey] = [
+                        'name' => ucfirst($networkKey),
+                        'categories' => []
+                    ];
+                }
+
+                $categoryKey = Str::slug($category->name . '-' . $category->id);
+
+                if (!isset($servicesData[$networkKey]['categories'][$categoryKey])) {
+                    $servicesData[$networkKey]['categories'][$categoryKey] = [
+                        'name' => $category->name,
+                        'description' => $category->description ?? '',
+                        'slug' => $categoryKey,
+                        'packages' => []
+                    ];
+                }
+
+                $servicesData[$networkKey]['categories'][$categoryKey]['packages'][] = [
+                    'id' => $service->id,
+                    'url' => $service->id,
+                    'amount' => (string) $service->quantity,
+                    'price' => 'R$ ' . number_format($service->price, 2, ',', '.'),
+                    'discount' => null,
+                    'highlighted' => (bool) $service->highlighted,
+                ];
+            }
+        }
+        // -----------------------------
+
         return view('templates.' . $template->path . '.index', [
             'categories' => $categories,
             'systemSetting' => $systemSetting,
@@ -63,7 +102,8 @@ class SystemSettingController extends Controller
             'userAgentFixed' => $userAgentFixed,
             'ipFixed' => $ipFixed,
             'conversionTag' => $conversionTag,
-            'template' => $configTemplate->content ?? []
+            'template' => $configTemplate->content ?? [],
+            'servicesData' => $servicesData,
         ]);
     }
 }
