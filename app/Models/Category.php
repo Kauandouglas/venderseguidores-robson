@@ -17,7 +17,8 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'status'
+        'status',
+        'social_network',
     ];
 
     public function getStatusStringAttribute()
