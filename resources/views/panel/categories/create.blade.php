@@ -20,6 +20,35 @@
                                                 <input type="text" id="name" class="form-control" name="name">
                                             </div>
                                         </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="social_network">Rede Social</label>
+                                                <select id="social_network" class="form-control" name="social_network">
+                                                    <option value="" disabled selected>Selecione a rede social</option>
+                                                    <option value="facebook">Facebook</option>
+                                                    <option value="instagram">Instagram</option>
+                                                    <option value="twitter">Twitter</option>
+                                                    <option value="linkedin">LinkedIn</option>
+                                                    <option value="tiktok">TikTok</option>
+                                                    <option value="youtube">YouTube</option>
+                                                    <option value="pinterest">Pinterest</option>
+                                                    <option value="snapchat">Snapchat</option>
+                                                    <option value="whatsapp">WhatsApp</option>
+                                                    <option value="telegram">Telegram</option>
+                                                    <option value="kwai">Kwai</option>
+                                                    <option value="discord">Discord</option>
+                                                    <option value="reddit">Reddit</option>
+                                                    <option value="twitch">Twitch</option>
+                                                    <option value="vkontakte">VK</option>
+                                                    <option value="weibo">Weibo</option>
+                                                    <option value="douyin">Douyin</option>
+                                                    <option value="line">LINE</option>
+                                                    <option value="outros">Outros</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Cadastrar</button>
                                         </div>

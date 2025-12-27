@@ -19,24 +19,42 @@
                                             <div class="form-group">
                                                 <label for="status">Status</label>
                                                 <select name="status" id="status" class="form-control">
-                                                    <option
-                                                        {{ ($category->status == 0 ? 'selected' : '') }} value="0">
-                                                        Desativado
-                                                    </option>
-                                                    <option
-                                                        {{ ($category->status == 1 ? 'selected' : '') }} value="1">
-                                                        Ativado
-                                                    </option>
+                                                    <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>Desativado</option>
+                                                    <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>Ativado</option>
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Nome</label>
-                                                <input type="text" id="name" class="form-control" name="name"
-                                                       value="{{ $category->name }}">
+                                                <input type="text" id="name" class="form-control" name="name" value="{{ $category->name }}">
                                             </div>
                                         </div>
+
+                                        <!-- Select de Redes Sociais -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="social_network">Rede Social</label>
+                                                <select id="social_network" class="form-control" name="social_network">
+                                                    <option value="" disabled {{ !$category->social_network ? 'selected' : '' }}>Selecione a rede social</option>
+                                                    @php
+                                                        $networks = [
+                                                            'facebook', 'instagram', 'twitter', 'linkedin', 'tiktok',
+                                                            'youtube', 'pinterest', 'snapchat', 'whatsapp', 'telegram',
+                                                            'kwai', 'discord', 'reddit', 'twitch', 'vkontakte', 'weibo',
+                                                            'douyin', 'line'
+                                                        ];
+                                                    @endphp
+                                                    @foreach($networks as $network)
+                                                        <option value="{{ $network }}" {{ $category->social_network == $network ? 'selected' : '' }}>
+                                                            {{ ucfirst($network) }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Editar</button>
                                         </div>
@@ -50,52 +68,57 @@
         </div>
     </section>
 @endsection
-@push('scripts')
-    <script>
-        // Submit form
-        jQuery(document).ready(function () {
-            jQuery('#apiProviderForm').submit(function () {
-                var data = jQuery(this).serialize();
-                var form = $(this);
 
-                jQuery.ajax({
-                    type: "POST",
-                    url: "{{ route('panel.categories.update', ['category' => $category]) }}",
-                    data: data,
-                    responseType: 'json',
-                    beforeSend: function (response) {
-                        displayLoading('show');
-                    },
-                    success: function (response) {
-                        Swal.fire({
-                            title: 'Sucesso!',
-                            text: response,
-                            icon: 'success',
-                            confirmButtonText: 'Confirmar',
-                        }).then(function () {
-                            window.location.href = "{{ route('panel.categories.index') }}";
-                        });
-                    },
-                    error: function (response) {
-                        var message = '';
+@push('scripts')
+<script>
+    jQuery(document).ready(function () {
+        jQuery('#apiProviderForm').submit(function (e) {
+            e.preventDefault();
+            var form = $(this);
+            var data = form.serialize();
+
+            jQuery.ajax({
+                type: "POST",
+                url: "{{ route('panel.categories.update', ['category' => $category]) }}",
+                data: data,
+                dataType: 'json',
+                beforeSend: function () {
+                    displayLoading('show');
+                },
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: response.message || 'Categoria atualizada com sucesso!',
+                        icon: 'success',
+                        confirmButtonText: 'Confirmar',
+                    }).then(function () {
+                        window.location.href = "{{ route('panel.categories.index') }}";
+                    });
+                },
+                error: function (response) {
+                    var message = '';
+                    if(response.responseJSON && response.responseJSON.errors){
                         $.each(response.responseJSON.errors, function (index, value) {
                             message += value + '<br>';
                         });
-
-                        Swal.fire({
-                            title: 'Erro!',
-                            html: message,
-                            icon: 'error',
-                            confirmButtonText: 'Fechar'
-                        })
-                    },
-                    complete: function (response) {
-                        displayLoading('hide');
+                    } else if(response.responseJSON && response.responseJSON.message){
+                        message = response.responseJSON.message;
+                    } else {
+                        message = 'Ocorreu um erro inesperado.';
                     }
-                });
 
-                return false;
+                    Swal.fire({
+                        title: 'Erro!',
+                        html: message,
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                },
+                complete: function () {
+                    displayLoading('hide');
+                }
             });
         });
-    </script>
+    });
+</script>
 @endpush
