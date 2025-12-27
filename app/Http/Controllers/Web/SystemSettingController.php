@@ -53,6 +53,49 @@ class SystemSettingController extends Controller
 
         $cartProductsCount = CartProduct::where('hash', $hash)->count();
 
+        $servicesData = Cache::rememberForever('systemSettingCategories.' . $user->id, function () use ($user) {
+            $allCategories = $user->categories()
+                ->with(['services' => function ($query) {
+                    $query->oldest('quantity')->active();
+                }])
+                ->active()
+                ->oldest('order')
+                ->get();
+
+            $result = [];
+
+            foreach ($allCategories as $category) {
+                $social = $category->social_network; // ex: instagram, tiktok, etc.
+
+                // Inicializa a rede social se não existir
+                if (!isset($result[$social])) {
+                    $result[$social] = [
+                        'name' => ucfirst($social),
+                        'categories' => []
+                    ];
+                }
+
+                // Adiciona a categoria
+                $result[$social]['categories'][$category->slug] = [
+                    'name' => $category->name,
+                    'description' => $category->description,
+                    'slug' => $category->slug,
+                    'packages' => $category->services->map(function($service) {
+                        return [
+                            'id' => $service->id,
+                            'url' => $service->url ?? null,
+                            'amount' => $service->quantity,
+                            'price' => $service->price_formatted ?? null,
+                            'discount' => $service->discount ?? null,
+                            'highlighted' => $service->highlighted ?? false,
+                        ];
+                    })->toArray()
+                ];
+            }
+
+            return $result;
+        });
+
         return view('templates.' . $template->path . '.index', [
             'categories' => $categories,
             'systemSetting' => $systemSetting,
@@ -63,7 +106,8 @@ class SystemSettingController extends Controller
             'userAgentFixed' => $userAgentFixed,
             'ipFixed' => $ipFixed,
             'conversionTag' => $conversionTag,
-            'template' => $configTemplate->content ?? []
+            'template' => $configTemplate->content ?? [],
+            'servicesData' => $servicesData
         ]);
     }
 }
