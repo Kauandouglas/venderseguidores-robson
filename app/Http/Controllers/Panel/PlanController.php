@@ -60,7 +60,10 @@ class PlanController extends Controller
                 $checkoutUrl = $planDetails->init_point . "&external_reference=" . urlencode($externalReference) . "&prefilled_email=" . urlencode($payerEmail);
 
                 // Redireciona o usuário para o checkout já com os dados vinculados
-                return redirect($checkoutUrl);
+                return response()->json([
+                    'type' => 'card',
+                    'url' => $checkoutUrl
+                ]);
             }
 
             return back()->withErrors(['error' => 'Erro ao gerar link de assinatura.']);
