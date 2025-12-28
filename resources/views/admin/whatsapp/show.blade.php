@@ -8,13 +8,7 @@
 <div class="space-y-6">
     <!-- Header -->
     <div class="flex items-center justify-between">
-        <div>
-            <p class="text-sm text-gray-600">Instância criada em {{ $whatsappInstance->created_at->format('d/m/Y H:i') }}</p>
-        </div>
         <div class="flex gap-2">
-            <button type="button" onclick="testConnection()" class="btn-secondary">
-                <i class="fas fa-plug mr-2"></i> Testar Conexão
-            </button>
             <a href="{{ route('admin.whatsapp.edit', $whatsappInstance) }}" class="btn-primary">
                 <i class="fas fa-edit mr-2"></i> Editar
             </a>
@@ -77,7 +71,7 @@
                     </div>
                     <div class="flex justify-between border-t pt-4">
                         <dt class="text-gray-600">Criado em:</dt>
-                        <dd class="font-medium text-gray-900">{{ $whatsappInstance->created_at->format('d/m/Y H:i') }}</dd>
+                        <dd class="font-medium text-gray-900">{{ $whatsappInstance->created_at }}</dd>
                     </div>
                 </dl>
             </div>
@@ -116,30 +110,4 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    function testConnection() {
-        fetch('{{ route("admin.whatsapp.test", $whatsappInstance) }}', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Conexão testada com sucesso!');
-                location.reload();
-            } else {
-                alert('Erro ao testar conexão: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('Erro ao testar conexão: ' + error);
-        });
-    }
-</script>
-@endpush
 @endsection
