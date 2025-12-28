@@ -40,7 +40,7 @@ class PlanController extends Controller
                     "preapproval_plan_id" => $planId,
                     "payer_email" => Auth::user()->email,
                     "external_reference" => "user_" . Auth::id(),
-                    // u
+                    // "back_url" => route('assinatura.sucesso'),
                     "notification_url" => route('api.plans.notification')
                 ]),
                 CURLOPT_HTTPHEADER => [
