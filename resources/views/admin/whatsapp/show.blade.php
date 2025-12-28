@@ -94,7 +94,7 @@
             <div class="card">
                 <div class="text-center">
                     <p class="text-gray-600 text-sm">Última Atualização</p>
-                    <p class="text-sm font-medium text-gray-900 mt-2">{{ $whatsappInstance->updated_at->format('d/m/Y H:i') }}</p>
+                    <p class="text-sm font-medium text-gray-900 mt-2">{{ $whatsappInstance->updated_at }}</p>
                 </div>
             </div>
         </div>
