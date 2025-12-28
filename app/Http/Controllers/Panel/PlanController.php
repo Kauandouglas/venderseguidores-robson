@@ -37,7 +37,7 @@ class PlanController extends Controller
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => json_encode([
-                    "preapproval_plan_id" => $planId,
+                    "preapproval_plan_id" => '',
                     "payer_email" => Auth::user()->email,
                     "external_reference" => "user_" . Auth::id(),
                     // "back_url" => route('assinatura.sucesso'),
