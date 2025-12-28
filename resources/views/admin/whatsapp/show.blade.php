@@ -32,7 +32,7 @@
                     <div class="flex justify-between border-t pt-4">
                         <dt class="text-gray-600">Usuário:</dt>
                         <dd class="font-medium text-gray-900">
-                            <a href="{{ route('admin.users.show', $whatsappInstance->user) }}" class="text-indigo-600 hover:underline">
+                            <a href="" class="text-indigo-600 hover:underline">
                                 {{ $whatsappInstance->user->name ?? 'N/A' }}
                             </a>
                         </dd>
