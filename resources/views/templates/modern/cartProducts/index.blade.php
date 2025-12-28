@@ -1,5 +1,6 @@
 @extends('templates.modern.templates.master')
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     @php
         if (empty($_SERVER['HTTPS'])){
             header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
