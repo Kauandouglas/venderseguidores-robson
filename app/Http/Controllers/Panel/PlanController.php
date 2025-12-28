@@ -44,8 +44,10 @@ class PlanController extends Controller
                     "notification_url" => route('api.plans.notification')
                 ]),
                 CURLOPT_HTTPHEADER => [
-                    "Authorization: Bearer APP_USR-bc60a153-5689-498e-b5c7-dd9595079b1d",
-                    "Content-Type: application/json",
+                    'Accept: application/json',
+                    'content-type: application/json',
+                    'Authorization: Bearer ' . config('api.mp.access_token'),
+                    'X-Idempotency-Key: ' . (string) \Illuminate\Support\Str::uuid(),
                 ],
             ]);
 
