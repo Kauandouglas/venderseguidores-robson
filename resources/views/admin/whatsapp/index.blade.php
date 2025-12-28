@@ -81,12 +81,12 @@
                             <td class="px-6 py-4 text-gray-600 text-sm">{{ $instance->created_at->format('d/m/Y H:i') }}</td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex gap-2 justify-center">
-                                    <a href="{{ route('admin.whatsapp.show', $instance) }}" class="text-indigo-600 hover:text-indigo-900" title="Visualizar">
+                                    {{-- <a href="{{ route('admin.whatsapp.show', $instance) }}" class="text-indigo-600 hover:text-indigo-900" title="Visualizar">
                                         <i class="fas fa-eye"></i>
-                                    </a>
-                                    {{-- <a href="{{ route('admin.whatsapp.edit', $instance) }}" class="text-blue-600 hover:text-blue-900" title="Editar">
-                                        <i class="fas fa-edit"></i>
                                     </a> --}}
+                                    <a href="{{ route('admin.whatsapp.edit', $instance) }}" class="text-blue-600 hover:text-blue-900" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     <form action="{{ route('admin.whatsapp.destroy', $instance) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza?');">
                                         @csrf
                                         @method('DELETE')
