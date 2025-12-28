@@ -20,22 +20,22 @@
     <div class="card">
         <form action="{{ route('admin.whatsapp.index') }}" method="GET" class="flex gap-4 flex-wrap">
             <div class="flex-1 min-w-64">
-                <input 
-                    type="text" 
-                    name="search" 
-                    placeholder="Buscar por número ou usuário..." 
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Buscar por número ou usuário..."
                     value="{{ request('search') }}"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
             </div>
-            
+
             <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 <option value="">Todos os Status</option>
                 <option value="connected" {{ request('status') == 'connected' ? 'selected' : '' }}>Conectado</option>
                 <option value="disconnected" {{ request('status') == 'disconnected' ? 'selected' : '' }}>Desconectado</option>
                 <option value="error" {{ request('status') == 'error' ? 'selected' : '' }}>Erro</option>
             </select>
-            
+
             <button type="submit" class="btn-primary">
                 <i class="fas fa-search mr-2"></i> Filtrar
             </button>
@@ -84,9 +84,9 @@
                                     <a href="{{ route('admin.whatsapp.show', $instance) }}" class="text-indigo-600 hover:text-indigo-900" title="Visualizar">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.whatsapp.edit', $instance) }}" class="text-blue-600 hover:text-blue-900" title="Editar">
+                                    {{-- <a href="{{ route('admin.whatsapp.edit', $instance) }}" class="text-blue-600 hover:text-blue-900" title="Editar">
                                         <i class="fas fa-edit"></i>
-                                    </a>
+                                    </a> --}}
                                     <form action="{{ route('admin.whatsapp.destroy', $instance) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza?');">
                                         @csrf
                                         @method('DELETE')
