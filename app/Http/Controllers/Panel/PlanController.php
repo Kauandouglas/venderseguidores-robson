@@ -82,13 +82,12 @@ class PlanController extends Controller
                 CURLOPT_HTTPHEADER => array(
                     'Accept: application/json',
                     'content-type: application/json',
-                    'Authorization: Bearer ' . config('api.mp.access_token')
+                    'Authorization: Bearer ' . config('api.mp.access_token'),
+                    'X-Idempotency-Key: ' . (string) \Illuminate\Support\Str::uuid(),
                 ),
             ));
 
             $payment = json_decode(curl_exec($curl));
-
-            var_dump($payment);
 
             curl_close($curl);
 
