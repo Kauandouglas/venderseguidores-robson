@@ -88,6 +88,8 @@ class PlanController extends Controller
 
             $payment = json_decode(curl_exec($curl));
 
+            var_dump($payment);
+
             curl_close($curl);
 
             return response()->json([
