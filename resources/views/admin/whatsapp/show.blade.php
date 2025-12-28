@@ -9,9 +9,6 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
         <div class="flex gap-2">
-            <a href="{{ route('admin.whatsapp.edit', $whatsappInstance) }}" class="btn-primary">
-                <i class="fas fa-edit mr-2"></i> Editar
-            </a>
             <form action="{{ route('admin.whatsapp.destroy', $whatsappInstance) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja deletar esta instância?');">
                 @csrf
                 @method('DELETE')
