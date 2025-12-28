@@ -646,13 +646,20 @@ themeToggle.addEventListener('click', toggleTheme);
                 const categorySlug = card.getAttribute('data-category-slug');
                 const amount = card.getAttribute('data-amount');
                 const price = card.getAttribute('data-price');
+                var action = "{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => 'SERVICE_ID_PLACEHOLDER', 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}";
 
-                var action = "{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => 'SERVICE_ID_PLACEHOLDER', 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}"
                 $.post(action.replace('SERVICE_ID_PLACEHOLDER', serviceId), function (response) {
-                    $('.addCart').attr('disabled', false)
-                }, 'json')
+                    // Habilita novamente o botão
+                    $('.addCart').attr('disabled', false);
 
-                window.location.href = `{{ route('api.cartProducts.index', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}`;
+                    // Redireciona somente se a resposta indicar sucesso
+                    if (response.success) { // ajuste conforme a estrutura da sua resposta JSON
+                        window.location.href = `{{ route('api.cartProducts.index', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}`;
+                    } else {
+                        // Aqui você pode exibir um erro, se quiser
+                        alert('Erro ao adicionar ao carrinho. Tente novamente.');
+                    }
+                }, 'json');
             }
         });
     }
