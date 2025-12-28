@@ -505,7 +505,7 @@ themeToggle.addEventListener('click', toggleTheme);
     // ESTRUTURA DE DADOS - Fácil para PHP
     // ============================================
     const servicesData = @json($servicesData);
-    const orderRoute = "https://turbinamais.com/finalizar-pedido/SLUG_PLACEHOLDER/SERVICE_ID_PLACEHOLDER";
+    const orderRoute = "{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => 'SERVICE_ID_PLACEHOLDER', 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}"
 
     // ============================================
     // VARIÁVEIS GLOBAIS
@@ -796,4 +796,84 @@ document.addEventListener('click', function(e) {
     }
 });
 </script>
+@endpush
+@push('scripts')
+    <script>
+        // Sum Total Comment
+        $('#recipient-comment').keyup(function (e) {
+            var quantity = $(this).val().trim().split("\n").length;
+            var recipientTotal = $('#recipient-total');
+            var price = recipientTotal.data('price');
+
+            $('#recipient-quantity').val(quantity);
+            recipientTotal.val((quantity * price).toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}));
+        });
+
+
+        $('.addCart').click(function (e) {
+            e.preventDefault()
+            $(this).attr('disabled', true)
+
+            var badge_qtd = $('.badge-qtd').html()
+            $('.badge-qtd').html(parseInt(badge_qtd) + 1)
+            Swal.fire({
+                icon: 'success',
+                title: 'Adicionado ao carrinho',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: 'Ir para o carrinho <i class="fa fa-shopping-cart"></i>',
+                confirmButtonColor: "{{ $systemSetting->primary_color ?? '' }}",
+                cancelButtonText: 'Continuar comprando',
+            }).then(function (response) {
+                if (response.isConfirmed) {
+                    window.location.href = "{{ route('api.cartProducts.index', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}";
+                }
+            });
+
+            var action = $(this).data('action')
+            $.post(action, function (response) {
+                $('.addCart').attr('disabled', false)
+            }, 'json')
+        })
+    </script>
+    <script>
+        // Sum Total Comment
+        $('#recipient-comment').keyup(function (e) {
+            var quantity = $(this).val().trim().split("\n").length;
+            var recipientTotal = $('#recipient-total');
+            var price = recipientTotal.data('price');
+
+            $('#recipient-quantity').val(quantity);
+            recipientTotal.val((quantity * price).toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}));
+        });
+
+
+        $('.addCart').click(function (e) {
+            e.preventDefault()
+            $(this).attr('disabled', true)
+
+            var badge_qtd = $('.badge-qtd').html()
+            $('.badge-qtd').html(parseInt(badge_qtd) + 1)
+            Swal.fire({
+                icon: 'success',
+                title: 'Adicionado ao carrinho',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: 'Ir para o carrinho <i class="fa fa-shopping-cart"></i>',
+                confirmButtonColor: "{{ $systemSetting->primary_color ?? '' }}",
+                cancelButtonText: 'Continuar comprando',
+            }).then(function (response) {
+                if (response.isConfirmed) {
+                    window.location.href = "{{ route('api.cartProducts.index', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}";
+                }
+            });
+
+            var action = $(this).data('action')
+            $.post(action, function (response) {
+                $('.addCart').attr('disabled', false)
+            }, 'json')
+        })
+    </script>
 @endpush
