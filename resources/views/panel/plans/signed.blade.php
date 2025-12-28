@@ -31,6 +31,7 @@
                                 <label for="typePayment" class="form-label">Escolha o pagamento</label>
                                 <select class="custom-select" name="type_payment" id="typePayment" required>
                                     <option value="pix">Pagar com Pix</option>
+                                    <option value="card">Pagar com Cartão</option>
                                 </select>
                             </div>
                         </div>
