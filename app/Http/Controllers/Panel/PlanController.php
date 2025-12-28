@@ -53,6 +53,7 @@ class PlanController extends Controller
             curl_close($curl);
 
             $callback = json_decode($response);
+            dd($callback);
 
             // Redirecionar o usuário para:
             return redirect($callback->init_point);
