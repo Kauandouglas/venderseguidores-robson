@@ -84,9 +84,9 @@
                                     {{-- <a href="{{ route('admin.whatsapp.show', $instance) }}" class="text-indigo-600 hover:text-indigo-900" title="Visualizar">
                                         <i class="fas fa-eye"></i>
                                     </a> --}}
-                                    <a href="{{ route('admin.whatsapp.edit', $instance) }}" class="text-blue-600 hover:text-blue-900" title="Editar">
+                                    {{-- <a href="{{ route('admin.whatsapp.edit', $instance) }}" class="text-blue-600 hover:text-blue-900" title="Editar">
                                         <i class="fas fa-edit"></i>
-                                    </a>
+                                    </a> --}}
                                     <form action="{{ route('admin.whatsapp.destroy', $instance) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza?');">
                                         @csrf
                                         @method('DELETE')
