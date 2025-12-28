@@ -30,32 +30,22 @@ class PlanController extends Controller
     public function processSigned(Plan $plan, Request $request)
     {
         if ($request->type_payment == 'card') {
-
             $curl = curl_init();
+
             curl_setopt_array($curl, [
-                CURLOPT_URL => 'https://api.mercadopago.com/preapproval',
+                CURLOPT_URL => 'https://api.mercadopago.com/preapproval_plan/6728207e95ba42db821bfd84af1b0044',
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => json_encode([
-                    "preapproval_plan_id" => '6728207e95ba42db821bfd84af1b0044',
-                    "payer_email" => Auth::user()->email,
-                    "external_reference" => $plan->id . ',' . Auth::id(),
-                    // "back_url" => route('assinatura.sucesso'),
-                    "notification_url" => route('api.plans.notification')
-                ]),
                 CURLOPT_HTTPHEADER => [
-                    'Accept: application/json',
-                    'content-type: application/json',
                     'Authorization: Bearer ' . config('api.mp.access_token'),
-                    'X-Idempotency-Key: ' . (string) \Illuminate\Support\Str::uuid(),
+                    'Accept: application/json',
                 ],
             ]);
 
             $response = curl_exec($curl);
             curl_close($curl);
 
-            $callback = json_decode($response);
-            dd($callback);
+            $plan = json_decode($response);
+            dd($plan);
 
             // Redirecionar o usuário para:
             return redirect($callback->init_point);
