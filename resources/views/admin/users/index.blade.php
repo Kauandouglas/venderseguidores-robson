@@ -19,7 +19,6 @@
                 </div>
             </div>
         </div>
-
         <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 border border-green-200">
             <div class="flex items-center justify-between">
                 <div>
@@ -31,7 +30,6 @@
                 </div>
             </div>
         </div>
-
         <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 border border-red-200">
             <div class="flex items-center justify-between">
                 <div>
@@ -43,7 +41,6 @@
                 </div>
             </div>
         </div>
-
         <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 border border-purple-200">
             <div class="flex items-center justify-between">
                 <div>
@@ -79,15 +76,9 @@
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     <i class="fas fa-search mr-1"></i> Buscar
                 </label>
-                <input 
-                    type="text" 
-                    name="search" 
-                    placeholder="Nome, email ou domínio..." 
-                    value="{{ request('search') }}"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
-                >
+                <input type="text" name="search" placeholder="Nome, email ou domínio..." value="{{ request('search') }}"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300">
             </div>
-            
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     <i class="fas fa-toggle-on mr-1"></i> Status
@@ -98,11 +89,9 @@
                     <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Inativo</option>
                 </select>
             </div>
-            
             <button type="submit" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
                 <i class="fas fa-search mr-2"></i> Filtrar
             </button>
-            
             @if(request('search') || request('status'))
                 <a href="{{ route('admin.users.index') }}" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300">
                     <i class="fas fa-times mr-2"></i> Limpar
@@ -117,30 +106,14 @@
             <table class="w-full text-sm">
                 <thead class="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200">
                     <tr>
-                        <th class="px-6 py-4 text-left font-bold text-gray-700">
-                            <i class="fas fa-user mr-2 text-indigo-600"></i>Usuário
-                        </th>
-                        <th class="px-6 py-4 text-left font-bold text-gray-700">
-                            <i class="fas fa-envelope mr-2 text-indigo-600"></i>Email
-                        </th>
-                        <th class="px-6 py-4 text-left font-bold text-gray-700">
-                            <i class="fas fa-globe mr-2 text-indigo-600"></i>Domínio
-                        </th>
-                        <th class="px-6 py-4 text-left font-bold text-gray-700">
-                            <i class="fas fa-phone mr-2 text-indigo-600"></i>Telefone
-                        </th>
-                        <th class="px-6 py-4 text-left font-bold text-gray-700">
-                            <i class="fas fa-toggle-on mr-2 text-indigo-600"></i>Status
-                        </th>
-                        <th class="px-6 py-4 text-left font-bold text-gray-700">
-                            <i class="fas fa-crown mr-2 text-indigo-600"></i>Plano
-                        </th>
-                        <th class="px-6 py-4 text-left font-bold text-gray-700">
-                            <i class="fas fa-calendar mr-2 text-indigo-600"></i>Cadastro
-                        </th>
-                        <th class="px-6 py-4 text-center font-bold text-gray-700">
-                            <i class="fas fa-cog mr-2 text-indigo-600"></i>Ações
-                        </th>
+                        <th class="px-6 py-4 text-left font-bold text-gray-700"><i class="fas fa-user mr-2 text-indigo-600"></i>Usuário</th>
+                        <th class="px-6 py-4 text-left font-bold text-gray-700"><i class="fas fa-envelope mr-2 text-indigo-600"></i>Email</th>
+                        <th class="px-6 py-4 text-left font-bold text-gray-700"><i class="fas fa-globe mr-2 text-indigo-600"></i>Domínio</th>
+                        <th class="px-6 py-4 text-left font-bold text-gray-700"><i class="fas fa-phone mr-2 text-indigo-600"></i>Telefone</th>
+                        <th class="px-6 py-4 text-left font-bold text-gray-700"><i class="fas fa-toggle-on mr-2 text-indigo-600"></i>Status</th>
+                        <th class="px-6 py-4 text-left font-bold text-gray-700"><i class="fas fa-crown mr-2 text-indigo-600"></i>Plano</th>
+                        <th class="px-6 py-4 text-left font-bold text-gray-700"><i class="fas fa-calendar mr-2 text-indigo-600"></i>Cadastro</th>
+                        <th class="px-6 py-4 text-center font-bold text-gray-700"><i class="fas fa-cog mr-2 text-indigo-600"></i>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -157,30 +130,11 @@
                                     </div>
                                 </div>
                             </td>
+                            <td class="px-6 py-4">{{ $user->email }}</td>
+                            <td class="px-6 py-4"><a href="https://{{ $user->domain }}" target="_blank" class="text-indigo-600 hover:underline">{{ $user->domain }}</a></td>
+                            <td class="px-6 py-4">{{ $user->phone ?? '-' }}</td>
                             <td class="px-6 py-4">
-                                <div class="flex items-center text-gray-700">
-                                    <i class="fas fa-envelope text-gray-400 mr-2"></i>
-                                    {{ $user->email }}
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="https://{{ $user->domain }}" target="_blank" class="inline-flex items-center text-indigo-600 font-semibold hover:text-indigo-800 hover:underline transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2 text-xs"></i>
-                                    {{ $user->domain }}
-                                </a>
-                            </td>
-                            <td class="px-6 py-4">
-                                @if($user->phone)
-                                    <div class="flex items-center text-gray-700">
-                                        <i class="fas fa-phone text-gray-400 mr-2"></i>
-                                        {{ $user->phone }}
-                                    </div>
-                                @else
-                                    <span class="text-gray-400 text-sm">-</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4">
-                                <button 
+                                <button
                                     @click="toggleStatus({{ $user->id }}, {{ $user->status ? 'true' : 'false' }})"
                                     class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 hover:shadow-md hover:scale-105 {{ $user->status ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' : 'bg-gradient-to-r from-red-400 to-pink-500 text-white' }}"
                                 >
@@ -188,58 +142,24 @@
                                     {{ $user->status ? 'Ativo' : 'Inativo' }}
                                 </button>
                             </td>
-                            <td class="px-6 py-4">
-                                @if($user->planPurchase)
-                                    <span class="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 rounded-full text-xs font-bold">
-                                        <i class="fas fa-crown mr-1.5 text-purple-600"></i>
-                                        {{ $user->planPurchase->plan->name ?? 'Plano' }}
-                                    </span>
-                                @else
-                                    <span class="text-gray-400 text-xs font-medium">Sem plano</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex flex-col">
-                                    <span class="text-gray-900 font-medium">{{ $user->created_at->format('d/m/Y') }}</span>
-                                    <span class="text-xs text-gray-500">{{ $user->created_at->format('H:i') }}</span>
-                                </div>
-                            </td>
+                            <td class="px-6 py-4">{{ $user->planPurchase->plan->name ?? 'Sem plano' }}</td>
+                            <td class="px-6 py-4">{{ $user->created_at->format('d/m/Y H:i') }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center justify-center gap-2">
-                                    <a 
-                                        href="{{ route('admin.users.show', $user) }}" 
-                                        class="p-2.5 text-blue-600 hover:bg-blue-100 rounded-xl transition-all duration-300 hover:scale-110" 
-                                        title="Visualizar"
-                                    >
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a 
-                                        href="{{ route('admin.users.edit', $user) }}" 
-                                        class="p-2.5 text-indigo-600 hover:bg-indigo-100 rounded-xl transition-all duration-300 hover:scale-110" 
-                                        title="Editar"
-                                    >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button 
-                                        @click="deleteUser({{ $user->id }})"
-                                        class="p-2.5 text-red-600 hover:bg-red-100 rounded-xl transition-all duration-300 hover:scale-110" 
-                                        title="Deletar"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <a href="{{ route('admin.users.show', $user) }}" class="p-2.5 text-blue-600 hover:bg-blue-100 rounded-xl" title="Visualizar"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="p-2.5 text-indigo-600 hover:bg-indigo-100 rounded-xl" title="Editar"><i class="fas fa-edit"></i></a>
+                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="p-2.5 text-red-600 hover:bg-red-100 rounded-xl" title="Deletar"><i class="fas fa-trash"></i></button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-16 text-center">
-                                <div class="flex flex-col items-center justify-center">
-                                    <div class="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-4">
-                                        <i class="fas fa-users text-5xl text-gray-400"></i>
-                                    </div>
-                                    <p class="text-gray-500 font-semibold text-lg mb-2">Nenhum usuário encontrado</p>
-                                    <p class="text-gray-400 text-sm">Tente ajustar os filtros ou adicione novos usuários</p>
-                                </div>
+                            <td colspan="8" class="text-center py-16 text-gray-500">
+                                Nenhum usuário encontrado
                             </td>
                         </tr>
                     @endforelse
@@ -251,105 +171,13 @@
     <!-- Pagination -->
     @if($users->hasPages())
         <div class="flex items-center justify-between bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-info-circle text-indigo-600"></i>
-                <p class="text-sm text-gray-600">
-                    Mostrando <span class="font-bold text-gray-900">{{ $users->firstItem() }}</span> a 
-                    <span class="font-bold text-gray-900">{{ $users->lastItem() }}</span> de 
-                    <span class="font-bold text-gray-900">{{ $users->total() }}</span> usuários
-                </p>
+            <div class="flex items-center space-x-2 text-gray-600">
+                Mostrando <span class="font-bold text-gray-900">{{ $users->firstItem() }}</span> a
+                <span class="font-bold text-gray-900">{{ $users->lastItem() }}</span> de
+                <span class="font-bold text-gray-900">{{ $users->total() }}</span> usuários
             </div>
-            <div class="flex gap-2">
-                {{ $users->links('pagination::tailwind') }}
-            </div>
+            <div>{{ $users->links('pagination::tailwind') }}</div>
         </div>
     @endif
 </div>
-
-<!-- Modais de Confirmação -->
-<div x-show="showDeleteModal" x-cloak class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
-    <div class="flex items-center justify-center min-h-screen px-4">
-        <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" @click="showDeleteModal = false"></div>
-        
-        <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
-            <div class="flex items-center justify-center w-16 h-16 mx-auto bg-red-100 rounded-full mb-4">
-                <i class="fas fa-exclamation-triangle text-3xl text-red-600"></i>
-            </div>
-            
-            <h3 class="text-xl font-bold text-gray-900 text-center mb-2">Confirmar Exclusão</h3>
-            <p class="text-gray-600 text-center mb-6">
-                Tem certeza que deseja deletar este usuário? Esta ação não pode ser desfeita.
-            </p>
-            
-            <div class="flex gap-3">
-                <button 
-                    @click="showDeleteModal = false" 
-                    class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
-                >
-                    Cancelar
-                </button>
-                <button 
-                    @click="confirmDelete()" 
-                    class="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
-                >
-                    Deletar
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@push('scripts')
-<script>
-    function usersManager() {
-        return {
-            showDeleteModal: false,
-            userToDelete: null,
-            
-            toggleStatus(userId, currentStatus) {
-                if (confirm('Tem certeza que deseja alterar o status deste usuário?')) {
-                    fetch(`/admin/users/${userId}/toggle-status`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            alert('Erro ao alterar status. Tente novamente.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Erro ao alterar status. Tente novamente.');
-                    });
-                }
-            },
-            
-            deleteUser(userId) {
-                this.userToDelete = userId;
-                this.showDeleteModal = true;
-            },
-            
-            confirmDelete() {
-                if (this.userToDelete) {
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = `/admin/users/${this.userToDelete}`;
-                    form.innerHTML = `
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]').content}">
-                    `;
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            }
-        };
-    }
-</script>
-@endpush
 @endsection
