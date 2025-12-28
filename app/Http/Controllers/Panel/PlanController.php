@@ -30,7 +30,7 @@ class PlanController extends Controller
     public function processSigned(Plan $plan, Request $request)
     {
         if ($request->type_payment == 'card') {
-           
+
             $curl = curl_init();
             curl_setopt_array($curl, [
                 CURLOPT_URL => 'https://api.mercadopago.com/preapproval',
@@ -40,7 +40,7 @@ class PlanController extends Controller
                     "preapproval_plan_id" => $planId,
                     "payer_email" => Auth::user()->email,
                     "external_reference" => "user_" . Auth::id(),
-                    "back_url" => route('assinatura.sucesso'),
+                    // u
                     "notification_url" => route('api.plans.notification')
                 ]),
                 CURLOPT_HTTPHEADER => [
