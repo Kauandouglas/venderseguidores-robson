@@ -6,8 +6,6 @@
             header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
         }
     @endphp
-    <link rel="stylesheet" type="text/css" href="https://ev.braip.com/css/checkout.css?id=d6820ec9bcc88a23ba10">
-    <link href="https://ev.braip.com/css/intlTelInput.min.css?v=1696005736" rel="stylesheet">
 
     <style>
         /* Custom styles for smooth transitions */
