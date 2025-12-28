@@ -9,13 +9,6 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
         <div class="flex gap-2">
-            <form action="{{ route('admin.whatsapp.destroy', $whatsappInstance) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja deletar esta instância?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-danger">
-                    <i class="fas fa-trash mr-2"></i> Deletar
-                </button>
-            </form>
             <a href="{{ route('admin.whatsapp.index') }}" class="btn-secondary">
                 <i class="fas fa-arrow-left mr-2"></i> Voltar
             </a>
