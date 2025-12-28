@@ -80,7 +80,7 @@
     </div>
 </div>
 
-<a href="https://api.whatsapp.com/send?phone=5517988084254&text=Ol%C3%A1,%20estou%20com%20d%C3%BAvidas%20para%20criar%20uma%20loja"
+<a href="https://api.whatsapp.com/send?phone=5562994329995&text=Ol%C3%A1,%20estou%20com%20d%C3%BAvidas%20para%20criar%20uma%20loja"
    target="_blank">
     <button id="myBtn">
         <img style="width: 75%;"
