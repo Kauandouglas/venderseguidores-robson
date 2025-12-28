@@ -649,9 +649,6 @@ themeToggle.addEventListener('click', toggleTheme);
                 var action = "{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => 'SERVICE_ID_PLACEHOLDER', 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}";
 
                 $.post(action.replace('SERVICE_ID_PLACEHOLDER', serviceId), function (response) {
-                    // Habilita novamente o botão
-                    $('.addCart').attr('disabled', false);
-
                     // Redireciona somente se a resposta indicar sucesso
                     if (response.success) { // ajuste conforme a estrutura da sua resposta JSON
                         window.location.href = `{{ route('api.cartProducts.index', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}`;
