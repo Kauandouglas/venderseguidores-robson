@@ -1,6 +1,98 @@
-@extends('templates.modern.templates.master')
-@section('content')
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{-- Título da página --}}
+    <title>{{ $systemSetting->title ?? config('template.title') }} - Home</title>
+
+    {{-- Font Awesome --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    {{-- Favicon --}}
+    <link rel="icon" type="image/x-icon" href="{{ $systemSetting->url_favicon ?? asset('images/default-favicon.ico') }}">
+
+    {{-- Meta básicos --}}
+    <meta name="title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
+    <meta name="description" content="{{ $systemSetting->description ?? config('template.description') ?? '' }}">
+    <meta name="keywords" content="{{ $systemSetting->keyword ?? '' }}">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="Portuguese">
+    <meta name="author" content="{{ $systemSetting->title ?? config('template.title') }}">
+
+    {{-- Open Graph --}}
+    <meta property="og:title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
+    <meta property="og:description" content="{{ $systemSetting->description ?? '' }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->full() }}">
+    <meta property="og:image" content="{{ $systemSetting?->logo ? Storage::url($systemSetting->logo) : asset('images/default-logo.png') }}">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $systemSetting->title ?? config('template.title') }} - Home">
+    <meta name="twitter:description" content="{{ $systemSetting->description ?? '' }}">
+    <meta name="twitter:image" content="{{ $systemSetting?->logo ? Storage::url($systemSetting->logo) : asset('images/default-logo.png') }}">
+
+    {{-- Canonical --}}
+    <link rel="canonical" href="{{ url()->full() }}" />
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    {!! $systemSetting->code ?? '' !!}
+
+ @if(!empty($conversionTag->pixel_google_ads))
+        <script async
+                src="https://www.googletagmanager.com/gtag/js?id={{ $conversionTag->pixel_google_ads }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+
+            gtag('config', '{{ $conversionTag->pixel_google_ads }}');
+        </script>
+    @endif
+
+    @if(!empty($conversionTag->pixel_analytics))
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $conversionTag->pixel_analytics }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '{{ $conversionTag->pixel_analytics }}');
+        </script>
+    @endif
+</head>
+<body>
+
+    <!-- BOTÃO WHATSAPP FLUTUANTE -->
+<a href="https://wa.me/55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}" target="_blank"
+   style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      text-decoration: none;
+      z-index: 9999;
+   ">
+   <i class="fab fa-whatsapp"></i>
+</a>
     @php
         if (empty($_SERVER['HTTPS'])){
             header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
@@ -451,10 +543,21 @@
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+ <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('.dropdown-item, #navbarsExampleDefault .bg-default-secondary').click(function () {
+        document.querySelector(".offcanvas-collapse").classList.toggle("open")
+    })
+</script>
+
 
     <script>
         // Mask
@@ -713,4 +816,5 @@
             }
         })
     </script>
-@endpush
+</body>
+</html>
