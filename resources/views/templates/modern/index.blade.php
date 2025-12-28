@@ -647,6 +647,11 @@ themeToggle.addEventListener('click', toggleTheme);
                 const amount = card.getAttribute('data-amount');
                 const price = card.getAttribute('data-price');
 
+                var action = "{{ route('api.systemSettings.addCart', ['domain' => $user->domain, 'service' => 'SERVICE_ID_PLACEHOLDER', 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}"
+                $.post(action.replace('SERVICE_ID_PLACEHOLDER', serviceId), function (response) {
+                    $('.addCart').attr('disabled', false)
+                }, 'json')
+
                 window.location.href = `/finalizar-pedido/${categorySlug}/${serviceId}`;
             }
         });
