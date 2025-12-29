@@ -39,12 +39,14 @@ class PaymentController extends Controller
                 'option' => $request->option,
                 'public_key' => $request->public_key,
                 'access_token' => $request->access_token,
+                'payment_method' => 'mercadopago'
             ];
         }else{
             // PushInPay
             $data = [
                 'option' => $request->option,
                 'bearer_token' => $request->bearer_token,
+                 'payment_method' => 'pushinpay'
             ];
         }
         
