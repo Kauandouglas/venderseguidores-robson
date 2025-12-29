@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="light">
 <head>
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -43,7 +42,7 @@
 
     {!! $systemSetting->code ?? '' !!}
 
- @if(!empty($conversionTag->pixel_google_ads))
+    @if(!empty($conversionTag->pixel_google_ads))
         <script async
                 src="https://www.googletagmanager.com/gtag/js?id={{ $conversionTag->pixel_google_ads }}"></script>
         <script>
@@ -73,26 +72,27 @@
 <body>
 
     <!-- BOTÃO WHATSAPP FLUTUANTE -->
-<a href="https://wa.me/55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}" target="_blank"
-   style="
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25d366;
-      color: #fff;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 32px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      text-decoration: none;
-      z-index: 9999;
-   ">
-   <i class="fab fa-whatsapp"></i>
-</a>
+    <a href="https://wa.me/55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}" target="_blank"
+       style="
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: #25d366;
+          color: #fff;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 32px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+          text-decoration: none;
+          z-index: 9999;
+       ">
+       <i class="fab fa-whatsapp"></i>
+    </a>
+
     @php
         if (empty($_SERVER['HTTPS'])){
             header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
@@ -108,6 +108,11 @@
         /* Fix for Tailwind container */
         .container {
             max-width: 1200px;
+        }
+
+        /* Garantir que elementos hidden fiquem ocultos */
+        .hidden {
+            display: none !important;
         }
     </style>
 
@@ -543,21 +548,20 @@
         </div>
     </section>
 
- <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-    $('.dropdown-item, #navbarsExampleDefault .bg-default-secondary').click(function () {
-        document.querySelector(".offcanvas-collapse").classList.toggle("open")
-    })
-</script>
-
+        $('.dropdown-item, #navbarsExampleDefault .bg-default-secondary').click(function () {
+            document.querySelector(".offcanvas-collapse").classList.toggle("open")
+        })
+    </script>
 
     <script>
         // Mask
@@ -627,10 +631,10 @@
                 var action = input.data('action');
 
                 if (input.val() === '') {
-                    input.next().parent().find('.show-message').removeClass('d-none').html('Perfil vazio.');
+                    input.next().parent().find('.show-message').removeClass('hidden').html('Perfil vazio.');
                     return false;
                 } else {
-                    input.next().parent().find('.show-message').addClass('d-none')
+                    input.next().parent().find('.show-message').addClass('hidden')
                 }
 
                 loadShowCart();
@@ -646,7 +650,7 @@
                 var action = input.data('action');
 
                 if (input.val() === '') {
-                    input.next().parent().find('.show-message').removeClass('d-none').html('Comentario vazio.');
+                    input.next().parent().find('.show-message').removeClass('hidden').html('Comentario vazio.');
                     return false;
                 }
 
@@ -660,6 +664,7 @@
             })
         })
 
+        // ===== CORREÇÃO: Aplicar cupom =====
         $('#apply-coupon').click(function () {
             var couponCode = $('#coupon-code').val();
 
@@ -669,12 +674,12 @@
                 data: {coupon: couponCode},
                 dataType: "json",
                 success: function (response) {
-                    $('#coupon-message').removeClass('d-none');
+                    $('#coupon-message').removeClass('hidden');
                     $('#discountCoupon').html('<span>Desconto (Cupom)</span> R$ ' + response.discount);
                     $('.cart-total-price').html('<span>Total</span> R$ ' + response.total);
                 },
                 error: function (response) {
-                    $('#coupon-message').addClass('d-none');
+                    $('#coupon-message').addClass('hidden');
                     $.each(response.responseJSON.errors, function (index, value) {
                         alert(value);
                     });
@@ -686,10 +691,10 @@
         // Copy
         $('#pixPaymentCopy').click(function () {
             navigator.clipboard.writeText($('#pixPaymentCode').val());
-            $('.message').removeClass('d-none');
+            $('.message').removeClass('hidden');
 
             setTimeout(function () {
-                $('.message').addClass('d-none');
+                $('.message').addClass('hidden');
             }, 3000);
         });
 
@@ -759,17 +764,23 @@
                         form.find('button').prop('disabled', true);
                     },
                     success: function (response) {
-                        $('.pix-generate-body').removeClass('d-none')
+                        // ===== CORREÇÃO: Remover classe hidden corretamente =====
+                        $('.pix-generate-body').removeClass('hidden');
 
                         $('#pixPaymentCode').val(response.qr_code);
                         $('#pixPaymentImage').attr('src', 'data:image/png;base64, ' + response.qr_code_base64);
+
+                        // Scroll suave até o QR Code
+                        $('html, body').animate({
+                            scrollTop: $('.pix-generate-body').offset().top - 100
+                        }, 500);
 
                         verifyPayment('{{ route('api.purchases.status') }}?id=' + response.id)
                     },
                     error: function (response) {
                         form.find('.alert').html('');
                         $.each(response.responseJSON.errors, function (index, value) {
-                            form.find('.alert').removeClass('d-none').append(value + '<br>');
+                            form.find('.alert').removeClass('hidden').append(value + '<br>');
                         });
                     },
                     complete: function () {
@@ -808,11 +819,12 @@
             }, 3000)
         }
 
+        // ===== CORREÇÃO: Toggle do cupom =====
         $('#possui-cupom').change(function (){
             if ($(this).is(':checked')) {
-                $('#discountCupom').removeClass('d-none')
+                $('#discountCupom').removeClass('hidden');
             } else {
-                $('#discountCupom').addClass('d-none')
+                $('#discountCupom').addClass('hidden');
             }
         })
     </script>
