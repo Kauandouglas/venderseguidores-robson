@@ -70,7 +70,7 @@ class PurchaseController extends Controller
 
                 if (isset($pix->qr_code)) {
                     $qrCode = $pix->qr_code;
-                    $qrCodeBase64 = $pix->qr_code_base64;
+                    $qrCodeBase64 = str_replace('data:image/png;base64, ' ,'', $pix->qr_code_base64);
                     $paymentId = $pix->id;
                 } else {
                     dd($pix);
@@ -197,7 +197,7 @@ class PurchaseController extends Controller
 
                     if (isset($pix->qr_code)) {
                         $qrCode = $pix->qr_code;
-                        $qrCodeBase64 = $pix->qr_code_base64;
+                        $qrCodeBase64 = str_replace('data:image/png;base64, ' ,'', $pix->qr_code_base64);
                         $paymentId = $pix->id;
                     } else {
                         var_dump($pix);

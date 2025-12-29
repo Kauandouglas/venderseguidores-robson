@@ -31,7 +31,7 @@ class PushinPay
     public function pix(int $paymentId, float $price, string $ids, string $description): PushinPay
     {
         $payload = [
-            'value' => $price,
+            'value' => $price * 100,
             'webhook_url' => $this->webhookUrl,
             'split_rules' => [],
             // Usar o ID do pagamento do sistema como referência externa
