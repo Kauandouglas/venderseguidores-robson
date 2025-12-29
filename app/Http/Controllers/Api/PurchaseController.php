@@ -63,7 +63,8 @@ class PurchaseController extends Controller
             } elseif ($paymentMethod == 'pushinpay') {
                 $pixGateway = new PushinPay($data->bearer_token, route('api.purchases.notificationTemplate', [
                     'token' => config('api.payment.token_notification'),
-                    'payment_model_id' => $payment->id
+                    'payment_model_id' => $payment->id,
+                    'external_reference' => $purchase->id,
                 ]));
                 $pixGateway->pix($payment->id, number_format($purchase->price, 2), $purchase->id, 'Pagamento ' . $purchase->id);
                 $pix = $pixGateway->callback();
@@ -190,7 +191,8 @@ class PurchaseController extends Controller
                 } elseif ($paymentMethod == 'pushinpay') {
                     $pixGateway = new PushinPay($data->bearer_token, route('api.purchases.notificationTemplate', [
                         'token' => config('api.payment.token_notification'),
-                        'payment_model_id' => $payment->id
+                        'payment_model_id' => $payment->id,
+                        'external_reference' => implode(',', $idsPurchase),
                     ]));
                     $pixGateway->pix($payment->id, number_format($sumProductsTotal, 2), implode(',', $idsPurchase), 'Pagamento ' . implode(',', $idsPurchase));
                     $pix = $pixGateway->callback();
@@ -303,11 +305,10 @@ class PurchaseController extends Controller
                     // Verify if the user has an active plan
                     $user = $purchase->user()->first();
 
-                    if($user->id == 359){
-                        $message = "Pagamento Aprovado 👏👏👏\n\n";
-                        $message .= "Seu pedido já será enviado, se em 24 horas ele não chegar, envie o número do pedido para o Whats de atendimento 17-9.8145.2466\n\n";
-                        $message .= "Equipe Loja do Insta 💜";
-                        
+                    $message = "Pagamento Aprovado 👏👏👏\n\n";
+                    $message .= "Seu pedido já será enviado, se em 24 horas ele não chegar, envie o número do pedido para o Whats de atendimento 17-9.8145.2466\n\n";
+                    $message .= "Equipe Loja do Insta 💜";
+                    
                     // Envio de mensagem de aprovação via Evolution API
                     $instance = $purchase->user()->first()->whatsappInstance()->first();
                     if ($instance && $instance->status === 'connected') {
@@ -316,8 +317,6 @@ class PurchaseController extends Controller
                         $evolutionApi = new EvolutionApi($instance);
                         $evolutionApi->sendText($whatsappNumber, $message);
                     }
-                    }
-
                 }
 
                 return response([
@@ -327,13 +326,42 @@ class PurchaseController extends Controller
                 $return = "Not paid yet. Do not release your item.";
             }
         } elseif ($paymentMethod == 'pushinpay') {
-            // Webhook do PushinPay é tratado em outra rota (api.webhooks.pushinpay)
-            // Esta função é específica para o Mercado Pago (notificationTemplate)
-            // Se o PushinPay usar o mesmo endpoint, a lógica de webhook deve ser implementada aqui.
-            // Como o PushinPay tem um endpoint dedicado (api.webhooks.pushinpay), vamos ignorar aqui.
+            $data = request()->all();
+
+            if (empty($data['id']) || empty($data['status'])) {
+                return response()->json(['error' => 'Dados inválidos.'], 400);
+            }
+    
+            if($data['status'] != 'paid'){
+                exit;
+            }
+
+            // The merchant_order has shipments
+            foreach (explode(',', $request->query('external_reference')) as $idPurchase) {
+                $purchase = Purchase::findOrFail($idPurchase);
+
+                $purchaseService = new PurchaseService();
+                $purchaseService->sendOrder($purchase);
+
+                // Verify if the user has an active plan
+                $user = $purchase->user()->first();
+
+                $message = "Pagamento Aprovado 👏👏👏\n\n";
+                $message .= "Seu pedido já será enviado, se em 24 horas ele não chegar, envie o número do pedido para o Whats de atendimento 17-9.8145.2466\n\n";
+                $message .= "Equipe Loja do Insta 💜";
+                
+                // Envio de mensagem de aprovação via Evolution API
+                $instance = $purchase->user()->first()->whatsappInstance()->first();
+                if ($instance && $instance->status === 'connected') {
+                    $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $purchase->whatsapp); 
+                    
+                    $evolutionApi = new EvolutionApi($instance);
+                    $evolutionApi->sendText($whatsappNumber, $message);
+                }
+            }
+
             return response([
-                'status' => 'ignored',
-                'message' => 'Webhook PushinPay deve ser enviado para /api/webhooks/pushinpay'
+                'status' => 'success'
             ]);
         }
     }
