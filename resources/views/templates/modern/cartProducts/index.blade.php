@@ -775,7 +775,7 @@
                             scrollTop: $('.pix-generate-body').offset().top - 100
                         }, 500);
 
-                        verifyPayment('{{ route('api.purchases.status') }}?id=' + response.id)
+                        // verifyPayment('{{ route('api.purchases.status') }}?id=' + response.id)
                     },
                     error: function (response) {
                         form.find('.alert').html('');
