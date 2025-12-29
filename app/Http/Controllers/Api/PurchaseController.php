@@ -188,7 +188,10 @@ class PurchaseController extends Controller
                         return;
                     }
                 } elseif ($paymentMethod == 'pushinpay') {
-                    $pixGateway = new PushinPay($data->bearer_token, route('api.webhooks.pushinpay'));
+                    $pixGateway = new PushinPay($data->bearer_token, route('api.purchases.notificationTemplate', [
+                        'token' => config('api.payment.token_notification'),
+                        'payment_model_id' => $payment->id
+                    ]));
                     $pixGateway->pix($payment->id, number_format($sumProductsTotal, 2), implode(',', $idsPurchase), 'Pagamento ' . implode(',', $idsPurchase));
                     $pix = $pixGateway->callback();
 
