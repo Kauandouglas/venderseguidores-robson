@@ -81,6 +81,10 @@
                     </li>
 
                     <li>
+                        <a href="/painel/configuracao/pagamentos">Chave De Pagamento</a>
+                    </li>
+
+                    <li>
                         <a href="{{ route('panel.conversionTags.edit') }}">Tags de conversões</a>
                     </li>
                 </ul>
