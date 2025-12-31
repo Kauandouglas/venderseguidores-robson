@@ -20,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['as' => 'api.'], function () {
+    // Service
+    Route::prefix('validateInstagram')->group(function () {
+        Route::post('validate-user', [ServiceController::class, 'validateUser']);
+        Route::post('validate-post', [ServiceController::class, 'validatePost']);
+        Route::post('list-posts', [ServiceController::class, 'listPosts']);
+    });
+
     // System Settings
     Route::post('/carinho/{domain}/{service}', [SystemSettingController::class, 'addCart'])->name('systemSettings.addCart');
 
@@ -30,13 +37,6 @@ Route::group(['as' => 'api.'], function () {
     Route::post('/carinho/comment/{cartProduct}/{domain}', [CartProductController::class, 'addComment'])->name('cartProducts.addComment');
     Route::delete('/carinho/remover/{cartProduct}/{domain}', [CartProductController::class, 'destroy'])->name('cartProducts.destroy');
     Route::post('/carrinho/addCoupon/{domain}', [CartProductController::class, 'addCoupon'])->name('cartProducts.addCoupon');
-
-    // Service
-    Route::prefix('validateInstagram')->group(function () {
-        Route::post('validate-user', [ServiceController::class, 'validateUser']);
-        Route::post('validate-post', [ServiceController::class, 'validatePost']);
-        Route::post('list-posts', [ServiceController::class, 'listPosts']);
-    });
 
     // Purchases
     Route::post('/finalizar-compra/{domain}', [PurchaseController::class, 'store'])->name('purchases.store');
