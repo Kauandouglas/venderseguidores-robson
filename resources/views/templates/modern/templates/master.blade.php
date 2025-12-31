@@ -1291,7 +1291,7 @@
             {{-- Formulário --}}
             <form id="formConsultaPedidos" class="modal-form" onsubmit="consultarPedidos(event)">
                 <div class="form-group">
-                    <label for="emailPedidos">
+                    <label for="emailPedidos" style="color: #fff;">
                         <i class="fas fa-envelope"></i>
                         Email
                     </label>
