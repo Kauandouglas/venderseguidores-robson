@@ -10,8 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
-	<script type="module" src="shepherd.js/dist/js/shepherd.mjs"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/7.1.2/css/shepherd.min.css" integrity="sha512-k4DlYDc0mf1H92BOi4i/3VKmE2y5T5CuMAFGepXwYD39pmzeoJ7vIUM57esJkGtDNrWcX0V74cHPB/78415VdQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/7.1.2/js/shepherd.js" integrity="sha512-c7PZ7h4N0huwVjMpvqO3PNTM1r96IXQMAJv78+ciej3E1LUrW1yb97XO5gag5LsdXiFKOr9eGiz07GTNejCWRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 <div id="displayLoading" class="d-none">
@@ -110,5 +110,109 @@
     </script>
 @endif
 @stack('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    $('#step1 .submenu').addClass('active')
+
+    // Cria o tour
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+        cancelIcon: { enabled: true },
+        classes: 'shadow-md bg-purple-600',
+        scrollTo: { behavior: 'smooth', block: 'center' }
+        }
+    });
+
+    // Adiciona passos
+    tour.addStep({
+        id: 'step1',
+        text: 'Clique aqui para começar!',
+        attachTo: { on: 'bottom' },
+        buttons: [
+        { text: 'Próximo', action: tour.next }
+        ]
+    });
+
+    tour.addStep({
+        id: 'step2',
+        text:  `
+        <strong>Primeiro passo:</strong><br>
+        Antes de começar, você precisa <b>cadastrar a API da Revenda Direta</b>.<br><br>
+        Vá até o menu <b>Provedor de API par inserir</b> e adicione sua chave da API Revenda Direta.
+        `,
+        attachTo: { element: '#step2', on: 'bottom' },
+        buttons: [
+        { text: 'Próximo', action: tour.next }
+        ]
+    });
+
+    tour.addStep({
+    id: 'step3',
+    text: `
+        <strong>Segundo passo:</strong><br>
+        Após cadastrar o <b>Provedor de API</b>, você precisará configurar a sua <b>chave de pagamento</b>.<br><br>
+        Escolha a plataforma de pagamento que deseja usar: <b>PushinPay</b> ou <b>Mercado Pago</b>.<br>
+        Basta acessar o menu <b>Chave de Pagamento</b> e inserir as credenciais da opção escolhida.
+    `,
+    attachTo: { element: '#step3', on: 'bottom' },
+    buttons: [
+        { text: 'Próximo', action: tour.next },
+        { text: 'Fechar', action: tour.cancel }
+    ]
+    });
+
+    tour.addStep({
+  id: 'step4',
+  text: `
+    <strong>Terceiro passo:</strong><br>
+    Depois de cadastrar o <b>Provedor de API</b> e a sua <b>chave de pagamento</b>, você precisa <b>escolher uma categoria</b> para começar a utilizar o sistema.<br><br>
+    Acesse o menu <b>Categorias</b>, selecione a opção desejada e configure os serviços que pretende oferecer.
+  `,
+  attachTo: { element: '#step4', on: 'bottom' },
+  buttons: [
+    { text: 'Próximo', action: tour.next },
+    { text: 'Fechar', action: tour.cancel }
+  ]
+});
+
+tour.addStep({
+  id: 'step5',
+  text: `
+    <strong>Quarto passo:</strong><br>
+    Agora que você já configurou o <b>Provedor de API</b>, a <b>Chave de Pagamento</b> e as <b>Categorias</b>, está pronto para cadastrar seus <b>serviços</b>.<br><br>
+    Nesta tela, selecione a <b>categoria</b> que o serviço pertence, escolha o <b>provedor</b> configurado, defina o <b>tipo de serviço</b> e insira as informações como <b>nome</b>, <b>quantidade</b> e <b>preço</b>.<br><br>
+    Após preencher tudo, clique em <b>Salvar</b> para adicionar o serviço ao seu painel.
+  `,
+  attachTo: { element: '#step5', on: 'bottom' }, // pode ajustar o seletor para o formulário
+  buttons: [
+    { text: 'Próximo', action: tour.next },
+    { text: 'Fechar', action: tour.cancel }
+  ]
+});
+
+tour.addStep({
+  id: 'step6',
+  text: `
+    <strong>Passo final:</strong><br>
+    Pronto! 🎉 Agora o seu sistema está totalmente configurado e pronto para começar as <b>vendas</b>.<br><br>
+    Recomendamos que você <b>adquira um plano</b> para desbloquear recursos extras e <b>aumentar suas vendas</b>.<br><br>
+    Não se esqueça também de <b>personalizar sua loja</b> — adicione a sua <b>logo</b>, escolha um <b>tema</b> e deixe o visual do painel com a identidade da sua marca.<br><br>
+    Assim, você garante uma experiência mais profissional e atrativa para seus clientes!
+  `,
+  attachTo: {  on: 'bottom' },
+  buttons: [
+    { text: 'Concluir', action: tour.complete },
+    { text: 'Fechar', action: tour.cancel }
+  ]
+});
+
+
+
+
+    // Inicia o tour
+    tour.start();
+    });
+</script>
 </body>
 </html>

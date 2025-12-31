@@ -25,14 +25,14 @@
                     <span>Vendas</span>
                 </a>
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item" id="step4">
                 <a href="{{ route('panel.categories.index') }}" class='sidebar-link'>
                     <i data-feather="grid" width="20"></i>
                     <span>Categorias</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="{{ route('panel.services.index') }}" class='sidebar-link'>
+                <a href="{{ route('panel.services.index') }}" class='sidebar-link' id="step5">
                     <i data-feather="list" width="20"></i>
                     <span>Serviços</span>
                 </a>
@@ -64,7 +64,7 @@
                 </li>
             @endif
 
-            <li class="sidebar-item  has-sub">
+            <li class="sidebar-item  has-sub" id="step1">
                 <a href="#" class='sidebar-link'>
                     <i data-feather="settings" width="20"></i>
                     <span>Configurações</span>
@@ -76,11 +76,11 @@
                     <li>
                         <a href="{{ route('panel.configTemplates.edit') }}">Configuração do template</a>
                     </li>
-                    <li>
+                    <li id="step2">
                         <a href="{{ route('panel.apiProviders.index') }}">Provedor de API</a>
                     </li>
 
-                    <li>
+                    <li id="step3">
                         <a href="/painel/configuracao/pagamentos">Chave De Pagamento</a>
                     </li>
 
