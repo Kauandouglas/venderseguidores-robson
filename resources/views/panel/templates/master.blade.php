@@ -120,6 +120,11 @@
     
       $('#step1 .submenu').addClass('active')
       $('#sidebar').addClass('active')
+
+      $('.sidebar-wrapper.ps').animate({
+        scrollTop: $('.sidebar-wrapper.ps')[0].scrollHeight
+    }, 500); // 500ms de duração da animação
+
     
       const tour = new Shepherd.Tour({
         useModalOverlay: true,
