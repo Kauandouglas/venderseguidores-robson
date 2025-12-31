@@ -119,6 +119,7 @@
       }
     
       $('#step1 .submenu').addClass('active')
+      $('#sidebar').addClass('active')
     
       const tour = new Shepherd.Tour({
         useModalOverlay: true,
