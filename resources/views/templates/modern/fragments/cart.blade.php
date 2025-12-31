@@ -74,8 +74,17 @@
                                                placeholder="https://instagram.com/seu_perfil"
                                                value="{{ $cartProduct->link }}">
                                     </div>
+                                
+                                    <!-- O CONTAINER DEVE FICAR AQUI (FORA DA DIV RELATIVE ) -->
+                                    <div class="list-posts-container mt-4 hidden" id="posts-container-{{ $cartProduct->id }}">
+                                        <p class="text-sm font-semibold text-gray-700 mb-2">Selecione um post:</p>
+                                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 list-posts-grid">
+                                            <!-- Os posts serão injetados aqui via JS -->
+                                        </div>
+                                    </div>
+                                
                                     <span class="text-danger show-message d-none mt-2 text-sm text-red-600 block"></span>
-                                </div>
+                                </div>                                
                             </td>
                         </tr>
 

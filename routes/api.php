@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CartProductController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\EvolutionWebhookController;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SystemSettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,12 @@ Route::group(['as' => 'api.'], function () {
     Route::delete('/carinho/remover/{cartProduct}/{domain}', [CartProductController::class, 'destroy'])->name('cartProducts.destroy');
     Route::post('/carrinho/addCoupon/{domain}', [CartProductController::class, 'addCoupon'])->name('cartProducts.addCoupon');
 
-
+    // Service
+    Route::prefix('validateInstagram')->group(function () {
+        Route::get('validate-user', [ServiceController::class, 'validateUser']);
+        Route::get('validate-post', [ServiceController::class, 'validatePost']);
+        Route::get('list-posts', [ServiceController::class, 'listPosts']);
+    });
 
     // Purchases
     Route::post('/finalizar-compra/{domain}', [PurchaseController::class, 'store'])->name('purchases.store');

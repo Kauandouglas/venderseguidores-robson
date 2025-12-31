@@ -627,23 +627,85 @@
             })
 
             $(document).on("blur", ".input-change-profile", function () {
-                var input = $(this);
-                var action = input.data('action');
+    var input = $(this);
+    var action = input.data('action');
+    var value = input.val();
+    var container = input.closest('td'); // Pega o container da linha atual
+    var messageBox = container.find('.show-message');
+    var postsContainer = container.find('.list-posts-container');
+    var postsGrid = container.find('.list-posts-grid');
 
-                if (input.val() === '') {
-                    input.next().parent().find('.show-message').removeClass('hidden').html('Perfil vazio.');
-                    return false;
-                } else {
-                    input.next().parent().find('.show-message').addClass('hidden')
-                }
+    // Limpa estados anteriores
+    messageBox.addClass('hidden').html('');
+    
+    if (value === '') {
+        messageBox.removeClass('hidden').html('O campo não pode estar vazio.');
+        return false;
+    }
 
-                loadShowCart();
-                $.post(action, {'profile': input.val()}, function () {
-                    loadHideCart();
-                }, 'json').fail(function () {
-                    alert('Ocorreu um erro');
-                });
-            })
+    loadShowCart(); // Sua função de loading
+
+    // 1. Validar o Perfil/Usuário
+    // Assumindo que você criou uma rota para o método validateUser do seu Controller
+    $.post('/api/instagram/validate-user', { 'username': value }, function (response) {
+        if (response.success) {
+            messageBox.addClass('hidden');
+            
+            // 2. Se o perfil for válido, listar os posts
+            fetchPosts(value, postsContainer, postsGrid, input);
+            
+            // Salva o valor no banco (sua lógica original)
+            $.post(action, { 'profile': value }, function () {
+                loadHideCart();
+            }, 'json');
+
+        } else {
+            loadHideCart();
+            messageBox.removeClass('hidden').html(response.message || 'Perfil inválido ou privado.');
+            postsContainer.addClass('hidden');
+        }
+    }, 'json').fail(function () {
+        loadHideCart();
+        messageBox.removeClass('hidden').html('Erro ao validar perfil.');
+    });
+});
+
+// Função para buscar e renderizar posts
+function fetchPosts(username, container, grid, inputField) {
+    grid.html('<div class="col-span-full text-center py-4 text-sm text-gray-500">Carregando posts...</div>');
+    container.removeClass('hidden');
+
+    $.post('/api/instagram/list-posts', { 'username': username }, function (response) {
+        if (response.success && response.posts.length > 0) {
+            grid.empty();
+            
+            response.posts.forEach(function (post) {
+                var postHtml = `
+                    <div class="relative aspect-square cursor-pointer hover:opacity-80 transition post-item" 
+                         data-url="${post.post_url}">
+                        <img src="${post.display_url}" class="w-full h-full object-cover rounded-lg border border-gray-200">
+                        ${post.media_type == 2 ? '<span class="absolute top-1 right-1 bg-black/50 text-white p-1 rounded text-[10px]">Vídeo</span>' : ''}
+                    </div>
+                `;
+                grid.append(postHtml);
+            });
+
+            // Evento de clique no post
+            grid.find('.post-item').on('click', function() {
+                var url = $(this).data('url');
+                inputField.val(url);
+                inputField.trigger('blur'); // Dispara o blur para salvar o link do post
+                
+                // Opcional: Destacar o post selecionado
+                grid.find('.post-item img').removeClass('border-blue-500 border-4');
+                $(this).find('img').addClass('border-blue-500 border-4');
+            });
+
+        } else {
+            grid.html('<div class="col-span-full text-center py-4 text-sm text-red-500">Nenhum post público encontrado.</div>');
+        }
+    }, 'json');
+}
 
             $(document).on("blur", ".input-change-comment", function () {
                 var input = $(this);
