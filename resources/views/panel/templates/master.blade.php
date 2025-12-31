@@ -9,6 +9,9 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
+	<script type="module" src="shepherd.js/dist/js/shepherd.mjs"></script>
 </head>
 <body>
 <div id="displayLoading" class="d-none">
