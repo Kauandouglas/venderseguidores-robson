@@ -1518,54 +1518,6 @@
         });
 
         // ============================================
-        // ALTERNÂNCIA DE TEMA
-        // ============================================
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const html = document.documentElement;
-
-        // Carregar tema salvo
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        html.setAttribute('data-theme', savedTheme);
-        updateThemeIcon(savedTheme);
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
-
-        function updateThemeIcon(theme) {
-            if (theme === 'dark') {
-                themeIcon.className = 'fas fa-sun';
-            } else {
-                themeIcon.className = 'fas fa-moon';
-            }
-        }
-
-        // ============================================
-        // ESTRELAS DE FUNDO
-        // ============================================
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const numberOfStars = 100;
-
-            for (let i = 0; i < numberOfStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
-
-        createStars();
-
-        // ============================================
         // MODAL DE PEDIDOS
         // ============================================
         function abrirModalPedidos() {
@@ -1773,81 +1725,6 @@
                 </div>
             `;
         }
-
-        // ============================================
-        // NOTIFICAÇÕES DE COMPRA (EXEMPLO)
-        // ============================================
-        function criarNotificacao(nome, acao, tempo) {
-            const container = document.getElementById('notificationsContainer');
-
-            const notification = document.createElement('div');
-            notification.className = 'notification-popup';
-
-            const avatar = document.createElement('div');
-            avatar.className = 'notification-avatar';
-            avatar.textContent = nome.charAt(0).toUpperCase();
-
-            const content = document.createElement('div');
-            content.className = 'notification-content';
-
-            const nomeEl = document.createElement('div');
-            nomeEl.className = 'notification-name';
-            nomeEl.textContent = nome;
-
-            const acaoEl = document.createElement('div');
-            acaoEl.className = 'notification-action';
-            acaoEl.textContent = acao;
-
-            content.appendChild(nomeEl);
-            content.appendChild(acaoEl);
-
-            const tempoEl = document.createElement('div');
-            tempoEl.className = 'notification-time';
-            tempoEl.textContent = tempo;
-
-            const closeBtn = document.createElement('button');
-            closeBtn.className = 'notification-close';
-            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-            closeBtn.onclick = () => {
-                notification.classList.add('fade-out');
-                setTimeout(() => notification.remove(), 500);
-            };
-
-            notification.appendChild(avatar);
-            notification.appendChild(content);
-            notification.appendChild(tempoEl);
-            notification.appendChild(closeBtn);
-
-            container.appendChild(notification);
-
-            // Auto-remover após 5 segundos
-            setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.classList.add('fade-out');
-                    setTimeout(() => notification.remove(), 500);
-                }
-            }, 5000);
-        }
-
-        // ============================================
-        // FAQ ACCORDION (se existir na página)
-        // ============================================
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const faqItem = button.parentElement;
-                const wasActive = faqItem.classList.contains('active');
-
-                // Fechar todas as outras
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-
-                // Abrir a clicada se não estava ativa
-                if (!wasActive) {
-                    faqItem.classList.add('active');
-                }
-            });
-        });
     </script>
 
     @stack('scripts')
