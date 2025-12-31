@@ -936,11 +936,13 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 40px;
-            max-width: 500px;
+            max-width: 800px;
             width: 90%;
+            max-height: 85vh;
             box-shadow: 0 20px 60px var(--shadow-color);
             position: relative;
             animation: slideUp 0.4s ease;
+            overflow-y: auto;
         }
 
         .modal-close {
@@ -959,6 +961,7 @@
             justify-content: center;
             border-radius: 50%;
             transition: all 0.3s;
+            z-index: 1;
         }
 
         .modal-close:hover {
@@ -1091,6 +1094,152 @@
         }
 
         /* ============================================
+           LISTA DE PEDIDOS NO MODAL
+           ============================================ */
+        #pedidosLista {
+            display: none;
+        }
+
+        #pedidosLista.show {
+            display: block;
+        }
+
+        .pedidos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .pedido-item {
+            background: var(--bg-platform);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .pedido-item:hover {
+            border-color: var(--border-active);
+            box-shadow: 0 4px 15px var(--shadow-hover);
+        }
+
+        .pedido-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pedido-numero {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .pedido-status {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-concluido {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-processando {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-pendente {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .pedido-detalhes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detalhe-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detalhe-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .detalhe-valor {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .pedido-preco {
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .pedido-data {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+        }
+
+        .btn-voltar-busca {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: var(--bg-platform);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .btn-voltar-busca:hover {
+            background: var(--bg-platform-hover);
+            border-color: var(--border-active);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
            RESPONSIVO
            ============================================ */
         @media (max-width: 768px) {
@@ -1175,12 +1324,21 @@
             }
 
             .modal-content {
-                padding: 30px 25px;
+                padding: 30px 20px;
                 max-width: 95%;
             }
 
             .modal-title {
                 font-size: 1.5rem;
+            }
+
+            .pedido-detalhes {
+                grid-template-columns: 1fr;
+            }
+
+            .pedido-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -1277,46 +1435,68 @@
                 <i class="fas fa-times"></i>
             </button>
 
-            {{-- Cabeçalho do Modal --}}
-            <div class="modal-header">
-                <div class="modal-icon">
-                    <i class="fas fa-history"></i>
+            {{-- FORMULÁRIO DE BUSCA --}}
+            <div id="formBusca">
+                {{-- Cabeçalho do Modal --}}
+                <div class="modal-header">
+                    <div class="modal-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h2 class="modal-title">Meus Pedidos</h2>
+                    <p class="modal-description">
+                        Digite seu email para consultar seus pedidos
+                    </p>
                 </div>
-                <h2 class="modal-title">Meus Pedidos</h2>
-                <p class="modal-description">
-                    Digite seu email para consultar seus pedidos
-                </p>
+
+                {{-- Formulário --}}
+                <form id="formConsultaPedidos" class="modal-form" onsubmit="consultarPedidos(event)">
+                    <div class="form-group">
+                        <label for="emailPedidos">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            id="emailPedidos"
+                            name="email"
+                            required
+                            placeholder="seu@email.com"
+                            autocomplete="email"
+                        >
+                    </div>
+
+                    <button type="submit" class="modal-submit" id="btnBuscar">
+                        <i class="fas fa-search"></i>
+                        Buscar Pedidos
+                    </button>
+                </form>
+
+                {{-- Informação Extra --}}
+                <div class="modal-info">
+                    <i class="fas fa-info-circle"></i>
+                    <p>
+                        Use o mesmo email que você forneceu ao fazer o pedido. Você receberá um histórico completo de todas as suas compras.
+                    </p>
+                </div>
             </div>
 
-            {{-- Formulário --}}
-            <form id="formConsultaPedidos" class="modal-form" onsubmit="consultarPedidos(event)">
-                <div class="form-group">
-                    <label for="emailPedidos" style="color: #fff;">
-                        <i class="fas fa-envelope"></i>
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="emailPedidos"
-                        name="email"
-                        required
-                        placeholder="seu@email.com"
-                        autocomplete="email"
-                    >
+            {{-- LISTA DE PEDIDOS --}}
+            <div id="pedidosLista">
+                <div class="modal-header">
+                    <div class="modal-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h2 class="modal-title">Seus Pedidos</h2>
+                    <p class="modal-description" id="emailUsuario"></p>
                 </div>
 
-                <button type="submit" class="modal-submit">
-                    <i class="fas fa-search"></i>
-                    Buscar Pedidos
-                </button>
-            </form>
+                <div id="pedidosContainer" class="pedidos-container">
+                    {{-- Pedidos serão inseridos aqui via JavaScript --}}
+                </div>
 
-            {{-- Informação Extra --}}
-            <div class="modal-info">
-                <i class="fas fa-info-circle"></i>
-                <p>
-                    Use o mesmo email que você forneceu ao fazer o pedido. Você receberá um histórico completo de todas as suas compras.
-                </p>
+                <button onclick="voltarParaBusca()" class="btn-voltar-busca">
+                    <i class="fas fa-arrow-left"></i> Buscar outro email
+                </button>
             </div>
         </div>
     </div>
@@ -1393,6 +1573,10 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
 
+            // Garantir que está mostrando o formulário
+            document.getElementById('formBusca').style.display = 'block';
+            document.getElementById('pedidosLista').classList.remove('show');
+
             // Focar no input de email
             setTimeout(() => {
                 document.getElementById('emailPedidos').focus();
@@ -1404,7 +1588,15 @@
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
 
-            // Limpar o formulário
+            // Resetar formulário e view
+            document.getElementById('formConsultaPedidos').reset();
+            document.getElementById('formBusca').style.display = 'block';
+            document.getElementById('pedidosLista').classList.remove('show');
+        }
+
+        function voltarParaBusca() {
+            document.getElementById('formBusca').style.display = 'block';
+            document.getElementById('pedidosLista').classList.remove('show');
             document.getElementById('formConsultaPedidos').reset();
         }
 
@@ -1432,7 +1624,7 @@
             event.preventDefault();
 
             const email = document.getElementById('emailPedidos').value;
-            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const submitBtn = document.getElementById('btnBuscar');
             const originalHTML = submitBtn.innerHTML;
 
             // Mostrar loading no botão
@@ -1441,20 +1633,17 @@
 
             // Requisição AJAX
             $.ajax({
-                url: '/api/consultar-pedidos', // ALTERE PARA SUA ROTA
+                url: '{{ route('api.purchases.historic') }}', // ALTERE PARA SUA ROTA
                 method: 'POST',
                 data: { email: email },
                 success: function(response) {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalHTML;
 
-                    // Fechar modal
-                    fecharModalPedidos();
-
                     // Verificar se há pedidos
                     if (response.pedidos && response.pedidos.length > 0) {
-                        // Redirecionar para página de pedidos
-                        window.location.href = `/pedidos?email=${encodeURIComponent(email)}`;
+                        // Exibir pedidos no modal
+                        exibirPedidos(response.pedidos, email);
                     } else {
                         // Nenhum pedido encontrado
                         Swal.fire({
@@ -1488,6 +1677,101 @@
                     });
                 }
             });
+        }
+
+        // ============================================
+        // EXIBIR PEDIDOS NO MODAL
+        // ============================================
+        function exibirPedidos(pedidos, email) {
+            // Esconder formulário e mostrar lista
+            document.getElementById('formBusca').style.display = 'none';
+            document.getElementById('pedidosLista').classList.add('show');
+            
+            // Exibir email do usuário
+            document.getElementById('emailUsuario').textContent = email;
+
+            const container = document.getElementById('pedidosContainer');
+            container.innerHTML = '';
+
+            if (pedidos.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Nenhum pedido encontrado</h3>
+                        <p>Você ainda não realizou nenhum pedido.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            pedidos.forEach(pedido => {
+                const pedidoHtml = criarCardPedido(pedido);
+                container.innerHTML += pedidoHtml;
+            });
+        }
+
+        // ============================================
+        // CRIAR CARD DE PEDIDO
+        // ============================================
+        function criarCardPedido(pedido) {
+            // Determinar classe de status
+            let statusClass = 'status-pendente';
+            let statusTexto = pedido.status || 'Pendente';
+            
+            if (pedido.status === 'concluido' || pedido.status === 'completed') {
+                statusClass = 'status-concluido';
+                statusTexto = 'Concluído';
+            } else if (pedido.status === 'processando' || pedido.status === 'processing') {
+                statusClass = 'status-processando';
+                statusTexto = 'Processando';
+            }
+
+            return `
+                <div class="pedido-item">
+                    <div class="pedido-header">
+                        <div class="pedido-numero">
+                            <i class="fas fa-receipt"></i> Pedido #${pedido.id || pedido.numero}
+                        </div>
+                        <span class="pedido-status ${statusClass}">
+                            ${statusTexto}
+                        </span>
+                    </div>
+                    
+                    <div class="pedido-detalhes">
+                        <div class="detalhe-item">
+                            <span class="detalhe-label">
+                                <i class="fas fa-box"></i> Plataforma
+                            </span>
+                            <span class="detalhe-valor">${pedido.plataforma || '-'}</span>
+                        </div>
+                        
+                        <div class="detalhe-item">
+                            <span class="detalhe-label">
+                                <i class="fas fa-tag"></i> Categoria
+                            </span>
+                            <span class="detalhe-valor">${pedido.categoria || '-'}</span>
+                        </div>
+                        
+                        <div class="detalhe-item">
+                            <span class="detalhe-label">
+                                <i class="fas fa-hashtag"></i> Quantidade
+                            </span>
+                            <span class="detalhe-valor">${pedido.quantidade || '-'}</span>
+                        </div>
+                        
+                        <div class="detalhe-item">
+                            <span class="detalhe-label">
+                                <i class="fas fa-dollar-sign"></i> Valor
+                            </span>
+                            <span class="detalhe-valor pedido-preco">${pedido.valor || 'R$ 0,00'}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pedido-data">
+                        <i class="far fa-clock"></i> ${pedido.created_at || '-'}
+                    </div>
+                </div>
+            `;
         }
 
         // ============================================
@@ -1544,10 +1828,6 @@
                 }
             }, 5000);
         }
-
-        // Exemplo de uso (descomente para testar)
-        // setTimeout(() => criarNotificacao('João Silva', 'Comprou 1000 seguidores', 'Agora'), 2000);
-        // setTimeout(() => criarNotificacao('Maria Santos', 'Comprou 500 curtidas', '2 min atrás'), 5000);
 
         // ============================================
         // FAQ ACCORDION (se existir na página)

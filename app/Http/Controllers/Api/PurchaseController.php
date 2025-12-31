@@ -404,4 +404,11 @@ class PurchaseController extends Controller
             'code_event_ads' => ($conversionTag->code_event_ads ?? null),
         ]);
     }
+
+    public function historic(Request $request)
+    {
+        $purchases = Purchase::lastest('id')->get();
+
+        return response()->json($purchases);
+    }
 }
