@@ -407,7 +407,7 @@ class PurchaseController extends Controller
 
     public function historic(Request $request)
     {
-        $purchases = Purchase::lastest('id')->get();
+        $purchases = Purchase::lastest('id')->where('email', $request->email)->get();
 
         return response()->json($purchases);
     }
