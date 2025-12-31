@@ -45,6 +45,7 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <button id="cart-product-remove"
+                                        data-typesocial="{{ $cartProduct->service->type_social }}"
                                         data-action="{{ route('api.cartProducts.destroy', ['cartProduct' => $cartProduct, 'domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}"
                                         class="inline-flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg smooth-transition">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

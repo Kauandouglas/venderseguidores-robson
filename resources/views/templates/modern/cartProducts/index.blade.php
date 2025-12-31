@@ -626,86 +626,125 @@
                 });
             })
 
-            $(document).on("blur", ".input-change-profile", function () {
-    var input = $(this);
-    var action = input.data('action');
-    var value = input.val();
-    var container = input.closest('td'); // Pega o container da linha atual
-    var messageBox = container.find('.show-message');
-    var postsContainer = container.find('.list-posts-container');
-    var postsGrid = container.find('.list-posts-grid');
+           ////////////
+           $(document).on("blur", ".input-change-profile", function () {
+                var input = $(this);
+                var action = input.data('action');
+                var typeSocial = input.data('typesocial'); // instagram_profile ou instagram_post
+                var value = input.val().trim();
+                var container = input.closest('td');
+                var messageBox = container.find('.show-message');
+                var postsContainer = container.find('.list-posts-container');
+                var postsGrid = container.find('.list-posts-grid');
 
-    // Limpa estados anteriores
-    messageBox.addClass('hidden').html('');
-    
-    if (value === '') {
-        messageBox.removeClass('hidden').html('O campo não pode estar vazio.');
-        return false;
-    }
-
-    loadShowCart(); // Sua função de loading
-
-    // 1. Validar o Perfil/Usuário
-    // Assumindo que você criou uma rota para o método validateUser do seu Controller
-    $.post('/api/validateInstagram/validate-user', { 'username': value }, function (response) {
-        if (response.success) {
-            messageBox.addClass('hidden');
-            
-            // 2. Se o perfil for válido, listar os posts
-            fetchPosts(value, postsContainer, postsGrid, input);
-            
-            // Salva o valor no banco (sua lógica original)
-            $.post(action, { 'profile': value }, function () {
-                loadHideCart();
-            }, 'json');
-
-        } else {
-            loadHideCart();
-            messageBox.removeClass('hidden').html(response.message || 'Perfil inválido ou privado.');
-            postsContainer.addClass('hidden');
-        }
-    }, 'json').fail(function () {
-        loadHideCart();
-        messageBox.removeClass('hidden').html('Erro ao validar perfil.');
-    });
-});
-
-// Função para buscar e renderizar posts
-function fetchPosts(username, container, grid, inputField) {
-    grid.html('<div class="col-span-full text-center py-4 text-sm text-gray-500">Carregando posts...</div>');
-    container.removeClass('hidden');
-
-    $.post('/api/validateInstagram/list-posts', { 'username': username }, function (response) {
-        if (response.success && response.posts.length > 0) {
-            grid.empty();
-            
-            response.posts.forEach(function (post) {
-                var postHtml = `
-                    <div class="relative aspect-square cursor-pointer hover:opacity-80 transition post-item" 
-                         data-url="${post.post_url}">
-                        <img src="${post.display_url}" class="w-full h-full object-cover rounded-lg border border-gray-200">
-                        ${post.media_type == 2 ? '<span class="absolute top-1 right-1 bg-black/50 text-white p-1 rounded text-[10px]">Vídeo</span>' : ''}
-                    </div>
-                `;
-                grid.append(postHtml);
-            });
-
-            // Evento de clique no post
-            grid.find('.post-item').on('click', function() {
-                var url = $(this).data('url');
-                inputField.val(url);
-                inputField.trigger('blur'); // Dispara o blur para salvar o link do post
+                // Limpa estados anteriores
+                messageBox.addClass('hidden').html('');
                 
-                // Opcional: Destacar o post selecionado
-                grid.find('.post-item img').removeClass('border-blue-500 border-4');
-                $(this).find('img').addClass('border-blue-500 border-4');
+                if (value === '') {
+                    messageBox.removeClass('hidden').html('O campo não pode estar vazio.');
+                    return false;
+                }
+
+                // Se o valor for uma URL completa, vamos extrair apenas o username se for perfil
+                // ou manter a URL se for post.
+                var isUrl = value.includes('instagram.com');
+
+                loadShowCart();
+
+                // LÓGICA 1: SERVIÇO DE PERFIL
+                if (typeSocial === 'instagram_profile') {
+                    postsContainer.addClass('hidden'); // Nunca mostra posts para perfil
+                    
+                    $.post('/api/validateInstagram/validate-user', { 'username': value }, function (response) {
+                        if (response.success) {
+                            saveData(action, value);
+                        } else {
+                            showError(messageBox, response.message || 'Perfil inválido ou privado.');
+                        }
+                    }, 'json').fail(handleFail);
+                } 
+                
+                // LÓGICA 2: SERVIÇO DE POST
+                else if (typeSocial === 'instagram_post') {
+                    
+                    // Se o usuário colou um link de post direto
+                    if (isUrl && (value.includes('/p/') || value.includes('/reels/') || value.includes('/tv/'))) {
+                        postsContainer.addClass('hidden'); // Esconde a lista se ele já deu o link
+                        
+                        $.post('/api/validateInstagram/validate-post', { 'post_identifier': value }, function (response) {
+                            if (response.success) {
+                                saveData(action, value);
+                            } else {
+                                showError(messageBox, response.message || 'Post não encontrado ou inválido.');
+                            }
+                        }, 'json').fail(handleFail);
+                    } 
+                    // Se ele digitou um username ou link de perfil, listamos os posts
+                    else {
+                        $.post('/api/validateInstagram/validate-user', { 'username': value }, function (response) {
+                            if (response.success) {
+                                // Perfil válido, agora listamos os posts para ele escolher
+                                fetchPosts(value, postsContainer, postsGrid, input);
+                                loadHideCart();
+                            } else {
+                                showError(messageBox, response.message || 'Perfil não encontrado para listar posts.');
+                            }
+                        }, 'json').fail(handleFail);
+                    }
+                }
             });
 
-        } else {
-            grid.html('<div class="col-span-full text-center py-4 text-sm text-red-500">Nenhum post público encontrado.</div>');
-        }
-    }, 'json');
-}
+            // Funções Auxiliares para limpar o código
+            function saveData(action, value) {
+                $.post(action, { 'profile': value }, function () {
+                    loadHideCart();
+                }, 'json');
+            }
+
+            function showError(element, message) {
+                loadHideCart();
+                element.removeClass('hidden').html(message);
+            }
+
+            function handleFail() {
+                loadHideCart();
+                alert('Ocorreu um erro na comunicação com o servidor.');
+            }
+
+            function fetchPosts(username, container, grid, inputField) {
+                grid.html('<div class="col-span-full text-center py-4 text-sm text-gray-500">Buscando posts...</div>');
+                container.removeClass('hidden');
+
+                $.post('/api/validateInstagram/list-posts', { 'username': username }, function (response) {
+                    if (response.success && response.posts.length > 0) {
+                        grid.empty();
+                        response.posts.forEach(function (post) {
+                            var postHtml = `
+                                <div class="relative aspect-square cursor-pointer hover:scale-105 transition-transform post-item" 
+                                    data-url="${post.post_url}">
+                                    <img src="${post.display_url}" class="w-full h-full object-cover rounded-lg border-2 border-gray-100 shadow-sm">
+                                    ${post.media_type == 2 ? '<span class="absolute top-1 right-1 bg-black/60 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">VÍDEO</span>' : ''}
+                                </div>
+                            `;
+                            grid.append(postHtml);
+                        });
+
+                        grid.find('.post-item').off('click').on('click', function() {
+                            var url = $(this).data('url');
+                            inputField.val(url);
+                            
+                            // Destaque visual
+                            grid.find('.post-item img').removeClass('border-blue-500 shadow-outline').addClass('border-gray-100');
+                            $(this).find('img').addClass('border-blue-500 shadow-md').removeClass('border-gray-100');
+                            
+                            // Dispara o blur novamente para validar o link do post selecionado
+                            inputField.trigger('blur'); 
+                        });
+                    } else {
+                        grid.html('<div class="col-span-full text-center py-4 text-sm text-red-500">Nenhum post público encontrado.</div>');
+                    }
+                }, 'json');
+            }
 
             $(document).on("blur", ".input-change-comment", function () {
                 var input = $(this);
