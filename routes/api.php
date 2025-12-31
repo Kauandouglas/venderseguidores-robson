@@ -36,7 +36,7 @@ Route::group(['as' => 'api.'], function () {
     Route::post('/finalizar-compra/{domain}', [PurchaseController::class, 'store'])->name('purchases.store');
     Route::get('/finalizar-compra/status',  [PurchaseController::class, 'status'])->name('purchases.status');
     Route::post('/notification-template', [PurchaseController::class, 'notificationTemplate'])->name('purchases.notificationTemplate');
-    Route::post('/compras/historic', [PurchaseController::class, 'historic'])->name('purchases.historic');
+    Route::get('/compras/historic', [PurchaseController::class, 'historic'])->name('purchases.historic');
 
     // Plan
     Route::post('/plan/notification', [PlanController::class, 'notification'])->name('plans.notification');
