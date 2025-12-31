@@ -1597,15 +1597,7 @@
                         // Exibir pedidos no modal
                         exibirPedidos(response.pedidos, email);
                     } else {
-                        // Nenhum pedido encontrado
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Nenhum pedido encontrado',
-                            text: 'Não encontramos pedidos associados a este email.',
-                            confirmButtonColor: '#3b82f6',
-                            background: getComputedStyle(document.documentElement).getPropertyValue('--bg-card'),
-                            color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary')
-                        });
+                        alert('Não encontramos pedidos associados a este email.')
                     }
                 },
                 error: function(xhr) {
