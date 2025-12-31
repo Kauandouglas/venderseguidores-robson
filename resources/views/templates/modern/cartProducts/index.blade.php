@@ -647,7 +647,7 @@
 
     // 1. Validar o Perfil/Usuário
     // Assumindo que você criou uma rota para o método validateUser do seu Controller
-    $.post('/api/instagram/validate-user', { 'username': value }, function (response) {
+    $.post('/api/validateInstagram/validate-user', { 'username': value }, function (response) {
         if (response.success) {
             messageBox.addClass('hidden');
             
@@ -675,7 +675,7 @@ function fetchPosts(username, container, grid, inputField) {
     grid.html('<div class="col-span-full text-center py-4 text-sm text-gray-500">Carregando posts...</div>');
     container.removeClass('hidden');
 
-    $.post('/api/instagram/list-posts', { 'username': username }, function (response) {
+    $.post('/api/validateInstagram/list-posts', { 'username': username }, function (response) {
         if (response.success && response.posts.length > 0) {
             grid.empty();
             
