@@ -46,8 +46,18 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="type">Tipo se serviço</label>
+                                                {{-- <label for="type">Tipo se serviço</label> --}}
                                                 <input type="hidden" name="type" id="type" value="1">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="type_social">Tipo se serviço</label>
+                                                <select name="type_social" id="type_social" class="form-control">
+                                                    <option value="other">Outros</option>
+                                                    <option value="instagram_profile">Instagram (Perfil)</option>
+                                                    <option value="instagram_post">Instagram (Postagem)</option>                                                        
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12">

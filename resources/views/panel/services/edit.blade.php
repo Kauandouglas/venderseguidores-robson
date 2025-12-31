@@ -52,6 +52,16 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
+                                                <label for="type_social">Tipo de serviço</label>
+                                                <select name="type_social" id="type_social" class="form-control">
+                                                    <option value="other" {{ $service->type_social == 'other' ? 'selected' : '' }}>Outros</option>
+                                                    <option value="instagram_profile" {{ $service->type_social == 'instagram_profile' ? 'selected' : '' }}>Instagram (Perfil)</option>
+                                                    <option value="instagram_post" {{ $service->type_social == 'instagram_post' ? 'selected' : '' }}>Instagram (Postagem)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
                                                 <label for="name">Nome</label>
                                                 <input type="text" id="name" class="form-control" name="name"
                                                        value="{{ $service->name }}">
