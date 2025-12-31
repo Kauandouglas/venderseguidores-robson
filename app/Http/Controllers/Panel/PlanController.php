@@ -108,4 +108,13 @@ class PlanController extends Controller
             ]);
         }
     }
+
+    public function verify()
+    {
+        $planPurchase = Auth::user()->planPurchase()->where('status', 'Approved')->first();
+
+        return response()->json([
+            'paid' => boolval($planPurchase)
+        ]);
+    }
 }

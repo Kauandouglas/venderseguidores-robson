@@ -118,8 +118,9 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
         Route::put('/editar-perfil', [UserController::class, 'update'])->name('users.update');
         Route::post('/desativar-popup', [UserController::class, 'disablePopup'])->name('users.disablePopup');
 
-        // Plans
+        // Plans 
         Route::get('/planos', [PlanController::class, 'index'])->name('plans.index');
+        Route::get('/planos/verificar', [PlanController::class, 'verify'])->name('plans.verify');
         Route::get('/planos/{plan}', [PlanController::class, 'signed'])->name('plans.signed');
         Route::post('/planos/processar/{plan}', [PlanController::class, 'processSigned'])->name('plans.processSigned');
 
