@@ -83,6 +83,21 @@
                                             <!-- Os posts serão injetados aqui via JS -->
                                         </div>
                                     </div>
+
+                                    <!-- Container de Confirmação (Foto + Botões) -->
+                                    <div class="confirmation-container mt-4 hidden p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                                        <div class="flex items-center gap-4">
+                                            <img src="" class="confirm-image w-16 h-16 rounded-full object-cover border-2 border-white shadow-md">
+                                            <div class="flex-1">
+                                                <p class="text-sm font-bold text-gray-800 confirm-name">Nome do Perfil</p>
+                                                <p class="text-xs text-gray-500">Deseja confirmar este destino?</p>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button class="btn-confirm-action px-3 py-2 bg-green-500 text-white rounded-lg text-xs font-bold hover:bg-green-600 transition">Confirmar</button>
+                                                <button class="btn-reject-action px-3 py-2 bg-gray-200 text-gray-600 rounded-lg text-xs font-bold hover:bg-gray-300 transition">Recusar</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 
                                     <span class="text-danger show-message d-none mt-2 text-sm text-red-600 block"></span>
                                 </div>                                
