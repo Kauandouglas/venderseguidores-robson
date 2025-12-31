@@ -708,7 +708,7 @@
         // Exibe a caixa de confirmação com foto e botões
         function showConfirmation(container, imgUrl, name, onConfirm, onReject) {
             container.removeClass('hidden');
-            container.find('.confirm-image').attr('src', imgUrl);
+            container.find('.confirm-image').attr('src', "https://images.weserv.nl/?url=" + encodeURIComponent(imgUrl) + '&w=200&h=200&fit=cover');
             container.find('.confirm-name').text(name);
             
             container.find('.btn-confirm-action').off('click').on('click', function() {
