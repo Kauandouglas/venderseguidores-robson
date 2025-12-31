@@ -987,6 +987,34 @@ h1 {
         font-size: 1rem;
     }
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsivo para o Modal */
+@media (max-width: 768px) {
+    #modalPedidos > div {
+        padding: 30px 25px !important;
+        max-width: 95% !important;
+    }
+    
+    #modalPedidos h2 {
+        font-size: 1.5rem !important;
+    }
+}
     </style>
 
     {!! $systemSetting->code ?? '' !!}
@@ -1059,6 +1087,161 @@ h1 {
 @yield('content')
 
 
+<!-- Modal de Consulta de Pedidos -->
+<div id="modalPedidos" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 10002;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+">
+    <div style="
+        background: var(--bg-card);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 60px var(--shadow-color);
+        position: relative;
+        animation: slideUp 0.4s ease;
+    ">
+        <!-- Botão Fechar -->
+        <button onclick="fecharModalPedidos()" style="
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        " onmouseover="this.style.background='var(--bg-platform)'; this.style.color='var(--text-primary)'" onmouseout="this.style.background='transparent'; this.style.color='var(--text-muted)'">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Ícone e Título -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div style="
+                width: 70px;
+                height: 70px;
+                background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 20px;
+                box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+            ">
+                <i class="fas fa-history" style="font-size: 32px; color: white;"></i>
+            </div>
+            <h2 style="
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+                background: linear-gradient(90deg, #4a9eff, #a78bfa);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            ">Meus Pedidos</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                Digite seu email para consultar seus pedidos
+            </p>
+        </div>
+
+        <!-- Formulário -->
+        <form id="formConsultaPedidos" onsubmit="consultarPedidos(event)" style="display: flex; flex-direction: column; gap: 20px;">
+            <div>
+                <label style="
+                    display: block;
+                    color: var(--text-primary);
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                    font-size: 0.95rem;
+                ">
+                    <i class="fas fa-envelope" style="margin-right: 8px; color: var(--border-active);"></i>
+                    Email
+                </label>
+                <input 
+                    type="email" 
+                    id="emailPedidos" 
+                    required 
+                    placeholder="seu@email.com"
+                    style="
+                        width: 100%;
+                        padding: 14px 18px;
+                        background: var(--bg-platform);
+                        border: 1px solid var(--border-color);
+                        border-radius: 12px;
+                        color: var(--text-primary);
+                        font-size: 1rem;
+                        transition: all 0.3s;
+                        outline: none;
+                    "
+                    onfocus="this.style.borderColor='var(--border-active)'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)'"
+                    onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none'"
+                >
+            </div>
+
+            <button type="submit" style="
+                padding: 14px 30px;
+                background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+                border: none;
+                border-radius: 12px;
+                color: white;
+                font-size: 1.05rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s;
+                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.4)'">
+                <i class="fas fa-search"></i>
+                Buscar Pedidos
+            </button>
+        </form>
+
+        <!-- Informação Extra -->
+        <div style="
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        ">
+            <i class="fas fa-info-circle" style="color: #3b82f6; font-size: 18px; margin-top: 2px;"></i>
+            <p style="
+                color: var(--text-secondary);
+                font-size: 0.85rem;
+                line-height: 1.5;
+                margin: 0;
+            ">
+                Use o mesmo email que você forneceu ao fazer o pedido. Você receberá um histórico completo de todas as suas compras.
+            </p>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -1071,6 +1254,108 @@ h1 {
     $('.dropdown-item, #navbarsExampleDefault .bg-default-secondary').click(function () {
         document.querySelector(".offcanvas-collapse").classList.toggle("open")
     })
+
+    // Abrir Modal de Pedidos
+function abrirModalPedidos() {
+    const modal = document.getElementById('modalPedidos');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Focar no input de email
+    setTimeout(() => {
+        document.getElementById('emailPedidos').focus();
+    }, 300);
+}
+
+// Fechar Modal de Pedidos
+function fecharModalPedidos() {
+    const modal = document.getElementById('modalPedidos');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Limpar o formulário
+    document.getElementById('formConsultaPedidos').reset();
+}
+
+// Fechar modal ao clicar fora
+document.getElementById('modalPedidos')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        fecharModalPedidos();
+    }
+});
+
+// Fechar modal com ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        fecharModalPedidos();
+    }
+});
+
+// Função para consultar pedidos
+function consultarPedidos(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('emailPedidos').value;
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Mostrar loading no botão
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+    
+    // Simular requisição AJAX (substitua pela sua rota real)
+    $.ajax({
+        url: '/api/consultar-pedidos', // ALTERE PARA SUA ROTA
+        method: 'POST',
+        data: { email: email },
+        success: function(response) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            
+            // Fechar modal
+            fecharModalPedidos();
+            
+            // Exibir pedidos (você pode criar outra função para isso)
+            exibirPedidos(response.pedidos);
+        },
+        error: function(xhr) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            
+            // Mensagem de erro
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: xhr.responseJSON?.message || 'Não foi possível buscar os pedidos. Tente novamente.',
+                confirmButtonColor: '#3b82f6',
+                background: getComputedStyle(document.documentElement).getPropertyValue('--bg-card'),
+                color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary')
+            });
+        }
+    });
+}
+
+// Função para exibir os pedidos (exemplo)
+function exibirPedidos(pedidos) {
+    if (pedidos.length === 0) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Nenhum pedido encontrado',
+            text: 'Não encontramos pedidos associados a este email.',
+            confirmButtonColor: '#3b82f6',
+            background: getComputedStyle(document.documentElement).getPropertyValue('--bg-card'),
+            color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary')
+        });
+        return;
+    }
+    
+    // Aqui você pode criar uma visualização dos pedidos
+    // Por exemplo, redirecionar para uma página de pedidos:
+    window.location.href = `/pedidos?email=${encodeURIComponent(document.getElementById('emailPedidos').value)}`;
+    
+    // Ou exibir em um modal customizado
+    // exibirModalPedidos(pedidos);
+}
 </script>
 @stack('scripts')
 </body>
