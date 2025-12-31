@@ -1046,6 +1046,10 @@ h1 {
     <i class="fas fa-moon" id="themeIcon"></i>
 </button>
 
+<a href="/meus-pedidos" style="position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, rgb(59, 130, 246), rgb(139, 92, 246)); color: rgb(255, 255, 255); padding: 12px 24px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; box-shadow: rgba(59, 130, 246, 0.4) 0px 4px 15px; text-decoration: none; z-index: 9999; transition: 0.3s; transform: translateY(0px);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.4)'">
+    <i class="fas fa-history"></i>
+    <span>Meus Pedidos</span>
+ </a>
 
 <!-- Container de Notificações -->
 <div id="notificationsContainer"></div>

@@ -431,7 +431,7 @@ Processos ajustados às práticas aceitas nas plataformas</p>
         <div class="testimonial-card">
             <div class="testimonial-header">
                 <div class="avatar-wrapper">
-                    <img src="https://i.pinimg.com/736x/bd/7d/26/bd7d26904692d8b56b363ce85e4ec3d3.jpg" alt="Fernanda Lima" class="avatar-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsJCw1HRyqu_15Wg2Ggs24scOnSTMyGKrbyA&s" alt="Fernanda Lima" class="avatar-img">
                     <div class="star-badge">
                         <i class="fas fa-star"></i>
                     </div>

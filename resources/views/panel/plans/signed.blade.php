@@ -140,7 +140,7 @@
                             $('#pixPaymentCode').val(response.qr_code);
 
                             // Inicia a checagem automática a cada 10s
-                            paymentChecker = setInterval(checkPaymentStatus, 10000);
+                            paymentChecker = setInterval(checkPaymentStatus, 3000);
                         }
                     },
                     error: function (response) {
