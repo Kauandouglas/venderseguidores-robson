@@ -33,9 +33,9 @@ Route::group(['as' => 'api.'], function () {
 
     // Service
     Route::prefix('validateInstagram')->group(function () {
-        Route::get('validate-user', [ServiceController::class, 'validateUser']);
-        Route::get('validate-post', [ServiceController::class, 'validatePost']);
-        Route::get('list-posts', [ServiceController::class, 'listPosts']);
+        Route::post('validate-user', [ServiceController::class, 'validateUser']);
+        Route::post('validate-post', [ServiceController::class, 'validatePost']);
+        Route::post('list-posts', [ServiceController::class, 'listPosts']);
     });
 
     // Purchases
