@@ -118,12 +118,14 @@
         return; // encerra aqui
       }
     
-      $('#step1 .submenu').addClass('active')
       $('#sidebar').addClass('active')
 
       $('.sidebar-wrapper.ps').animate({
         scrollTop: $('.sidebar-wrapper.ps')[0].scrollHeight
-    }, 500); // 500ms de duração da animação
+      }, 500);
+
+      $('#step1 .submenu').addClass('active')
+
 
     
       const tour = new Shepherd.Tour({
