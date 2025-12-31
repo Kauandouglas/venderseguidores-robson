@@ -1666,65 +1666,71 @@
         // CRIAR CARD DE PEDIDO
         // ============================================
         function criarCardPedido(pedido) {
-            // Determinar classe de status
-            let statusClass = 'status-pendente';
-            let statusTexto = pedido.status || 'Pendente';
-            
-            if (pedido.status === 'concluido' || pedido.status === 'completed') {
-                statusClass = 'status-concluido';
-                statusTexto = 'Concluído';
-            } else if (pedido.status === 'processando' || pedido.status === 'processing') {
-                statusClass = 'status-processando';
-                statusTexto = 'Processando';
-            }
+    // Determinar classe de status
+    let statusClass = 'status-pendente';
+    let statusTexto = 'Pendente';
+    
+    if (pedido.status === 'completed' || pedido.status === 'concluido') {
+        statusClass = 'status-concluido';
+        statusTexto = 'Concluído';
+    } else if (pedido.status === 'processing' || pedido.status === 'processando') {
+        statusClass = 'status-processando';
+        statusTexto = 'Processando';
+    } else if (pedido.status === 'pending') {
+        statusClass = 'status-pendente';
+        statusTexto = 'Pendente';
+    }
 
-            return `
-                <div class="pedido-item">
-                    <div class="pedido-header">
-                        <div class="pedido-numero">
-                            <i class="fas fa-receipt"></i> Pedido #${pedido.id || pedido.numero}
-                        </div>
-                        <span class="pedido-status ${statusClass}">
-                            ${statusTexto}
-                        </span>
-                    </div>
-                    
-                    <div class="pedido-detalhes">
-                        <div class="detalhe-item">
-                            <span class="detalhe-label">
-                                <i class="fas fa-box"></i> Plataforma
-                            </span>
-                            <span class="detalhe-valor">${pedido.plataforma || '-'}</span>
-                        </div>
-                        
-                        <div class="detalhe-item">
-                            <span class="detalhe-label">
-                                <i class="fas fa-tag"></i> Categoria
-                            </span>
-                            <span class="detalhe-valor">${pedido.categoria || '-'}</span>
-                        </div>
-                        
-                        <div class="detalhe-item">
-                            <span class="detalhe-label">
-                                <i class="fas fa-hashtag"></i> Quantidade
-                            </span>
-                            <span class="detalhe-valor">${pedido.quantidade || '-'}</span>
-                        </div>
-                        
-                        <div class="detalhe-item">
-                            <span class="detalhe-label">
-                                <i class="fas fa-dollar-sign"></i> Valor
-                            </span>
-                            <span class="detalhe-valor pedido-preco">${pedido.valor || 'R$ 0,00'}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="pedido-data">
-                        <i class="far fa-clock"></i> ${pedido.created_at || '-'}
-                    </div>
+    // Formatar preço
+    const preco = pedido.price ? `R$ ${parseFloat(pedido.price).toFixed(2).replace('.', ',')}` : 'R$ 0,00';
+
+    return `
+        <div class="pedido-item">
+            <div class="pedido-header">
+                <div class="pedido-numero">
+                    <i class="fas fa-receipt"></i> Pedido #${pedido.id}
                 </div>
-            `;
-        }
+                <span class="pedido-status ${statusClass}">
+                    ${statusTexto}
+                </span>
+            </div>
+            
+            <div class="pedido-detalhes">
+                <div class="detalhe-item">
+                    <span class="detalhe-label">
+                        <i class="fas fa-user"></i> Nome
+                    </span>
+                    <span class="detalhe-valor">${pedido.name || '-'}</span>
+                </div>
+                
+                <div class="detalhe-item">
+                    <span class="detalhe-label">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </span>
+                    <span class="detalhe-valor">@${pedido.instagram || '-'}</span>
+                </div>
+                
+                <div class="detalhe-item">
+                    <span class="detalhe-label">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </span>
+                    <span class="detalhe-valor">${pedido.whatsapp || '-'}</span>
+                </div>
+                
+                <div class="detalhe-item">
+                    <span class="detalhe-label">
+                        <i class="fas fa-dollar-sign"></i> Valor
+                    </span>
+                    <span class="detalhe-valor pedido-preco">${preco}</span>
+                </div>
+            </div>
+            
+            <div class="pedido-data">
+                <i class="far fa-clock"></i> ${pedido.created_at || '-'}
+            </div>
+        </div>
+    `;
+}
     </script>
 
     @stack('scripts')

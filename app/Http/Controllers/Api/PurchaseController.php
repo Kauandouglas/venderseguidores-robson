@@ -409,6 +409,8 @@ class PurchaseController extends Controller
     {
         $purchases = Purchase::latest('id')->where('email', $request->email)->get();
 
-        return response()->json($purchases);
+        return response()->json([
+            'pedidos' => $purchases
+        ]);
     }
 }
