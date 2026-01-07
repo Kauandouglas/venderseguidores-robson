@@ -621,6 +621,9 @@
                         showCart();
 
                         window.location.reload()
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 500); // espera meio segundo
                     },
                     error: function (response) {
                         alert('Ocorreu um erro ao remover o produto');
