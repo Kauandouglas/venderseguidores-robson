@@ -58,7 +58,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
                             </div>
-                            <p class="text-gray-100">Integrado com o Painel do Insta 🇧🇷 +50 mil clientes</p>
+                            <p class="text-gray-100">Integrado com o Revenda Direta 🇧🇷 +50 mil clientes</p>
                         </div>
                     </div>
 

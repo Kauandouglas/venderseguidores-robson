@@ -110,127 +110,89 @@
     </script>
 @endif
 @stack('scripts')
+
+@php
+$userId = auth()->id();
+$tourFinalizado = Cache::get("tour_finalizado_{$userId}", false);
+
+if (! $tourFinalizado) {
+    Cache::put("tour_finalizado_{$userId}", true, now()->addYears(1));
+}
+@endphp
+
+@if (!$tourFinalizado)
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    
-      // Se já foi concluído, não inicia de novo
-      if (localStorage.getItem('tourFinalizado') === 'true') {
-        return; // encerra aqui
+  document.addEventListener('DOMContentLoaded', () => {
+    // Ativa o sidebar e prepara layout
+    $('#sidebar').addClass('active');
+    $('.sidebar-wrapper.ps').animate({
+      scrollTop: $('.sidebar-wrapper.ps')[0].scrollHeight
+    }, 500);
+    $('#step1 .submenu').addClass('active');
+  
+    // Inicializa o tour
+    const tour = new Shepherd.Tour({
+      useModalOverlay: true,
+      defaultStepOptions: {
+        cancelIcon: { enabled: true },
+        classes: 'shadow-md bg-purple-600 text-white p-4 rounded-lg',
+        scrollTo: { behavior: 'smooth', block: 'center' }
       }
-    
-      $('#sidebar').addClass('active')
-
-      $('.sidebar-wrapper.ps').animate({
-        scrollTop: $('.sidebar-wrapper.ps')[0].scrollHeight
-      }, 500);
-
-      $('#step1 .submenu').addClass('active')
-
-
-    
-      const tour = new Shepherd.Tour({
-        useModalOverlay: true,
-        defaultStepOptions: {
-          cancelIcon: { enabled: true },
-          classes: 'shadow-md bg-purple-600',
-          scrollTo: { behavior: 'smooth', block: 'center' }
-        }
-      });
-    
-      // Passo 1
-      tour.addStep({
-        id: 'step1',
-        text: 'Clique aqui para começar!',
-        attachTo: { on: 'bottom' },
-        buttons: [
-          { text: 'Próximo', action: tour.next }
-        ]
-      });
-    
-      // Passo 2
-      tour.addStep({
-        id: 'step2',
-        text: `
-          <strong>Primeiro passo:</strong><br>
-          Antes de começar, você precisa <b>cadastrar a API da Revenda Direta</b>.<br><br>
-          Vá até o menu <b>Provedor de API</b> e adicione sua chave da API Revenda Direta.
-        `,
-        attachTo: { element: '#step2', on: 'bottom' },
-        buttons: [
-          { text: 'Próximo', action: tour.next }
-        ]
-      });
-    
-      // Passo 3
-      tour.addStep({
-        id: 'step3',
-        text: `
-          <strong>Segundo passo:</strong><br>
-          Após cadastrar o <b>Provedor de API</b>, configure a sua <b>chave de pagamento</b>.<br><br>
-          Vá até o menu <b>Chave de Pagamento</b> e insira suas credenciais.
-        `,
-        attachTo: { element: '#step3', on: 'bottom' },
-        buttons: [
-          { text: 'Próximo', action: tour.next },
-          { text: 'Fechar', action: tour.cancel }
-        ]
-      });
-    
-      // Passo 4
-      tour.addStep({
-        id: 'step4',
-        text: `
-          <strong>Terceiro passo:</strong><br>
-          Escolha uma <b>categoria</b> para começar a usar o sistema.<br><br>
-          Acesse o menu <b>Categorias</b> e selecione a opção desejada.
-        `,
-        attachTo: { element: '#step4', on: 'bottom' },
-        buttons: [
-          { text: 'Próximo', action: tour.next },
-          { text: 'Fechar', action: tour.cancel }
-        ]
-      });
-    
-      // Passo 5
-      tour.addStep({
-        id: 'step5',
-        text: `
-          <strong>Quarto passo:</strong><br>
-          Agora cadastre seus <b>serviços</b>.<br><br>
-          Escolha a categoria, o provedor e insira nome, quantidade e preço. Depois clique em <b>Salvar</b>.
-        `,
-        attachTo: { element: '#step5', on: 'bottom' },
-        buttons: [
-          { text: 'Próximo', action: tour.next },
-          { text: 'Fechar', action: tour.cancel }
-        ]
-      });
-    
-      // Passo 6 — Final
-      tour.addStep({
-        id: 'step6',
-        text: `
-          <strong>Passo final:</strong><br>
-          🎉 Parabéns! Seu sistema está pronto.<br><br>
-          Adquira um plano, personalize sua loja e comece a vender!
-        `,
-        attachTo: { on: 'bottom' },
-        buttons: [
-          { 
-            text: 'Concluir', 
-            action: () => {
-              // Marca como finalizado e termina
-              localStorage.setItem('tourFinalizado', 'true');
-              tour.complete();
-            } 
-          },
-          { text: 'Fechar', action: tour.cancel }
-        ]
-      });
-    
-      // Inicia o tour
-      tour.start();
     });
-    </script>    
+  
+    // Passos
+    tour.addStep({
+      id: 'step1',
+      text: 'Clique aqui para começar!',
+      attachTo: { on: 'bottom' },
+      buttons: [{ text: 'Próximo', action: tour.next }]
+    });
+  
+    tour.addStep({
+      id: 'step2',
+      text: `
+        <strong>Primeiro passo:</strong><br>
+        Cadastre a <b>API da Revenda Direta</b>.<br><br>
+        Vá até o menu <b>Provedor de API</b> e adicione sua chave.
+      `,
+      attachTo: { element: '#step2', on: 'bottom' },
+      buttons: [{ text: 'Próximo', action: tour.next }]
+    });
+  
+    tour.addStep({
+      id: 'step3',
+      text: `
+        <strong>Segundo passo:</strong><br>
+        Configure a sua <b>Chave de Pagamento</b> no menu correspondente.
+      `,
+      attachTo: { element: '#step3', on: 'bottom' },
+      buttons: [{ text: 'Próximo', action: tour.next }]
+    });
+  
+    tour.addStep({
+      id: 'step4',
+      text: `
+        <strong>Terceiro passo:</strong><br>
+        Escolha uma <b>categoria</b> para começar.
+      `,
+      attachTo: { element: '#step4', on: 'bottom' },
+      buttons: [{ text: 'Próximo', action: tour.next }]
+    });
+  
+    tour.addStep({
+      id: 'step5',
+      text: `
+        <strong>Quarto passo:</strong><br>
+        Cadastre seus <b>serviços</b> e clique em <b>Salvar</b>.
+      `,
+      attachTo: { element: '#step5', on: 'bottom' },
+      buttons: [{ text: 'Finalizar', action: tour.complete }]
+    });
+  
+    // Inicia o tour
+    tour.start();
+  });
+  </script>
+  @endif
 </body>
 </html>

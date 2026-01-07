@@ -1403,7 +1403,7 @@
     {{-- ============================================
         BOTÃO WHATSAPP FLUTUANTE
         ============================================ --}}
-    <a href="https://wa.me/55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : config('template.phone')) }}"
+    <a href="https://wa.me/55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : '(99) 99999-99999') }}"
        target="_blank"
        class="whatsapp-btn"
        title="Fale conosco no WhatsApp">

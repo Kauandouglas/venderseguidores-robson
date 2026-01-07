@@ -619,6 +619,8 @@
                     dataType: "json",
                     success: function (response) {
                         showCart();
+
+                        window.location.reload()
                     },
                     error: function (response) {
                         alert('Ocorreu um erro ao remover o produto');

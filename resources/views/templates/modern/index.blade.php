@@ -3,7 +3,7 @@
 
 <!-- PÁGINA 1: Seleção de Plataforma -->
 <div class="page active" id="page-platform">
-    <div class="container">
+    <div class="container" style="margin-top: 50px;">
         <h1>Impulsione seu perfil hoje</h1>
         <p class="subtitle">Crescimento rápido, seguro e totalmente sigiloso.</p>
 
@@ -328,7 +328,7 @@ Processos ajustados às práticas aceitas nas plataformas</p>
             <p style="color: var(--text-secondary); margin-bottom: 25px;">
                 Nossa equipe está pronta para ajudar você!
             </p>
-            <a href="https://wa.me/62981686505" target="_blank" style="
+            <a href="https://wa.me/{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : '(99) 99999-99999') }}" target="_blank" style="
                 display: inline-flex;
                 align-items: center;
                 gap: 10px;
