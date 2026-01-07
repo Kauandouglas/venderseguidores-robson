@@ -596,7 +596,7 @@
                     showCart.html(response);
                     loadHideCart();
                 }, 'html').fail(function () {
-                    alert('Ocorreu um erro');
+                    console.log('Ocorreu um erro');
                 })
             }
 
