@@ -328,7 +328,7 @@ Processos ajustados às práticas aceitas nas plataformas</p>
             <p style="color: var(--text-secondary); margin-bottom: 25px;">
                 Nossa equipe está pronta para ajudar você!
             </p>
-            <a href="https://wa.me/{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : '(99) 99999-99999') }}" target="_blank" style="
+            <a href="https://wa.me/55{{ (isset($systemSetting->phone) ? clearString($systemSetting->phone) : '(99) 99999-99999') }}" target="_blank" style="
                 display: inline-flex;
                 align-items: center;
                 gap: 10px;
