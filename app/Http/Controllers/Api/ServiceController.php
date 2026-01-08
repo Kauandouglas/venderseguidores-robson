@@ -151,7 +151,7 @@ class ServiceController extends Controller
         $response = Http::withHeaders([
             'x-rapidapi-host' => 'tiktok-scraper7.p.rapidapi.com',
             'x-rapidapi-key' => '69d89efd37msh4065cea386c7d43p166fe8jsncfc50d662cdb',
-        ])->get('https://tiktok-scraper7.p.rapidapi.com//user/info', [
+        ])->get('https://tiktok-scraper7.p.rapidapi.com/user/info', [
             'unique_id' => $username,
         ]);
 
