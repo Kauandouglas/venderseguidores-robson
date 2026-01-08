@@ -656,11 +656,16 @@
                 // 🎵 TIKTOK
                 // ===================================
                 else if (typeSocial === 'tiktok_profile') {
+                    let username = value
+                            .replace(/^@/, '') // remove @ do início, se existir
+                            .replace(/.*tiktok\.com\/@([^/?#]+).*/, '$1') // extrai o nome de usuário da URL, se for link completo
+                            .trim();
+                            
                     postsContainer.addClass('hidden');
-                    $.post('/api/validateTiktok/validate-user', { username: value }, function (response) {
+                    $.post('/api/validateTiktok/validate-user', { username: username }, function (response) {
                         if (response.success) {
                             showConfirmation(confirmContainer, response.avatar, response.nickname || response.username, function() {
-                                saveData(action, value);
+                                saveData(action, username);
                             }, function() {
                                 input.val('');
                                 confirmContainer.addClass('hidden');
