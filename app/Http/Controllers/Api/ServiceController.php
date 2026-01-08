@@ -148,7 +148,12 @@ class ServiceController extends Controller
             return response()->json(['success' => false, 'message' => 'O nome de usuário do TikTok é obrigatório.'], 400);
         }
 
-        $response = $this->makeRapidApiRequest($this->rapidApiHostTiktok, '/user/info', ['unique_id' => $username]);
+        $response = Http::withHeaders([
+            'x-rapidapi-host' => 'tiktok-scraper7.p.rapidapi.com',
+            'x-rapidapi-key' => '69d89efd37msh4065cea386c7d43p166fe8jsncfc50d662cdb',
+        ])->get('https://tiktok-scraper7.p.rapidapi.com//user/info', [
+            'unique_id' => $username,
+        ]);
 
         if ($response->failed()) {
             return response()->json(['success' => false, 'message' => 'Erro ao buscar informações do usuário. Código HTTP: ' . $response->status()], 500);
