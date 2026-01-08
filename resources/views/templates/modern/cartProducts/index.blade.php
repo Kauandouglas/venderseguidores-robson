@@ -651,7 +651,6 @@
                 } else if (typeSocial === 'instagram_post') {
                     handleInstagramPost(value, postsContainer, container, input, action, messageBox);
                 }
-                alert(typeSocial)
         
                 // ===================================
                 // 🎵 TIKTOK
@@ -690,7 +689,7 @@
                         }, 'json').fail(handleFail);
                     } else {
                         // Se não for link, lista vídeos do perfil
-                        $.post('/api/validateTiktok/validate-user', { username: value }, function (response) {
+                        $.post('/api/validateTiktok/list-posts', { username: value }, function (response) {
                             if (response.success) {
                                 fetchTiktokPosts(value, postsContainer, container.find('.list-posts-grid'), input);
                                 loadHideCart();
