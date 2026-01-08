@@ -688,6 +688,10 @@
                             }
                         }, 'json').fail(handleFail);
                     } else {
+                        let username = value
+                            .replace(/^@/, '') // remove @ do início, se existir
+                            .replace(/.*tiktok\.com\/@([^/?#]+).*/, '$1') // extrai o nome de usuário da URL, se for link completo
+                            .trim();
                         // Se não for link, lista vídeos do perfil
                         $.post('/api/validateTiktok/list-posts', { username: value }, function (response) {
                             if (response.success) {
