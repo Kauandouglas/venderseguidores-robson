@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="type_social">Verificação Interna/label>
+                                                <label for="type_social">Verificação Interna</label>
                                                 <select name="type_social" id="type_social" class="form-control">
                                                     <option value="other" {{ $service->type_social == 'other' ? 'selected' : '' }}>Nenhum</option>
                                                     <option value="instagram_profile" {{ $service->type_social == 'instagram_profile' ? 'selected' : '' }}>Instagram (Perfil)</option>
