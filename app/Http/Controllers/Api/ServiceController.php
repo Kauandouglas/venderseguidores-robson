@@ -189,8 +189,6 @@ class ServiceController extends Controller
             'x-rapidapi-key' => '69d89efd37msh4065cea386c7d43p166fe8jsncfc50d662cdb',
         ])->get("https://tiktok-scraper7.p.rapidapi.com/comment/list?url={$encodedUrl}&count=1&cursor=0");
 
-        $response = $this->makeRapidApiRequest($this->rapidApiHostTiktok, "/comment/list?url={$encodedUrl}&count=1&cursor=0");
-
         if ($response->failed()) {
             return response()->json(['success' => false, 'message' => 'Erro ao buscar vídeo no TikTok. Código HTTP: ' . $response->status()], 500);
         }
