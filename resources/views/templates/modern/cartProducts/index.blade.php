@@ -651,6 +651,7 @@
                 } else if (typeSocial === 'instagram_post') {
                     handleInstagramPost(value, postsContainer, container, input, action, messageBox);
                 }
+                alert(typeSocial)
         
                 // ===================================
                 // 🎵 TIKTOK
