@@ -693,9 +693,9 @@
                             .replace(/.*tiktok\.com\/@([^/?#]+).*/, '$1') // extrai o nome de usuário da URL, se for link completo
                             .trim();
                         // Se não for link, lista vídeos do perfil
-                        $.post('/api/validateTiktok/list-posts', { username: value }, function (response) {
+                        $.post('/api/validateTiktok/list-posts', { username: username }, function (response) {
                             if (response.success) {
-                                fetchTiktokPosts(value, postsContainer, container.find('.list-posts-grid'), input);
+                                fetchTiktokPosts(username, postsContainer, container.find('.list-posts-grid'), input);
                                 loadHideCart();
                             } else {
                                 showError(messageBox, response.message || 'Perfil não encontrado.');
