@@ -27,6 +27,12 @@ Route::group(['as' => 'api.'], function () {
         Route::post('list-posts', [ServiceController::class, 'listPosts']);
     });
 
+    Route::prefix('validateTiktok')->group(function () {
+        Route::post('validate-user', [ServiceController::class, 'validateTiktokUser']);
+        Route::post('validate-post', [ServiceController::class, 'validateTiktokPost']);
+        Route::post('list-posts', [ServiceController::class, 'listTiktokPosts']);
+    });
+
     // System Settings
     Route::post('/carinho/{domain}/{service}', [SystemSettingController::class, 'addCart'])->name('systemSettings.addCart');
 

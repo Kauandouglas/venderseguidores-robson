@@ -14,7 +14,7 @@ class AddTypeSocialToServicesTable extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->enum('type_social', ['other', 'instagram_profile', 'instagram_post'])->default('other')->after('api_service');
+            $table->enum('type_social', ['other', 'instagram_profile', 'instagram_post', 'tiktok_post', 'tiktok_profile'])->default('other')->after('api_service');
         });
     }
 

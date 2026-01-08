@@ -578,6 +578,11 @@
             $('input[name="whatsapp"]').mask(SPMaskBehavior, spOptions);
         });
     </script>
+    
+
+
+
+
     <script>
         $(function () {
             $.ajaxSetup({
@@ -585,13 +590,13 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+        
             showCart();
-
+        
             function showCart() {
                 var showCart = $('#show-cart');
                 loadShowCart();
-
+        
                 $.get('{{ route('api.carts.fragmentIndex', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}', function (response) {
                     showCart.html(response);
                     loadHideCart();
@@ -599,71 +604,109 @@
                     console.log('Ocorreu um erro');
                 })
             }
-
+        
             function loadShowCart() {
-                var showCart = $('#show-cart');
-                showCart.css('opacity', '0.3').css('pointer-events', 'none');
+                $('#show-cart').css('opacity', '0.3').css('pointer-events', 'none');
             }
-
+        
             function loadHideCart() {
-                var showCart = $('#show-cart');
-                showCart.css('opacity', '').css('pointer-events', '');
+                $('#show-cart').css('opacity', '').css('pointer-events', '');
             }
-
-            $(document).on("click", "#cart-product-remove", function () {
-                var action = $(this).data('action');
-
-                jQuery.ajax({
-                    type: "DELETE",
-                    url: action,
-                    dataType: "json",
-                    success: function (response) {
-                        showCart();
-
-                        window.location.reload()
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 500); // espera meio segundo
-                    },
-                    error: function (response) {
-                        alert('Ocorreu um erro ao remover o produto');
-                    }
-                });
-            })
-
-           ////////////
-           $(document).on("blur", ".input-change-profile", function () {
-            var input = $(this);
-            var action = input.data('action');
-            var typeSocial = input.data('typesocial');
-            var value = input.val().trim();
-            var container = input.closest('td');
-            var messageBox = container.find('.show-message');
-            var postsContainer = container.find('.list-posts-container');
-            var confirmContainer = container.find('.confirmation-container');
-
-            // Limpa estados anteriores
-            messageBox.addClass('hidden').html('');
-            
-            if (value === '') {
-                messageBox.removeClass('hidden').html('O campo não pode estar vazio.');
-                return false;
-            }
-
-            // FALLBACK: Se não for Instagram, salva direto
-            if (typeSocial !== 'instagram_profile' && typeSocial !== 'instagram_post') {
+        
+            // ==============================
+            // EVENTO: Blur no campo de perfil/post
+            // ==============================
+            $(document).on("blur", ".input-change-profile", function () {
+                var input = $(this);
+                var action = input.data('action');
+                var typeSocial = input.data('typesocial');
+                var value = input.val().trim();
+                var container = input.closest('td');
+                var messageBox = container.find('.show-message');
+                var postsContainer = container.find('.list-posts-container');
+                var confirmContainer = container.find('.confirmation-container');
+        
+                // Reset
+                messageBox.addClass('hidden').html('');
+                if (value === '') {
+                    messageBox.removeClass('hidden').html('O campo não pode estar vazio.');
+                    return false;
+                }
+        
+                // Se não for rede social suportada
+                if (!typeSocial.includes('instagram') && !typeSocial.includes('tiktok')) {
+                    loadShowCart();
+                    saveData(action, value);
+                    return;
+                }
+        
                 loadShowCart();
-                saveData(action, value);
-                return;
-            }
-
-            loadShowCart();
-            var isUrl = value.includes('instagram.com');
-
-            // LÓGICA 1: PERFIL
-            if (typeSocial === 'instagram_profile') {
-                postsContainer.addClass('hidden');
-                $.post('/api/validateInstagram/validate-user', { 'username': value }, function (response) {
+                var isUrl = value.includes('.com');
+        
+                // ===================================
+                // 📸 INSTAGRAM
+                // ===================================
+                if (typeSocial === 'instagram_profile') {
+                    handleInstagramProfile(value, confirmContainer, action, messageBox);
+                } else if (typeSocial === 'instagram_post') {
+                    handleInstagramPost(value, postsContainer, container, input, action, messageBox);
+                }
+        
+                // ===================================
+                // 🎵 TIKTOK
+                // ===================================
+                else if (typeSocial === 'tiktok_profile') {
+                    postsContainer.addClass('hidden');
+                    $.post('/api/validateTiktok/validate-user', { username: value }, function (response) {
+                        if (response.success) {
+                            showConfirmation(confirmContainer, response.avatar, response.nickname || response.username, function() {
+                                saveData(action, value);
+                            }, function() {
+                                input.val('');
+                                confirmContainer.addClass('hidden');
+                            });
+                            loadHideCart();
+                        } else {
+                            showError(messageBox, response.message || 'Perfil inválido.');
+                        }
+                    }, 'json').fail(handleFail);
+                } else if (typeSocial === 'tiktok_post') {
+                    // Verifica se é link completo
+                    if (isUrl && value.includes('/video/')) {
+                        postsContainer.addClass('hidden');
+                        $.post('/api/validateTiktok/validate-post', { url: value }, function (response) {
+                            if (response.success) {
+                                showConfirmation(confirmContainer, '/assets/images/tiktok-video.png', 'Vídeo TikTok válido', function() {
+                                    saveData(action, value);
+                                }, function() {
+                                    input.val('');
+                                    confirmContainer.addClass('hidden');
+                                });
+                                loadHideCart();
+                            } else {
+                                showError(messageBox, response.message || 'Vídeo inválido.');
+                            }
+                        }, 'json').fail(handleFail);
+                    } else {
+                        // Se não for link, lista vídeos do perfil
+                        $.post('/api/validateTiktok/validate-user', { username: value }, function (response) {
+                            if (response.success) {
+                                fetchTiktokPosts(value, postsContainer, container.find('.list-posts-grid'), input);
+                                loadHideCart();
+                            } else {
+                                showError(messageBox, response.message || 'Perfil não encontrado.');
+                            }
+                        }, 'json').fail(handleFail);
+                    }
+                }
+            });
+        
+            // ==============================
+            // FUNÇÕES AUXILIARES
+            // ==============================
+        
+            function handleInstagramProfile(value, confirmContainer, action, messageBox) {
+                $.post('/api/validateInstagram/validate-user', { username: value }, function (response) {
                     if (response.success) {
                         showConfirmation(confirmContainer, response.display_url, response.full_name || response.username, function() {
                             saveData(action, value);
@@ -676,29 +719,26 @@
                         showError(messageBox, response.message || 'Perfil inválido.');
                     }
                 }, 'json').fail(handleFail);
-            } 
-            
-            // LÓGICA 2: POST
-            else if (typeSocial === 'instagram_post') {
-                if (isUrl && (value.includes('/p/') || value.includes('/reels/'))) {
+            }
+        
+            function handleInstagramPost(value, postsContainer, container, input, action, messageBox) {
+                if (value.includes('/p/') || value.includes('/reel/')) {
                     postsContainer.addClass('hidden');
-                    $.post('/api/validateInstagram/validate-post', { 'post_identifier': value }, function (response) {
+                    $.post('/api/validateInstagram/validate-post', { post_identifier: value }, function (response) {
                         if (response.success) {
-                            // Para post, usamos a imagem do post se disponível, ou um ícone
-                            showConfirmation(confirmContainer, response.post_data.display_url || '', 'Post de ' + response.post_data.owner_username, function() {
-                                saveData(action, value);
-                            }, function() {
-                                input.val('');
-                                confirmContainer.addClass('hidden');
-                            });
+                            showConfirmation(container.find('.confirmation-container'),
+                                response.post_data.display_url || '',
+                                'Post de ' + response.post_data.owner_username,
+                                function() { saveData(action, value); },
+                                function() { input.val(''); container.find('.confirmation-container').addClass('hidden'); }
+                            );
                             loadHideCart();
                         } else {
                             showError(messageBox, response.message || 'Post inválido.');
                         }
                     }, 'json').fail(handleFail);
                 } else {
-                    // Se for apenas o username, listamos os posts
-                    $.post('/api/validateInstagram/validate-user', { 'username': value }, function (response) {
+                    $.post('/api/validateInstagram/validate-user', { username: value }, function (response) {
                         if (response.success) {
                             fetchPosts(value, postsContainer, container.find('.list-posts-grid'), input);
                             loadHideCart();
@@ -708,109 +748,126 @@
                     }, 'json').fail(handleFail);
                 }
             }
-        });
-
-        // Exibe a caixa de confirmação com foto e botões
-        function showConfirmation(container, imgUrl, name, onConfirm, onReject) {
-            container.removeClass('hidden');
-            container.find('.confirm-image').attr('src', "https://images.weserv.nl/?url=" + encodeURIComponent(imgUrl) + '&w=200&h=200&fit=cover');
-            container.find('.confirm-name').text(name);
-            
-            container.find('.btn-confirm-action').off('click').on('click', function() {
-                loadShowCart();
-                onConfirm();
-                container.addClass('hidden');
-            });
-            
-            container.find('.btn-reject-action').off('click').on('click', function() {
-                onReject();
-            });
-        }
-
-        function saveData(action, value) {
-            $.post(action, { 'profile': value }, function () {
+        
+            // Exibe a caixa de confirmação (imagem + nome + botões)
+            function showConfirmation(container, imgUrl, name, onConfirm, onReject) {
+                container.removeClass('hidden');
+                container.find('.confirm-image').attr('src', "https://images.weserv.nl/?url=" + encodeURIComponent(imgUrl) + '&w=200&h=200&fit=cover');
+                container.find('.confirm-name').text(name);
+                container.find('.btn-confirm-action').off('click').on('click', function() {
+                    loadShowCart();
+                    onConfirm();
+                    container.addClass('hidden');
+                });
+                container.find('.btn-reject-action').off('click').on('click', function() {
+                    onReject();
+                });
+            }
+        
+            function saveData(action, value) {
+                $.post(action, { 'profile': value }, function () {
+                    loadHideCart();
+                }, 'json');
+            }
+        
+            function showError(element, message) {
                 loadHideCart();
-            }, 'json');
-        }
-
-        function showError(element, message) {
-            loadHideCart();
-            element.removeClass('hidden').html(message);
-        }
-
-        function handleFail() {
-            loadHideCart();
-            alert('Erro na comunicação com o servidor.');
-        }
-
-        function fetchPosts(username, container, grid, inputField) {
-            grid.html('<div class="col-span-full text-center py-4 text-sm text-gray-500">Buscando posts...</div>');
-            container.removeClass('hidden');
-
-            $.post('/api/validateInstagram/list-posts', { 'username': username }, function (response) {
-                if (response.success && response.posts.length > 0) {
-                    grid.empty();
-                    response.posts.forEach(function (post) {
-                        grid.append(`
-                            <div class="relative aspect-square cursor-pointer hover:scale-105 transition-transform post-item" data-url="${post.post_url}">
-                                <img src="${post.display_url}" class="w-full h-full object-cover rounded-lg border-2 border-gray-100 shadow-sm">
-                            </div>
-                        `);
-                    });
-
-                    grid.find('.post-item').off('click').on('click', function() {
-                        inputField.val($(this).data('url'));
-                        container.addClass('hidden'); // Esconde a lista após selecionar
-                        inputField.trigger('blur'); // Valida o link selecionado
-                    });
-                } else {
-                    grid.html('<div class="col-span-full text-center py-4 text-sm text-red-500">Nenhum post encontrado.</div>');
-                }
-            }, 'json');
-} 
-
+                element.removeClass('hidden').html(message);
+            }
+        
+            function handleFail() {
+                loadHideCart();
+                alert('Erro na comunicação com o servidor.');
+            }
+        
+            // ===================================
+            // POSTS INSTAGRAM
+            // ===================================
+            function fetchPosts(username, container, grid, inputField) {
+                grid.html('<div class="col-span-full text-center py-4 text-sm text-gray-500">Buscando posts...</div>');
+                container.removeClass('hidden');
+        
+                $.post('/api/validateInstagram/list-posts', { 'username': username }, function (response) {
+                    if (response.success && response.posts.length > 0) {
+                        grid.empty();
+                        response.posts.forEach(function (post) {
+                            grid.append(`
+                                <div class="relative aspect-square cursor-pointer hover:scale-105 transition-transform post-item" data-url="${post.post_url}">
+                                    <img src="${post.display_url}" class="w-full h-full object-cover rounded-lg border-2 border-gray-100 shadow-sm">
+                                </div>
+                            `);
+                        });
+        
+                        grid.find('.post-item').off('click').on('click', function() {
+                            inputField.val($(this).data('url'));
+                            container.addClass('hidden');
+                            inputField.trigger('blur');
+                        });
+                    } else {
+                        grid.html('<div class="col-span-full text-center py-4 text-sm text-red-500">Nenhum post encontrado.</div>');
+                    }
+                }, 'json');
+            }
+        
+            // ===================================
+            // POSTS TIKTOK
+            // ===================================
+            function fetchTiktokPosts(username, container, grid, inputField) {
+                grid.html('<div class="col-span-full text-center py-4 text-sm text-gray-500">Buscando vídeos...</div>');
+                container.removeClass('hidden');
+        
+                $.post('/api/validateTiktok/list-posts', { 'username': username }, function (response) {
+                    if (response.success && response.videos.length > 0) {
+                        grid.empty();
+                        response.videos.forEach(function (video) {
+                            grid.append(`
+                                <div class="relative aspect-square cursor-pointer hover:scale-105 transition-transform post-item" data-url="https://www.tiktok.com/@${username}/video/${video.id}">
+                                    <img src="${video.cover}" class="w-full h-full object-cover rounded-lg border-2 border-gray-100 shadow-sm">
+                                    <div class="absolute bottom-1 right-1 bg-black/50 text-white text-xs px-1 rounded">▶ ${video.views}</div>
+                                </div>
+                            `);
+                        });
+        
+                        grid.find('.post-item').off('click').on('click', function() {
+                            inputField.val($(this).data('url'));
+                            container.addClass('hidden');
+                            inputField.trigger('blur');
+                        });
+                    } else {
+                        grid.html('<div class="col-span-full text-center py-4 text-sm text-red-500">Nenhum vídeo encontrado.</div>');
+                    }
+                }, 'json');
+            }
+        
+            // ===================================
+            // COMENTÁRIOS
+            // ===================================
             $(document).on("blur", ".input-change-comment", function () {
                 var input = $(this);
                 var action = input.data('action');
-
+        
                 if (input.val() === '') {
-                    input.next().parent().find('.show-message').removeClass('hidden').html('Comentario vazio.');
+                    input.next().parent().find('.show-message').removeClass('hidden').html('Comentário vazio.');
                     return false;
                 }
-
+        
                 loadShowCart();
                 $.post(action, {'comments': input.val()}, function () {
                     loadHideCart();
-                    showCart()
+                    showCart();
                 }, 'json').fail(function () {
                     alert('Ocorreu um erro');
                 });
-            })
-            })
-
-        // ===== CORREÇÃO: Aplicar cupom =====
-        $('#apply-coupon').click(function () {
-            var couponCode = $('#coupon-code').val();
-
-            $.ajax({
-                type: "POST",
-                url: "{{ route('api.cartProducts.addCoupon', ['domain' => $user->domain, 'ipFixed' => $ipFixed, 'userAgentFixed' => $userAgentFixed]) }}",
-                data: {coupon: couponCode},
-                dataType: "json",
-                success: function (response) {
-                    $('#coupon-message').removeClass('hidden');
-                    $('#discountCoupon').html('<span>Desconto (Cupom)</span> R$ ' + response.discount);
-                    $('.cart-total-price').html('<span>Total</span> R$ ' + response.total);
-                },
-                error: function (response) {
-                    $('#coupon-message').addClass('hidden');
-                    $.each(response.responseJSON.errors, function (index, value) {
-                        alert(value);
-                    });
-                }
             });
-        })
-    </script>
+        });
+        </script>
+        
+
+
+
+
+
+
     <script>
         // Copy
         $('#pixPaymentCopy').click(function () {

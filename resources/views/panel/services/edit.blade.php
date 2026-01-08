@@ -52,11 +52,13 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="type_social">Tipo de serviço</label>
+                                                <label for="type_social">Verificação Interna/label>
                                                 <select name="type_social" id="type_social" class="form-control">
-                                                    <option value="other" {{ $service->type_social == 'other' ? 'selected' : '' }}>Outros</option>
+                                                    <option value="other" {{ $service->type_social == 'other' ? 'selected' : '' }}>Nenhum</option>
                                                     <option value="instagram_profile" {{ $service->type_social == 'instagram_profile' ? 'selected' : '' }}>Instagram (Perfil)</option>
                                                     <option value="instagram_post" {{ $service->type_social == 'instagram_post' ? 'selected' : '' }}>Instagram (Postagem)</option>
+                                                    <option value="tiktok_profile" {{ $service->type_social == 'tiktok_profile' ? 'selected' : '' }}>TikTok (Perfil)</option>
+                                                    <option value="tiktok_post" {{ $service->type_social == 'tiktok_post' ? 'selected' : '' }}>TikTok (Postagem)</option>
                                                 </select>
                                             </div>
                                         </div>

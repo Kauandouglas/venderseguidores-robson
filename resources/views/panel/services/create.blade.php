@@ -52,11 +52,13 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="type_social">Tipo se serviço</label>
+                                                <label for="type_social">Verificação Interna</label>
                                                 <select name="type_social" id="type_social" class="form-control">
-                                                    <option value="other">Outros</option>
+                                                    <option value="other">Nenhum</option>
                                                     <option value="instagram_profile">Instagram (Perfil)</option>
-                                                    <option value="instagram_post">Instagram (Postagem)</option>                                                        
+                                                    <option value="instagram_post">Instagram (Postagem)</option> 
+                                                    <option value="tiktok_profile">TikTok (Perfil)</option>   
+                                                    <option value="tiktok_post">TikTok (Postagem)</option>                                                       
                                                 </select>
                                             </div>
                                         </div>
