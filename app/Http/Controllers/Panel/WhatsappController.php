@@ -19,6 +19,19 @@ class WhatsappController extends Controller
         $user = Auth::user();
         $instance = $user->whatsappInstance;
 
+        // Se a instância existir e estiver desconectada, tenta gerar o QR Code
+        if ($instance && $instance->status != 'connected') {
+            $evolutionApi = new EvolutionApi($instance);
+            $qrCodeData = $evolutionApi->getQrCode();
+            
+            if (isset($qrCodeData['base64'])) {
+                $instance->qr_code = $qrCodeData['base64'];
+                $instance->status = 'connecting';
+                $instance->update();
+            }
+        }
+
+        
         $fetchInstances = new EvolutionApi();
         $callbackFetch = $fetchInstances->fetchInstances($instance->instance_name);
 
@@ -31,18 +44,6 @@ class WhatsappController extends Controller
         }else{
             $instance->status = 'disconnected';
             $instance->update();
-        }
-
-        // Se a instância existir e estiver desconectada, tenta gerar o QR Code
-        if ($instance && $instance->status != 'connected') {
-            $evolutionApi = new EvolutionApi($instance);
-            $qrCodeData = $evolutionApi->getQrCode();
-            
-            if (isset($qrCodeData['base64'])) {
-                $instance->qr_code = $qrCodeData['base64'];
-                $instance->status = 'connecting';
-                $instance->update();
-            }
         }
 
         return view('panel.whatsapp.index', compact('instance'));
