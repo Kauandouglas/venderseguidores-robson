@@ -175,22 +175,6 @@ class EvolutionApi
 
         return $this->post($endpoint, $data);
     }
-
-    /**
-     * Envia uma mensagem com PIX (simulando o comportamento anterior)
-     * A Evolution API não tem um endpoint PIX nativo, então enviamos o texto.
-     *
-     * @param string $number Número de destino
-     * @param string $pix Código PIX Copia e Cola
-     * @return array
-     */
-    public function sendPix(string $number, string $pix): array
-    {
-        $message = "🔑 PIX (Copia e Cola):\n*{$pix}*\n\n";
-        $message .= "Copie o código acima para pagar.";
-
-        return $this->sendText($number, $message);
-    }
     
     /**
      * Desconecta a instância

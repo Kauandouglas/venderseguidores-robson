@@ -244,10 +244,6 @@ class PurchaseController extends Controller
                     if ($instance && $instance->status === 'connected') {
                         $evolutionApi = new EvolutionApi($instance);
                         $evolutionApi->sendText($whatsappNumber, $message);
-                        
-                        sleep(3); 
-                        
-                        $evolutionApi->sendPix($whatsappNumber, $qrCode);
                     }
                     
                     return response()->json([
