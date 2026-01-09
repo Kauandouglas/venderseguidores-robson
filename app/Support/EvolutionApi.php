@@ -170,14 +170,7 @@ class EvolutionApi
         $endpoint = "message/sendText/{$this->instanceName}";
         $data = [
             'number' => $number,
-            'options' => [
-                'delay' => 1200,
-                'presence' => 'composing',
-                'linkPreview' => false,
-            ],
-            'textMessage' => [
-                'text' => $message,
-            ],
+            'text' => $message
         ];
 
         return $this->post($endpoint, $data);
