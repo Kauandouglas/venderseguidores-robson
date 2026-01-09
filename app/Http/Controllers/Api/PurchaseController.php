@@ -212,44 +212,42 @@ class PurchaseController extends Controller
                 }
 
                 if ($qrCode) {
-                    if($user->id == 359){
-                        $message = "🚀 Falta pouco para liberar seu pedido!\n\nSeu pedido do serviço está pronto para ser ativado.\nConfira os detalhes e confirme se está tudo certo:\n\n";
+                    $message = "🚀 Falta pouco para liberar seu pedido!\n\nSeu pedido do serviço está pronto para ser ativado.\nConfira os detalhes e confirme se está tudo certo:\n\n";
         
-                        $message .= "Número do pedido: {$purchase->id}\n";
-                        foreach ($cartProducts as $cartProductWhatsapp) {
-                            $serviceName = $cartProductWhatsapp->service->name;
-                            $quantity = $cartProductWhatsapp->service->quantity;
-                            if ($cartProductWhatsapp->service->type == 4) {
-                                $quantity = substr_count($cartProductWhatsapp->comment, "\n") + 1;
-                            }
-                            $price = $cartProductWhatsapp->price ?? $cartProductWhatsapp->service->price;
-                            $totalLine = number_format($price, 2, ',', '.');
-                        
-                            $message .= "🎯 Serviço: {$serviceName}\n";
-                            $message .= "📦 Quantidade: {$quantity}\n";
-                            $message .= "💰 Valor: R$ {$totalLine}\n";
-                            $message .= "---------------------------\n";
+                    $message .= "Número do pedido: {$purchase->id}\n";
+                    foreach ($cartProducts as $cartProductWhatsapp) {
+                        $serviceName = $cartProductWhatsapp->service->name;
+                        $quantity = $cartProductWhatsapp->service->quantity;
+                        if ($cartProductWhatsapp->service->type == 4) {
+                            $quantity = substr_count($cartProductWhatsapp->comment, "\n") + 1;
                         }
+                        $price = $cartProductWhatsapp->price ?? $cartProductWhatsapp->service->price;
+                        $totalLine = number_format($price, 2, ',', '.');
+                    
+                        $message .= "🎯 Serviço: {$serviceName}\n";
+                        $message .= "📦 Quantidade: {$quantity}\n";
+                        $message .= "💰 Valor: R$ {$totalLine}\n";
+                        $message .= "---------------------------\n";
+                    }
+                    
+                    $message .= "\nPara iniciarmos a entrega, falta apenas a confirmação do pagamento.\n";
+                    $message .= "Use o código PIX abaixo para finalizar:\n\n";
+                    $message .= "🔑 PIX (Copia e Cola):\n*{$qrCode}*\n\n";
+                    $message .= "A liberação é imediata após a confirmação. ⚡\n";
+                    $message .= "Qualquer dúvida, nossa equipe está à disposição no Whats 17-9.8145.2466\n\n";
+                    $message .= "Equipe Loja do Insta 💜";
+                    
+                    $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $request->whatsapp);
+                    
+                    // Envio de PIX via Evolution API
+                    $instance = $user->whatsappInstance()->first();
+                    if ($instance && $instance->status === 'connected') {
+                        $evolutionApi = new EvolutionApi($instance);
+                        $evolutionApi->sendText($whatsappNumber, $message);
                         
-                        $message .= "\nPara iniciarmos a entrega, falta apenas a confirmação do pagamento.\n";
-                        $message .= "Use o código PIX abaixo para finalizar:\n\n";
-                        $message .= "🔑 PIX (Copia e Cola):\n*{$qrCode}*\n\n";
-                        $message .= "A liberação é imediata após a confirmação. ⚡\n";
-                        $message .= "Qualquer dúvida, nossa equipe está à disposição no Whats 17-9.8145.2466\n\n";
-                        $message .= "Equipe Loja do Insta 💜";
+                        sleep(3); 
                         
-                        $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $request->whatsapp);
-                        
-                        // Envio de PIX via Evolution API
-                        $instance = $user->whatsappInstance()->first();
-                        if ($instance && $instance->status === 'connected') {
-                            $evolutionApi = new EvolutionApi($instance);
-                            $evolutionApi->sendText($whatsappNumber, $message);
-                            
-                            sleep(3); 
-                            
-                            $evolutionApi->sendPix($whatsappNumber, $qrCode);
-                        }
+                        $evolutionApi->sendPix($whatsappNumber, $qrCode);
                     }
                     
                     return response()->json([
