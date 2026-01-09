@@ -28,22 +28,8 @@ class WhatsappController extends Controller
                 $instance->qr_code = $qrCodeData['base64'];
                 $instance->status = 'connecting';
                 $instance->save();
+                
             }
-        }
-
-        
-        $fetchInstances = new EvolutionApi();
-        $callbackFetch = $fetchInstances->fetchInstances($instance->instance_name);
-
-        if($callbackFetch[0]['connectionStatus'] == 'connecting'){
-            $instance->status = 'connecting';
-            $instance->update();
-        }elseif($callbackFetch[0]['connectionStatus'] == 'open'){
-            $instance->status = 'connected';
-            $instance->update();
-        }else{
-            $instance->status = 'disconnected';
-            $instance->update();
         }
 
         return view('panel.whatsapp.index', compact('instance'));
