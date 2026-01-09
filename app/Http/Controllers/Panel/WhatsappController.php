@@ -27,7 +27,7 @@ class WhatsappController extends Controller
             if (isset($qrCodeData['base64'])) {
                 $instance->qr_code = $qrCodeData['base64'];
                 $instance->status = 'connecting';
-                $instance->update();
+                $instance->save();
             }
         }
 
