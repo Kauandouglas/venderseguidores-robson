@@ -234,8 +234,6 @@ class PurchaseController extends Controller
                     $message .= "Use o código PIX abaixo para finalizar:\n\n";
                     $message .= "🔑 PIX (Copia e Cola):\n*{$qrCode}*\n\n";
                     $message .= "A liberação é imediata após a confirmação. ⚡\n";
-                    $message .= "Qualquer dúvida, nossa equipe está à disposição no Whats 17-9.8145.2466\n\n";
-                    $message .= "Equipe Loja do Insta 💜";
                     
                     $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $request->whatsapp);
                     
@@ -296,12 +294,11 @@ class PurchaseController extends Controller
                     $purchaseService = new PurchaseService();
                     $purchaseService->sendOrder($purchase);
 
-                    // Verify if the user has an active plan
+                    // Verify if the user has an active plan 
                     $user = $purchase->user()->first();
 
                     $message = "Pagamento Aprovado 👏👏👏\n\n";
-                    $message .= "Seu pedido já será enviado, se em 24 horas ele não chegar, envie o número do pedido para o Whats de atendimento 17-9.8145.2466\n\n";
-                    $message .= "Equipe Loja do Insta 💜";
+                    $message .= "Seu pedido está a caminho! Caso não chegue em até 24 horas, fale com o suporte pelo nosso canal de atendimento.";
                     
                     // Envio de mensagem de aprovação via Evolution API
                     $instance = $purchase->user()->first()->whatsappInstance()->first();
