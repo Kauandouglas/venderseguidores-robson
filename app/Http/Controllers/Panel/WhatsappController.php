@@ -21,6 +21,7 @@ class WhatsappController extends Controller
 
         $fetchInstances = new EvolutionApi();
         $callbackFetch = $fetchInstances->fetchInstances($instance->instance_name);
+        dd($callbackFetch);
 
         if($callbackFetch[0]['connectionStatus'] == 'connecting'){
             $instance->status = 'connecting';
