@@ -263,45 +263,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- Cards de Recursos --}}
-                    @if ($instance->status === 'connected')
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <div class="small-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                                    <div class="inner">
-                                        <h4><i class="fas fa-comments"></i></h4>
-                                        <p>Mensagens Automáticas</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fas fa-comment-dots"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="small-box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
-                                    <div class="inner">
-                                        <h4><i class="fas fa-money-bill-wave"></i></h4>
-                                        <p>Envio de PIX</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fas fa-dollar-sign"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="small-box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
-                                    <div class="inner">
-                                        <h4><i class="fas fa-chart-line"></i></h4>
-                                        <p>Relatórios</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fas fa-analytics"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
                 @endif
             </div>
         </section>
