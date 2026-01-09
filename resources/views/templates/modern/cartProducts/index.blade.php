@@ -1017,6 +1017,24 @@
                 $('#discountCupom').addClass('hidden');
             }
         })
+        
+        $(document).on("click", "#cart-product-remove", function () {
+            var action = $(this).data('action');
+
+            jQuery.ajax({
+                type: "DELETE",
+                url: action,
+                dataType: "json",
+                success: function (response) {
+                    showCart();
+                    window.location.reload()
+                },
+                error: function (response) {
+                   
+                }
+            });
+        })
     </script>
+    
 </body>
 </html>
