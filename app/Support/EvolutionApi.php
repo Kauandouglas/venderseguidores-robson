@@ -178,7 +178,7 @@ class EvolutionApi
 
     public function fetchInstances(string $instanceName): array
     {
-        $endpoint = "fetchInstances?instanceName=" . $instanceName;
+        $endpoint = "instance/fetchInstances?instanceName=" . $instanceName;
 
         return $this->get($endpoint);
     }
