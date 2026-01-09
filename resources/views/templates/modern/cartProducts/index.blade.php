@@ -1026,7 +1026,6 @@
                 url: action,
                 dataType: "json",
                 success: function (response) {
-                    showCart();
                     window.location.reload()
                 },
                 error: function (response) {
