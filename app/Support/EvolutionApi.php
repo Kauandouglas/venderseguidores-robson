@@ -175,6 +175,13 @@ class EvolutionApi
 
         return $this->post($endpoint, $data);
     }
+
+    public function fetchInstances(string $instanceName): array
+    {
+        $endpoint = "fetchInstances?instanceName=" . $instanceName;
+
+        return $this->get($endpoint);
+    }
     
     /**
      * Desconecta a instância
