@@ -986,7 +986,7 @@
 
             setInterval(function () {
                 $.get(action, function (response) {
-                    if (response['status'] == "approved") {
+                    if (response['status'] == "approved" && count == 0) {
                         Swal.fire({
                             title: 'Pagamento confirmado!',
                             text: 'Seu pedido será enviado, muito obrigado(a) pela confiança',
