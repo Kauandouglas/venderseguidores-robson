@@ -987,13 +987,6 @@
             setInterval(function () {
                 $.get(action, function (response) {
                     if (response['status'] == "approved") {
-                        gtag('event', 'conversion', {
-                            'send_to': response['code_event_ads'],
-                            'value': response['price'],
-                            'currency': 'BRL',
-                            'transaction_id': response['id']
-                        });
-
                         Swal.fire({
                             title: 'Pagamento confirmado!',
                             text: 'Seu pedido será enviado, muito obrigado(a) pela confiança',
