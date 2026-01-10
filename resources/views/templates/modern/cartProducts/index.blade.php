@@ -986,7 +986,7 @@
 
             setInterval(function () {
                 $.get(action, function (response) {
-                    if (response['status'] == "approved" && count == 0) {
+                    if (response['status'] == "approved") {
                         gtag('event', 'conversion', {
                             'send_to': response['code_event_ads'],
                             'value': response['price'],
