@@ -30,43 +30,10 @@ class PlanController extends Controller
     public function processSigned(Plan $plan, Request $request)
     {
         if ($request->type_payment == 'card') {
-           // 1. Define os dados dinâmicos que você quer recuperar depois
-            $planId = '6728207e95ba42db821bfd84af1b0044';
-            $externalReference = $plan->id . ',' . Auth::id(); // O dado que você já estava usando
-            $payerEmail = Auth::user()->email;
-
-            // 2. Busca o plano no Mercado Pago
-            $curl = curl_init();
-            curl_setopt_array($curl, [
-                CURLOPT_URL => "https://api.mercadopago.com/preapproval_plan/{$planId}",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => [
-                    'Accept: application/json',
-                    'Content-Type: application/json',
-                    'Authorization: Bearer ' . config('api.mp.access_token' ),
-                ],
+            return response()->json([
+                'type' => 'card',
+                'url' => 'https://app.monetizze.com.br/checkout/DBV370109?email=' . Auth::user()->email . '&telefone=' . Auth::user()->phone . '&transacao=' . $plan->id . ',' . Auth::id(),
             ]);
-
-            $response = curl_exec($curl);
-            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE );
-            curl_close($curl);
-
-            $planDetails = json_decode($response);
-
-            if ($httpCode === 200 && isset($planDetails->init_point )) {
-                // 3. Adiciona os dados dinâmicos na URL de checkout
-                // O Mercado Pago aceita 'external_reference' e 'prefilled_email' na URL
-                $checkoutUrl = $planDetails->init_point . "&external_reference=" . urlencode($externalReference) . "&prefilled_email=" . urlencode($payerEmail);
-
-                // Redireciona o usuário para o checkout já com os dados vinculados
-                return response()->json([
-                    'type' => 'card',
-                    'url' => $checkoutUrl
-                ]);
-            }
-
-            return back()->withErrors(['error' => 'Erro ao gerar link de assinatura.']);
         } else {
             $curl = curl_init();
 
