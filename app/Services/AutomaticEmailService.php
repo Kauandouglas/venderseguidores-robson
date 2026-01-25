@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\EmailTemplate;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AutomaticEmailService
 {
@@ -13,6 +14,12 @@ class AutomaticEmailService
      */
     public static function sendPurchaseEmail(User $user, $purchaseData)
     {
+        Log::info('[EMAIL-AUTO] Iniciando envio de email COMPRA', [
+            'user_id' => $user->id,
+            'cliente_email' => $purchaseData['customer_email'] ?? 'N/A',
+            'servico' => $purchaseData['service_name'] ?? 'N/A'
+        ]);
+
         return self::sendEmail($user, EmailTemplate::TYPE_PURCHASE, [
             'cliente_nome' => $purchaseData['customer_name'] ?? 'Cliente',
             'cliente_email' => $purchaseData['customer_email'] ?? '',
@@ -29,6 +36,12 @@ class AutomaticEmailService
      */
     public static function sendPixGeneratedEmail(User $user, $pixData)
     {
+        Log::info('[EMAIL-AUTO] Iniciando envio de email PIX GERADO', [
+            'user_id' => $user->id,
+            'cliente_email' => $pixData['customer_email'] ?? 'N/A',
+            'valor' => $pixData['value'] ?? 0
+        ]);
+
         return self::sendEmail($user, EmailTemplate::TYPE_PIX_GENERATED, [
             'cliente_nome' => $pixData['customer_name'] ?? 'Cliente',
             'cliente_email' => $pixData['customer_email'] ?? '',
@@ -45,6 +58,12 @@ class AutomaticEmailService
      */
     public static function sendPaymentReminderEmail(User $user, $reminderData)
     {
+        Log::info('[EMAIL-AUTO] Iniciando envio de email LEMBRETE', [
+            'user_id' => $user->id,
+            'cliente_email' => $reminderData['customer_email'] ?? 'N/A',
+            'dias_pendente' => $reminderData['days_pending'] ?? 0
+        ]);
+
         return self::sendEmail($user, EmailTemplate::TYPE_PAYMENT_REMINDER, [
             'cliente_nome' => $reminderData['customer_name'] ?? 'Cliente',
             'cliente_email' => $reminderData['customer_email'] ?? '',
@@ -60,6 +79,12 @@ class AutomaticEmailService
      */
     public static function sendOrderCompletedEmail(User $user, $completionData)
     {
+        Log::info('[EMAIL-AUTO] Iniciando envio de email PEDIDO CONCLUIDO', [
+            'user_id' => $user->id,
+            'cliente_email' => $completionData['customer_email'] ?? 'N/A',
+            'servico' => $completionData['service_name'] ?? 'N/A'
+        ]);
+
         return self::sendEmail($user, EmailTemplate::TYPE_ORDER_COMPLETED, [
             'cliente_nome' => $completionData['customer_name'] ?? 'Cliente',
             'cliente_email' => $completionData['customer_email'] ?? '',
@@ -85,11 +110,31 @@ class AutomaticEmailService
 
             // Se não existir template ou estiver inativo, pular
             if (!$template) {
+                Log::warning('[EMAIL-AUTO] Template não encontrado ou inativo', [
+                    'user_id' => $user->id,
+                    'template_type' => $templateType
+                ]);
+                return false;
+            }
+
+            // Verificar email do cliente
+            if (empty($variables['cliente_email'])) {
+                Log::warning('[EMAIL-AUTO] Email do cliente vazio - cancelando envio', [
+                    'user_id' => $user->id,
+                    'template_type' => $templateType
+                ]);
                 return false;
             }
 
             // Substituir variáveis
             $content = $template->replaceVariables($variables);
+
+            Log::info('[EMAIL-AUTO] Enviando email...', [
+                'user_id' => $user->id,
+                'template_type' => $templateType,
+                'para' => $variables['cliente_email'],
+                'assunto' => $content['subject']
+            ]);
 
             // Enviar email
             Mail::send([], [], function ($mail) use ($variables, $content) {
@@ -99,9 +144,22 @@ class AutomaticEmailService
                     ->setBody($content['body'], 'text/html');
             });
 
+            Log::info('[EMAIL-AUTO] ✅ EMAIL ENVIADO COM SUCESSO!', [
+                'user_id' => $user->id,
+                'template_type' => $templateType,
+                'para' => $variables['cliente_email']
+            ]);
+
             return true;
         } catch (\Exception $e) {
-            \Log::error('Erro ao enviar email automático: ' . $e->getMessage());
+            Log::error('[EMAIL-AUTO] ❌ ERRO AO ENVIAR EMAIL', [
+                'user_id' => $user->id,
+                'template_type' => $templateType ?? 'N/A',
+                'para' => $variables['cliente_email'] ?? 'N/A',
+                'erro' => $e->getMessage(),
+                'arquivo' => $e->getFile(),
+                'linha' => $e->getLine()
+            ]);
             return false;
         }
     }
