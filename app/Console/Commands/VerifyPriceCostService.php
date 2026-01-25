@@ -63,6 +63,7 @@ class VerifyPriceCostService extends Command
                     if ($smmCallbackService->service == $service->api_service) {
                         $service->api_rate = $smmCallbackService->rate;
                         $service->update();
+                        $service->recalcPriceFromProvider();
                     }
                 }
             }

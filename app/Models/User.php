@@ -128,6 +128,11 @@ class User extends Authenticatable
         return $this->hasMany(UserNotify::class);
     }
 
+    public function emailTemplates()
+    {
+        return $this->hasMany(EmailTemplate::class);
+    }
+
     public function whatsappInstance()
     {
         return $this->hasOne(WhatsappInstance::class);

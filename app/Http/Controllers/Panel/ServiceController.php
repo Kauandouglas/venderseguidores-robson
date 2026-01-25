@@ -7,13 +7,14 @@ use App\Http\Requests\Panel\ServiceRequest;
 use App\Support\Smm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ServiceController extends Controller
 {
     public function index()
     {
         $categories = Auth::user()->categories()->with(['services' => function ($query) {
-            $query->with('apiProvider')->latest('id');
+            $query->with('apiProvider')->oldest('order');
         }])->oldest('order')->get();
 
         return view('panel.services.index', [
@@ -51,7 +52,22 @@ class ServiceController extends Controller
             $request['quantity'] = 0;
         }
 
+        // Processa o checkbox de comentários personalizados
+        if ($request->filled('is_custom_comment') && $request->is_custom_comment == 1) {
+            $request['type'] = 4;
+        } else {
+            $request['type'] = 1;
+        }
+
         $service = Auth::user()->services()->create($request->all());
+
+        if ($request->filled('api_rate')) {
+            // Persiste o custo do provedor para evitar exibir zero logo após o cadastro
+            $service->api_rate = floatval(preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $request->api_rate)));
+            $service->save();
+            $service->recalcPriceFromProvider();
+        }
+
         return response()->json('Serviço cadastrado com sucesso!', 201);
     }
     public function edit(Request $request)
@@ -75,13 +91,24 @@ class ServiceController extends Controller
             $request['quantity'] = 0;
         }
 
+        // Processa o checkbox de comentários personalizados
+        if ($request->filled('is_custom_comment') && $request->is_custom_comment == 1) {
+            $request['type'] = 4;
+        } else {
+            $request['type'] = 1;
+        }
+
         $service->fill($request->all());
         $service->dynamic_pricing = boolval($request->dynamic_pricing);
         $service->update();
-        
-        $service->api_rate = floatval((preg_replace('/R\$\s*\+?/', '', $request->api_rate) / $request->quantity) * 1000);
-        $service->update();
-        
+
+        if ($request->filled('api_rate')) {
+            // Usa a tarifa enviada (por 1000 unidades) ao invés de dividir pelo quantity
+            $service->api_rate = floatval(preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $request->api_rate)));
+            $service->save();
+            $service->recalcPriceFromProvider();
+        }
+
         return response()->json('Serviço editado com sucesso!');
     }
 
@@ -91,6 +118,28 @@ class ServiceController extends Controller
         $apiProvider->delete();
 
         return redirect()->back()->withSuccess('Removido com sucesso!');
+    }
+
+    public function clone(Request $request)
+    {
+        $request->validate([
+            'target_category_id' => 'required|integer'
+        ]);
+
+        $service = Auth::user()->services()->findOrFail($request->service);
+        $targetCategory = Auth::user()->categories()->findOrFail($request->target_category_id);
+
+        $nextOrder = Auth::user()->services()->where('category_id', $targetCategory->id)->max('order') + 1;
+
+        $clone = $service->replicate();
+        $clone->user_id = Auth::id();
+        $clone->category_id = $targetCategory->id;
+        $clone->order = $nextOrder ?: 1;
+        $clone->save();
+
+        Cache::forget('systemSettingCategories.' . Auth::id());
+
+        return response()->json(['message' => 'Serviço duplicado com sucesso!']);
     }
 
     public function providerService(Request $request)
@@ -114,6 +163,19 @@ class ServiceController extends Controller
             $apiProvider->status = 0;
         }
         $apiProvider->update();
+
+        return response()->json('success');
+    }
+
+    public function order(Request $request)
+    {
+        Cache::forget('systemSettingCategories.' . Auth::id());
+
+        $order = 1;
+        foreach ($request->services as $serviceId) {
+            Auth::user()->services()->where('id', $serviceId)->update(['order' => $order]);
+            $order++;
+        }
 
         return response()->json('success');
     }

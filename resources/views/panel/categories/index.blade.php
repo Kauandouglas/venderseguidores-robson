@@ -152,7 +152,8 @@
 
         $(document).ready(function () {
             $('.category').sortable({
-                handle: 'none',
+                handle: '.arrow-container',
+                axis: 'y',
                 update: function () {
                     updateOrder();
                 }

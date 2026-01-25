@@ -94,6 +94,7 @@
 
 
 <script src="{{ asset(mix('panel_assets/js/scripts.js')) }}"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script>
     $.ajaxSetup({
@@ -129,7 +130,7 @@ if (! $tourFinalizado) {
       scrollTop: $('.sidebar-wrapper.ps')[0].scrollHeight
     }, 500);
     $('#step1 .submenu').addClass('active');
-  
+
     // Inicializa o tour
     const tour = new Shepherd.Tour({
       useModalOverlay: true,
@@ -139,7 +140,7 @@ if (! $tourFinalizado) {
         scrollTo: { behavior: 'smooth', block: 'center' }
       }
     });
-  
+
     // Passos
     tour.addStep({
       id: 'step1',
@@ -147,7 +148,7 @@ if (! $tourFinalizado) {
       attachTo: { on: 'bottom' },
       buttons: [{ text: 'Próximo', action: tour.next }]
     });
-  
+
     tour.addStep({
       id: 'step2',
       text: `
@@ -158,7 +159,7 @@ if (! $tourFinalizado) {
       attachTo: { element: '#step2', on: 'bottom' },
       buttons: [{ text: 'Próximo', action: tour.next }]
     });
-  
+
     tour.addStep({
       id: 'step3',
       text: `
@@ -168,7 +169,7 @@ if (! $tourFinalizado) {
       attachTo: { element: '#step3', on: 'bottom' },
       buttons: [{ text: 'Próximo', action: tour.next }]
     });
-  
+
     tour.addStep({
       id: 'step4',
       text: `
@@ -178,7 +179,7 @@ if (! $tourFinalizado) {
       attachTo: { element: '#step4', on: 'bottom' },
       buttons: [{ text: 'Próximo', action: tour.next }]
     });
-  
+
     tour.addStep({
       id: 'step5',
       text: `
@@ -188,7 +189,7 @@ if (! $tourFinalizado) {
       attachTo: { element: '#step5', on: 'bottom' },
       buttons: [{ text: 'Finalizar', action: tour.complete }]
     });
-  
+
     // Inicia o tour
     tour.start();
   });

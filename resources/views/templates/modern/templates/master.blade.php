@@ -1256,6 +1256,10 @@
                 font-size: 2.5rem;
             }
 
+            .package-label {
+                font-size: 0.9rem;
+            }
+
             .packages {
                 grid-template-columns: 1fr;
             }

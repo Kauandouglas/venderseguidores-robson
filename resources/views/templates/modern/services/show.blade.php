@@ -16,7 +16,7 @@
         }
 
         .product-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #222;
             margin-bottom: 0.5rem;
@@ -391,7 +391,7 @@
             }
 
             .product-title {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
 
             .product-price {
@@ -426,16 +426,51 @@
 
                 <p class="product-price">R$ {{ number_format($service->price, 2, ',', '.') }}</p>
 
-                <!-- Quantity Selector -->
-                <h3 class="section-title p-0 text-primary">Quantidade</h3>
+                <!-- Quantity Selector (for non-comment services) -->
+                @if($service->type != 4)
+                    <h3 class="section-title p-0 text-primary">Quantidade</h3>
 
-                <div class="quantity-selector">
-                    <button class="quantity-btn" id="decrease">-</button>
-                    <input type="number" class="quantity-display" id="quantity" name="quantity" min="100"
-                           value="{{ request()->quantity ?? 100 }}">
-                    <button class="quantity-btn" id="increase">+</button>
-                </div>
-                <p class="quantity-hint">Escolha qualquer quantidade a partir de 100 unidades</p>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" id="decrease">-</button>
+                        <input type="number" class="quantity-display" id="quantity" name="quantity" min="100"
+                               value="{{ request()->quantity ?? 100 }}">
+                        <button class="quantity-btn" id="increase">+</button>
+                    </div>
+                    <p class="quantity-hint">Escolha qualquer quantidade a partir de 100 unidades</p>
+                @else
+                    <!-- Comments Input (for custom comment services) -->
+                    <h3 class="section-title p-0 text-primary">Comentários Personalizados</h3>
+                    <div style="margin-bottom: 2rem;">
+                        <textarea 
+                            id="customComments" 
+                            name="comment" 
+                            placeholder="Digite seus comentários, um por linha..."
+                            class="form-control"
+                            rows="6"
+                            style="
+                                width: 100%;
+                                padding: 12px 15px;
+                                border: 2px solid #ddd;
+                                border-radius: 8px;
+                                font-size: 1rem;
+                                font-family: 'Poppins', Arial, sans-serif;
+                                resize: vertical;
+                                transition: border-color 0.3s;
+                            "
+                        ></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <small style="color: #666; font-size: 0.9rem;">
+                                <strong id="commentCount">0</strong> comentário(s)
+                            </small>
+                            <small style="color: #999; font-size: 0.85rem;">
+                                Separe cada comentário em uma nova linha
+                            </small>
+                        </div>
+                        <small style="color: #00C853; font-size: 0.9rem; margin-top: 8px; display: block;">
+                            Preço: <strong>R$ <span id="commentPrice">{{ number_format($service->price, 2, ',', '.') }}</span></strong> por comentário
+                        </small>
+                    </div>
+                @endif
 
                 <!-- Buttons Container -->
                 <div class="buttons-container">
@@ -541,25 +576,53 @@
                 const increaseBtn = document.getElementById('increase');
                 const presetBtns = document.querySelectorAll('.preset-btn');
                 const pixCopyBtn = document.getElementById('pixCopyBtn');
+                const customCommentsTextarea = document.getElementById('customComments');
 
                 // Initialize modals
                 const customerModal = new bootstrap.Modal(document.getElementById('customerInfoModal'));
                 const pixModal = new bootstrap.Modal(document.getElementById('pixPaymentModal'));
 
-                // Add event listeners for the + and - buttons
-                decreaseBtn.addEventListener('click', function () {
-                    let currentValue = parseInt(quantityInput.value);
-                    if (currentValue > 100) {
-                        quantityInput.value = currentValue - 10;
-                        updateActivePreset();
+                // Handle custom comments counter
+                if (customCommentsTextarea) {
+                    function updateCommentCount() {
+                        const comments = customCommentsTextarea.value.trim();
+                        const count = comments ? (comments.split('\n').length) : 0;
+                        document.getElementById('commentCount').textContent = count;
                     }
-                });
 
-                increaseBtn.addEventListener('click', function () {
-                    let currentValue = parseInt(quantityInput.value);
-                    quantityInput.value = currentValue + 10;
-                    updateActivePreset();
-                });
+                    customCommentsTextarea.addEventListener('input', updateCommentCount);
+                    updateCommentCount();
+
+                    // Add line counter functionality on keydown to focus textarea
+                    customCommentsTextarea.addEventListener('focus', function() {
+                        this.style.borderColor = '#00C853';
+                        this.style.boxShadow = '0 0 0 3px rgba(0, 200, 83, 0.1)';
+                    });
+
+                    customCommentsTextarea.addEventListener('blur', function() {
+                        this.style.borderColor = '#ddd';
+                        this.style.boxShadow = 'none';
+                    });
+                }
+
+                // Add event listeners for the + and - buttons
+                if (decreaseBtn) {
+                    decreaseBtn.addEventListener('click', function () {
+                        let currentValue = parseInt(quantityInput.value);
+                        if (currentValue > 100) {
+                            quantityInput.value = currentValue - 10;
+                            updateActivePreset();
+                        }
+                    });
+                }
+
+                if (increaseBtn) {
+                    increaseBtn.addEventListener('click', function () {
+                        let currentValue = parseInt(quantityInput.value);
+                        quantityInput.value = currentValue + 10;
+                        updateActivePreset();
+                    });
+                }
 
                 // Add event listeners for preset buttons
                 presetBtns.forEach(btn => {
@@ -570,12 +633,16 @@
                 });
 
                 // Update active preset when input changes
-                quantityInput.addEventListener('input', updateActivePreset);
+                if (quantityInput) {
+                    quantityInput.addEventListener('input', updateActivePreset);
 
-                // Initial update
-                updateActivePreset();
+                    // Initial update
+                    updateActivePreset();
+                }
 
                 function updateActivePreset() {
+                    if (!quantityInput) return;
+                    
                     let currentValue = parseInt(quantityInput.value);
 
                     // Remove active class from all presets
@@ -632,12 +699,12 @@
                         name: $('#customerName').val(),
                         whatsapp: $('#customerWhatsapp').val(),
                         email: $('#customerEmail').val(),
-                        quantity: $('#quantity').val(),
+                        quantity: customCommentsTextarea ? (customCommentsTextarea.value.trim() ? customCommentsTextarea.value.trim().split('\n').length : 0) : $('#quantity').val(),
+                        comment: customCommentsTextarea ? customCommentsTextarea.value : '',
                         type: 'pix_direct',
                         service: '{{ request()->service }}',
                         _token: "{{ csrf_token() }}",
                     };
-
 
                     // Make the AJAX request to generate PIX data
                     $.ajax({
@@ -706,7 +773,14 @@
                 });
 
                 var action = $(this).data('action')
-                $.post(action, function (response) {
+                var postData = {};
+                
+                // If it's a custom comment service, add comment data
+                if (customCommentsTextarea && customCommentsTextarea.value.trim()) {
+                    postData.comment = customCommentsTextarea.value;
+                }
+
+                $.post(action, postData, function (response) {
                     $('.addCart').attr('disabled', false)
                 }, 'json')
             })

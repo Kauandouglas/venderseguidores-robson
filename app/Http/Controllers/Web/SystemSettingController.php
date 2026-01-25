@@ -27,7 +27,7 @@ class SystemSettingController extends Controller
 
     $categories = Cache::rememberForever('systemSettingCategories.' . $user->id, function () use ($user) {
         return $user->categories()->with(['services' => function ($query) {
-            $query->oldest('quantity')->active();
+            $query->active()->oldest('order');
         }])->active()->oldest('order')->get();
     });
 
@@ -37,6 +37,10 @@ class SystemSettingController extends Controller
 
     $sociais = $user->categories()
         ->where('status', 1)
+        ->with(['services' => function ($query) {
+            $query->active()->oldest('order');
+        }])
+        ->oldest('order')
         ->get()
         ->groupBy('social_network');
 
@@ -73,7 +77,7 @@ class SystemSettingController extends Controller
                 'name' => $category->name,
                 'slug' => Str::slug($category->name . '-' . $category->id),
                 'description' => 'Comprar Serviço - ' . $category->name,
-                'packages' => $category->services->map(function($service) {
+                'packages' => $category->services->sortBy('order')->map(function($service) {
                     return [
                         'id' => $service->id,
                         'amount' => $service->quantity,

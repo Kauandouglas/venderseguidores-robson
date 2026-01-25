@@ -19,7 +19,15 @@ class Service extends Model
         'quantity',
         'price',
         'dynamic_pricing',
-        'description'
+        'description',
+        'order',
+        'sync_price',
+        'sync_margin_percent'
+    ];
+
+    protected $casts = [
+        'sync_price' => 'boolean',
+        'sync_margin_percent' => 'float'
     ];
 
     public function apiProvider()
@@ -64,5 +72,25 @@ class Service extends Model
     public function scopeActive($query)
     {
         $query->where('status', 1);
+    }
+
+    /**
+     * Recalcula o preço de venda com base no custo do provedor e margem.
+     */
+    public function recalcPriceFromProvider(): void
+    {
+        if (!$this->sync_price) {
+            return;
+        }
+
+        if (!$this->api_rate || !$this->quantity || $this->quantity <= 0) {
+            return;
+        }
+
+        $cost = ($this->api_rate / 1000) * $this->quantity;
+        $marginPercent = $this->sync_margin_percent ?? 0;
+
+        $this->price = $cost * (1 + ($marginPercent / 100));
+        $this->save();
     }
 }

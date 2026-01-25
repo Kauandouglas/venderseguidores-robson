@@ -38,7 +38,9 @@ class ServiceRequest extends FormRequest
             'name' => 'required|max:191',
             'quantity' => 'required_if:dynamic_pricing,0',
             'price' => 'required|max:10',
-            'dynamic_pricing' => 'boolean'
+            'dynamic_pricing' => 'boolean',
+            'sync_price' => 'boolean',
+            'sync_margin_percent' => 'nullable|numeric|min:0|max:1000'
         ];
     }
 }

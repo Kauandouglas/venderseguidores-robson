@@ -16,6 +16,7 @@ use App\Http\Controllers\Panel\PurchaseController;
 use App\Http\Controllers\Panel\WhatsappController;
 use App\Http\Controllers\Panel\ServiceController;
 use App\Http\Controllers\Panel\ServiceDescountController;
+use App\Http\Controllers\Panel\EmailTemplateController;
 use App\Http\Controllers\Panel\SystemSettingController;
 use App\Http\Controllers\Panel\UserController;
 use App\Http\Controllers\Web\SystemSettingController as SystemSettingControllerWeb;
@@ -103,9 +104,11 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
             ->parameters(['categorias' => 'category'])->names('categories')->except('show');
 
         // Services
+        Route::post('/servicos/ordem', [ServiceController::class, 'order'])->name('services.order');
         Route::post('/servicos/status/{service}', [ServiceController::class, 'status'])->name('services.status');
         Route::post('/servicos/provedores', [ServiceController::class, 'providerService'])
             ->name('services.providerService');
+        Route::post('/servicos/{service}/clonar', [ServiceController::class, 'clone'])->name('services.clone');
         Route::resource('servicos', ServiceController::class)
             ->parameters(['servicos' => 'service'])->names('services')->except('show');
 
@@ -118,7 +121,7 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
         Route::put('/editar-perfil', [UserController::class, 'update'])->name('users.update');
         Route::post('/desativar-popup', [UserController::class, 'disablePopup'])->name('users.disablePopup');
 
-        // Plans 
+        // Plans
         Route::get('/planos', [PlanController::class, 'index'])->name('plans.index');
         Route::get('/planos/verificar', [PlanController::class, 'verify'])->name('plans.verify');
         Route::get('/planos/{plan}', [PlanController::class, 'signed'])->name('plans.signed');
@@ -142,6 +145,12 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
 
         Route::resource('cupom-desconto', DiscountCouponController::class)
             ->parameters(['cupom-desconto' => 'discountCoupon'])->names('discountCoupons')->except('show');
+
+        // Email Templates
+        Route::get('/email-templates', [EmailTemplateController::class, 'index'])->name('emailTemplates.index');
+        Route::get('/email-templates/{emailTemplate}/editar', [EmailTemplateController::class, 'edit'])->name('emailTemplates.edit');
+        Route::put('/email-templates/{emailTemplate}', [EmailTemplateController::class, 'update'])->name('emailTemplates.update');
+        Route::post('/email-templates/{emailTemplate}/toggle-active', [EmailTemplateController::class, 'toggleActive'])->name('emailTemplates.toggleActive');
     });
 });
 

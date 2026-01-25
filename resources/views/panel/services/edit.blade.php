@@ -48,6 +48,7 @@
                                                 <label for="apiService">Lista de serviços API</label>
                                                 <select name="api_service" id="apiService"
                                                         class="form-control"></select>
+                                                <input type="hidden" name="api_rate" id="api_rate">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -61,6 +62,17 @@
                                                     <option value="tiktok_post" {{ $service->type_social == 'tiktok_post' ? 'selected' : '' }}>TikTok (Postagem)</option>
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="custom-control custom-switch">
+                                                <input name="is_custom_comment" type="checkbox" value="1" {{ ($service->type == 4 ? 'checked' : '') }}
+                                                       class="custom-control-input" id="isCustomComment">
+                                                <label class="custom-control-label" for="isCustomComment">
+                                                    Comentários Personalizados
+                                                </label>
+                                            </div>
+                                            <small class="text-muted">Se ativado, o serviço aceitará comentários customizados dos clientes.</small>
+                                            <input type="hidden" name="type" id="type" value="{{ $service->type }}">
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
@@ -88,6 +100,23 @@
                                                 <label for="price" id="priceLabel">Preço</label>
                                                 <input type="text" id="price" class="form-control" name="price"
                                                        value="{{ $service->price }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-switch">
+                                                    <input name="sync_price" type="checkbox" value="1" {{ ($service->sync_price ? 'checked' : '') }}
+                                                           class="custom-control-input" id="syncPrice">
+                                                    <label class="custom-control-label" for="syncPrice">
+                                                        Ativar sincronização do preço
+                                                    </label>
+                                                </div>
+                                                <small class="text-muted">Usa o custo do provedor + margem para atualizar automaticamente.</small>
+                                                <div class="mt-2" id="syncMarginWrapper" style="display:none;">
+                                                    <label for="sync_margin_percent">Margem (%)</label>
+                                                    <input type="number" step="0.01" min="0" class="form-control"
+                                                           id="sync_margin_percent" name="sync_margin_percent" value="{{ $service->sync_margin_percent ?? 0 }}">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -169,6 +198,7 @@
             // Service
             $('#apiService').change(function () {
                 apiCostPrice()
+                syncApiRate()
             });
 
             function apiCostPrice() {
@@ -176,6 +206,11 @@
                 var quantity = $('#quantity').val()
 
                 $('#priceCost').val('R$ ' + (rate / 1000) * quantity)
+            }
+
+            function syncApiRate() {
+                var rate = $('#apiService').find(':selected').attr('data-rate') || 0
+                $('#api_rate').val(rate)
             }
 
             $('#quantity').on('keyup blur', function () {
@@ -207,6 +242,7 @@
                     $("#apiService").select2();
 
                     apiCostPrice();
+                    syncApiRate();
                 }, 'json')
             }
 
@@ -221,32 +257,44 @@
         })
 
         function typeChangeComment() {
-            var value = $('#type').val();
-
-            if (value == 4) {
-                $('#quantity').attr('disabled', true)
-                $('#priceLabel').html('Preço por (Cada comentário)')
-            } else {
-                $('#quantity').attr('disabled', false)
-                $('#priceLabel').html('Preço')
-            }
-        }
-
-        typeChangeComment();
-
-        function typeChangeComment() {
             var type = $('#apiService').find(':selected').attr('data-type')
+            var typeValue = parseInt($('#type').val());
 
-            if (type == 'Custom Comments') {
+            if (type == 'Custom Comments' || typeValue == 4) {
                 $('#quantity').attr('disabled', true)
                 $('#priceLabel').html('Preço por (Cada comentário)')
                 $('#type').val(4)
+                $('#isCustomComment').prop('checked', true)
             } else {
                 $('#quantity').attr('disabled', false)
                 $('#priceLabel').html('Preço')
                 $('#type').val(1)
+                $('#isCustomComment').prop('checked', false)
             }
         }
+
+        function toggleCustomComments() {
+            const isChecked = $('#isCustomComment').is(':checked');
+
+            if (isChecked) {
+                $('#quantity').attr('disabled', true);
+                $('#priceLabel').html('Preço por (Cada comentário)');
+                $('#type').val(4);
+                $('#colorDefault').prop('checked', false);
+                toggleDynamicPricing();
+            } else {
+                $('#quantity').attr('disabled', false);
+                $('#priceLabel').html('Preço');
+                $('#type').val(1);
+            }
+        }
+
+        $('#isCustomComment').on('change', function () {
+            toggleCustomComments();
+        });
+
+        typeChangeComment();
+
         function toggleDynamicPricing() {
             const isChecked = $('#colorDefault').is(':checked');
 
@@ -265,6 +313,17 @@
         // Listener para o switch
         $('#colorDefault').on('change', function () {
             toggleDynamicPricing();
+        });
+
+        function toggleSyncMargin() {
+            const isChecked = $('#syncPrice').is(':checked');
+            $('#syncMarginWrapper').toggle(isChecked);
+        }
+
+        toggleSyncMargin();
+
+        $('#syncPrice').on('change', function () {
+            toggleSyncMargin();
         });
     </script>
 @endpush

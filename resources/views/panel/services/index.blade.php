@@ -20,6 +20,7 @@
                     <table class='table table-striped mt-3' id="table1">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Provedor</th>
                             <th>Nome</th>
                             <th>Provider ID</th>
@@ -31,9 +32,21 @@
                             <th>Ação</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="services">
                         @foreach($category->services as $service)
-                            <tr>
+                            <tr class="ui-state-default" id="services_{{ $service->id }}">
+                                <td>
+                                    <div class="arrow-container">
+                                        <svg class="move-up" width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path d="M10 4l6 6H4z"/>
+                                        </svg>
+                                        <svg class="move-down" width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path d="M10 16l-6-6h12z"/>
+                                        </svg>
+                                    </div>
+                                </td>
                                 <td>Provedor #{{ $service->apiProvider->id }}</td>
                                 <td>{{ $service->name }}</td>
                                 <td>{{ $service->api_service }}</td>
@@ -56,6 +69,10 @@
                                            class="btn btn-outline-primary btn-sm">
                                             <i data-feather="edit" width="20"></i>
                                         </a>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm clone-service"
+                                                data-service-id="{{ $service->id }}">
+                                            <i data-feather="copy" width="20"></i>
+                                        </button>
                                         <a href="" class="btn btn-outline-primary btn-sm" data-toggle="modal"
                                            data-target="#deleteModal"
                                            data-delete="{{ route('panel.services.destroy', ['service' => $service]) }}">
@@ -71,6 +88,38 @@
             </div>
         @endforeach
     </section>
+
+    <!-- Modal Clone -->
+    <div class="modal fade" id="cloneModal" tabindex="-1" aria-labelledby="cloneModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="cloneModalLabel">Duplicar serviço</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="cloneForm">
+                        @csrf
+                        <input type="hidden" id="clone_service_id">
+                        <div class="form-group">
+                            <label for="target_category_id">Selecione a categoria de destino</label>
+                            <select id="target_category_id" class="form-control" name="target_category_id">
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="confirmClone">Duplicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Delete -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -114,6 +163,91 @@
                 $.post(serviceStatus.data('action'), function (response) {
 
                 }, 'json');
+            });
+
+            function moveRowUp(row) {
+                var prev = row.prev();
+                if (prev.length) {
+                    row.insertBefore(prev);
+                }
+            }
+
+            function moveRowDown(row) {
+                var next = row.next();
+                if (next.length) {
+                    row.insertAfter(next);
+                }
+            }
+
+            function updateOrder() {
+                var services = $('.services').sortable("serialize");
+                displayLoading('show');
+
+                $.post("{{ route('panel.services.order') }}", services, function () {
+                    displayLoading('hide');
+                });
+            }
+
+            $('.services').sortable({
+                handle: '.arrow-container',
+                axis: 'y',
+                update: function () {
+                    updateOrder();
+                }
+            });
+
+            $('.move-up').on('click', function () {
+                var row = $(this).closest('tr');
+                moveRowUp(row);
+                updateOrder();
+            });
+
+            $('.move-down').on('click', function () {
+                var row = $(this).closest('tr');
+                moveRowDown(row);
+                updateOrder();
+            });
+
+            // Clone service
+            $('.clone-service').on('click', function () {
+                var serviceId = $(this).data('service-id');
+                $('#clone_service_id').val(serviceId);
+                $('#cloneModal').modal('show');
+            });
+
+            $('#confirmClone').on('click', function () {
+                var serviceId = $('#clone_service_id').val();
+                var targetCategory = $('#target_category_id').val();
+
+                displayLoading('show');
+
+                $.post("{{ url('painel/servicos') }}/" + serviceId + "/clonar", {
+                    target_category_id: targetCategory,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                }, function (response) {
+                    $('#cloneModal').modal('hide');
+                    displayLoading('hide');
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then(function () {
+                        window.location.reload();
+                    });
+                }).fail(function (xhr) {
+                    displayLoading('hide');
+                    var message = 'Erro ao duplicar serviço.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        title: 'Erro',
+                        text: message,
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                });
             });
         });
     </script>

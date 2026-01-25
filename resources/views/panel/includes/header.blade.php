@@ -87,6 +87,9 @@
                     <li>
                         <a href="{{ route('panel.conversionTags.edit') }}">Tags de conversões</a>
                     </li>
+                    <li>
+                        <a href="{{ route('panel.emailTemplates.index') }}">Email Automático</a>
+                    </li>
                 </ul>
             </li>
             <li class="sidebar-item">

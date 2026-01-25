@@ -3,6 +3,7 @@
 namespace App\Services\Web;
 
 use App\Models\Purchase;
+use App\Services\AutomaticEmailService;
 use App\Support\Smm;
 
 class PurchaseService
@@ -24,6 +25,17 @@ class PurchaseService
 
             if (isset($smmCallback->order)) {
                 $purchase->order_id = $smmCallback->order;
+
+                // Envio de email de pedido concluído
+                $user = $purchase->user()->first();
+                AutomaticEmailService::sendOrderCompletedEmail($user, [
+                    'cliente_nome' => $purchase->name,
+                    'cliente_email' => $purchase->email,
+                    'servico_nome' => $service->name,
+                    'numero_pedido' => $purchase->order_id,
+                    'valor_total' => 'R$ ' . number_format($purchase->price, 2, ',', '.'),
+                    'data_conclusao' => date('d/m/Y H:i')
+                ]);
             } else {
                 $purchase->error = $smmCallback;
                 $purchase->status = 'canceled';

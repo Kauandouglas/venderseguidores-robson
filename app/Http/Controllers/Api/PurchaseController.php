@@ -8,6 +8,7 @@ use App\Models\CartProduct;
 use App\Models\Purchase;
 use App\Models\User;
 use App\Services\Web\PurchaseService;
+use App\Services\AutomaticEmailService;
 use App\Support\MercadoPago;
 use App\Support\PushinPay;
 use App\Support\EvolutionApi;
@@ -89,6 +90,17 @@ class PurchaseController extends Controller
                     $evolutionApi = new EvolutionApi($instance);
                     $evolutionApi->sendPix('5561993230011', $qrCode);
                 }
+
+                // Envio de email de PIX gerado
+                AutomaticEmailService::sendPixGeneratedEmail($user, [
+                    'cliente_nome' => $request->name,
+                    'cliente_email' => $request->email,
+                    'servico_nome' => $service->name,
+                    'valor_pix' => 'R$ ' . number_format($purchase->price, 2, ',', '.'),
+                    'pix_qr_code' => $qrCode,
+                    'pix_codigo' => $qrCode,
+                    'data_expiracao' => date('d/m/Y H:i', strtotime('+30 minutes'))
+                ]);
 
                 return response()->json([
                     'id' => $purchase->id,
@@ -213,7 +225,7 @@ class PurchaseController extends Controller
 
                 if ($qrCode) {
                     $message = "🚀 Falta pouco para liberar seu pedido!\n\nSeu pedido do serviço está pronto para ser ativado.\nConfira os detalhes e confirme se está tudo certo:\n\n";
-        
+
                     $message .= "Número do pedido: {$purchase->id}\n";
                     foreach ($cartProducts as $cartProductWhatsapp) {
                         $serviceName = $cartProductWhatsapp->service->name;
@@ -223,27 +235,42 @@ class PurchaseController extends Controller
                         }
                         $price = $cartProductWhatsapp->price ?? $cartProductWhatsapp->service->price;
                         $totalLine = number_format($price, 2, ',', '.');
-                    
+
                         $message .= "🎯 Serviço: {$serviceName}\n";
                         $message .= "📦 Quantidade: {$quantity}\n";
                         $message .= "💰 Valor: R$ {$totalLine}\n";
                         $message .= "---------------------------\n";
                     }
-                    
+
                     $message .= "\nPara iniciarmos a entrega, falta apenas a confirmação do pagamento.\n";
                     $message .= "Use o código PIX abaixo para finalizar:\n\n";
                     $message .= "🔑 PIX (Copia e Cola):\n*{$qrCode}*\n\n";
                     $message .= "A liberação é imediata após a confirmação. ⚡\n";
-                    
+
                     $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $request->whatsapp);
-                    
+
                     // Envio de PIX via Evolution API
                     $instance = $user->whatsappInstance()->first();
                     if ($instance && $instance->status === 'connected') {
                         $evolutionApi = new EvolutionApi($instance);
                         $evolutionApi->sendText($whatsappNumber, $message);
                     }
-                    
+
+                    // Envio de email de PIX gerado
+                    AutomaticEmailService::sendPixGeneratedEmail($user, [
+                        'cliente_nome' => $request->name,
+                        'cliente_email' => $request->email,
+                        'servico_nome' => implode(', ', $cartProducts->pluck('service.name')->toArray()),
+                        'valor_pix' => 'R$ ' . number_format($sumProductsTotal, 2, ',', '.'),
+                        'pix_qr_code' => $qrCode,
+                        'pix_codigo' => $qrCode,
+                        'data_expiracao' => date('d/m/Y H:i', strtotime('+30 minutes'))
+                    ]);
+
+                    // Limpa o carrinho após gerar o pedido e o PIX
+                    CartProduct::where('hash', $hash)->delete();
+                    Cache::forget('coupon.' . $hash);
+
                     return response()->json([
                         'id' => $purchase->id,
                         'qr_code' => $qrCode,
@@ -294,17 +321,27 @@ class PurchaseController extends Controller
                     $purchaseService = new PurchaseService();
                     $purchaseService->sendOrder($purchase);
 
-                    // Verify if the user has an active plan 
+                    // Verify if the user has an active plan
                     $user = $purchase->user()->first();
+
+                    // Envio de email de compra bem-sucedida
+                    AutomaticEmailService::sendPurchaseEmail($user, [
+                        'customer_name' => $purchase->name,
+                        'customer_email' => $purchase->email,
+                        'service_name' => $purchase->service->name,
+                        'quantity' => 1,
+                        'total_value' => $purchase->price,
+                        'order_link' => route('web.systemSettings.template', ['domain' => $user->domain])
+                    ]);
 
                     $message = "Pagamento Aprovado 👏👏👏\n\n";
                     $message .= "Seu pedido está a caminho! Caso não chegue em até 24 horas, fale com o suporte pelo nosso canal de atendimento.";
-                    
+
                     // Envio de mensagem de aprovação via Evolution API
                     $instance = $purchase->user()->first()->whatsappInstance()->first();
                     if ($instance && $instance->status === 'connected') {
-                        $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $purchase->whatsapp); 
-                        
+                        $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $purchase->whatsapp);
+
                         $evolutionApi = new EvolutionApi($instance);
                         $evolutionApi->sendText($whatsappNumber, $message);
                     }
@@ -322,7 +359,7 @@ class PurchaseController extends Controller
             if (empty($data['id']) || empty($data['status'])) {
                 return response()->json(['error' => 'Dados inválidos.'], 400);
             }
-    
+
             if($data['status'] != 'paid'){
                 exit;
             }
@@ -337,15 +374,25 @@ class PurchaseController extends Controller
                 // Verify if the user has an active plan
                 $user = $purchase->user()->first();
 
+                // Envio de email de compra bem-sucedida
+                AutomaticEmailService::sendPurchaseEmail($user, [
+                    'customer_name' => $purchase->name,
+                    'customer_email' => $purchase->email,
+                    'service_name' => $purchase->service->name,
+                    'quantity' => 1,
+                    'total_value' => $purchase->price,
+                    'order_link' => route('web.systemSettings.template', ['domain' => $user->domain])
+                ]);
+
                 $message = "Pagamento Aprovado 👏👏👏\n\n";
                 $message .= "Seu pedido já será enviado, se em 24 horas ele não chegar, envie o número do pedido para o Whats de atendimento 17-9.8145.2466\n\n";
                 $message .= "Equipe Loja do Insta 💜";
-                
+
                 // Envio de mensagem de aprovação via Evolution API
                 $instance = $purchase->user()->first()->whatsappInstance()->first();
                 if ($instance && $instance->status === 'connected') {
-                    $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $purchase->whatsapp); 
-                    
+                    $whatsappNumber = '55' . preg_replace('/[^0-9]/', '', $purchase->whatsapp);
+
                     $evolutionApi = new EvolutionApi($instance);
                     $evolutionApi->sendText($whatsappNumber, $message);
                 }
@@ -360,7 +407,7 @@ class PurchaseController extends Controller
     public function pushinpayWebhook(Request $request)
     {
         $payment = PaymentModel::where('payment_method_id', 'pushinpay')->first();
-        
+
         if (!$payment) {
             return response([
                 'message' => 'Gateway PushinPay não configurado'
@@ -368,9 +415,9 @@ class PurchaseController extends Controller
         }
 
         $data = json_decode($payment->data);
-        
+
         $pushinpay = new PushinPay($data->bearer_token, route('api.webhooks.pushinpay'));
-        
+
         if ($pushinpay->handleWebhook($request->all())) {
             return response([
                 'status' => 'success'
