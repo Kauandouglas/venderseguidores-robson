@@ -95,7 +95,7 @@
         <script>
             function copyVariable(variable) {
                 const text = '{{' + variable + '}}';
-                
+
                 // Copiar para clipboard
                 navigator.clipboard.writeText(text).then(() => {
                     // Insere no textarea se estiver focado

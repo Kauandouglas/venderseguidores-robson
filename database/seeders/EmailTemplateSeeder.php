@@ -118,7 +118,7 @@ Detalhes do Pedido:
 
 Você pode acompanhar seu pedido aqui: {{link_pedido}}
 
-Obrigado por escolher nossos serviços! 
+Obrigado por escolher nossos serviços!
 
 Atenciosamente,
 Nossa Equipe

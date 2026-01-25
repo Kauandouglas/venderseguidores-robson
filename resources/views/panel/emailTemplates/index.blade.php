@@ -45,8 +45,8 @@
                                                 <td>{{ $template->subject }}</td>
                                                 <td>
                                                     <div class="custom-control custom-switch">
-                                                        <input type="checkbox" 
-                                                               class="custom-control-input toggle-email-active" 
+                                                        <input type="checkbox"
+                                                               class="custom-control-input toggle-email-active"
                                                                id="switch-{{ $template->id }}"
                                                                data-id="{{ $template->id }}"
                                                                {{ $template->is_active ? 'checked' : '' }}>

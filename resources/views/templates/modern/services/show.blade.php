@@ -441,9 +441,9 @@
                     <!-- Comments Input (for custom comment services) -->
                     <h3 class="section-title p-0 text-primary">Comentários Personalizados</h3>
                     <div style="margin-bottom: 2rem;">
-                        <textarea 
-                            id="customComments" 
-                            name="comment" 
+                        <textarea
+                            id="customComments"
+                            name="comment"
                             placeholder="Digite seus comentários, um por linha..."
                             class="form-control"
                             rows="6"
@@ -642,7 +642,7 @@
 
                 function updateActivePreset() {
                     if (!quantityInput) return;
-                    
+
                     let currentValue = parseInt(quantityInput.value);
 
                     // Remove active class from all presets
@@ -774,7 +774,7 @@
 
                 var action = $(this).data('action')
                 var postData = {};
-                
+
                 // If it's a custom comment service, add comment data
                 if (customCommentsTextarea && customCommentsTextarea.value.trim()) {
                     postData.comment = customCommentsTextarea.value;

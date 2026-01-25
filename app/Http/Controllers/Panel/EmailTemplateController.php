@@ -12,7 +12,7 @@ class EmailTemplateController extends Controller
     public function index()
     {
         $templates = Auth::user()->emailTemplates()->get();
-        
+
         // Criar templates padrão se não existirem
         $types = [
             'purchase',
@@ -197,7 +197,7 @@ Detalhes do Pedido:
 
 Você pode acompanhar seu pedido aqui: {{link_pedido}}
 
-Obrigado por escolher nossos serviços! 
+Obrigado por escolher nossos serviços!
 
 Atenciosamente,
 Nossa Equipe

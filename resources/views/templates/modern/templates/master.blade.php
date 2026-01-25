@@ -1633,7 +1633,7 @@
             // Esconder formulário e mostrar lista
             document.getElementById('formBusca').style.display = 'none';
             document.getElementById('pedidosLista').classList.add('show');
-            
+
             // Exibir email do usuário
             document.getElementById('emailUsuario').textContent = email;
 
@@ -1664,7 +1664,7 @@
     // Determinar classe de status
     let statusClass = 'status-pendente';
     let statusTexto = 'Pendente';
-    
+
     if (pedido.status === 'completed' || pedido.status === 'concluido') {
         statusClass = 'status-concluido';
         statusTexto = 'Concluído';
@@ -1689,7 +1689,7 @@
                     ${statusTexto}
                 </span>
             </div>
-            
+
             <div class="pedido-detalhes">
                 <div class="detalhe-item">
                     <span class="detalhe-label">
@@ -1697,21 +1697,21 @@
                     </span>
                     <span class="detalhe-valor">${pedido.name || '-'}</span>
                 </div>
-                
+
                 <div class="detalhe-item">
                     <span class="detalhe-label">
                         <i class="fab fa-instagram"></i> Instagram
                     </span>
                     <span class="detalhe-valor">@${pedido.instagram || '-'}</span>
                 </div>
-                
+
                 <div class="detalhe-item">
                     <span class="detalhe-label">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </span>
                     <span class="detalhe-valor">${pedido.whatsapp || '-'}</span>
                 </div>
-                
+
                 <div class="detalhe-item">
                     <span class="detalhe-label">
                         <i class="fas fa-dollar-sign"></i> Valor
@@ -1719,7 +1719,7 @@
                     <span class="detalhe-valor pedido-preco">${preco}</span>
                 </div>
             </div>
-            
+
             <div class="pedido-data">
                 <i class="far fa-clock"></i> ${pedido.created_at || '-'}
             </div>
