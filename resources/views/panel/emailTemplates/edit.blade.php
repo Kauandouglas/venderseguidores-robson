@@ -63,7 +63,7 @@
                         <div class="card-body" style="max-height: 600px; overflow-y: auto;">
                             <p class="text-muted small mb-3">Clique em uma variável para copiar</p>
                             @forelse($availableVariables as $key => $description)
-                                <div class="variable-item mb-2 p-2 bg-light rounded cursor-pointer" onclick="copyVariable('{{ $key }}')">
+                                <div class="variable-item mb-2 p-2 bg-light rounded cursor-pointer" data-variable="{{ $key }}">
                                     <code class="text-primary">{{ '{{' . $key . '}}' }}</code>
                                     <br>
                                     <small class="text-muted">{{ $description }}</small>
@@ -93,6 +93,12 @@
 
     @push('scripts')
         <script>
+            // Event delegation para variáveis
+            $(document).on('click', '.variable-item', function() {
+                const variable = $(this).data('variable');
+                copyVariable(variable);
+            });
+
             function copyVariable(variable) {
                 const text = '{{' + variable + '}}';
 
