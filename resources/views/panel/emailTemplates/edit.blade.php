@@ -98,7 +98,7 @@
             document.querySelectorAll('.variable-item').forEach(function(el) {
                 const varName = el.getAttribute('data-variable');
                 const codeEl = el.querySelector('code');
-                codeEl.textContent = '{{' + ' ' + varName + ' ' + '}}';
+                codeEl.textContent = `{{ ${varName} }}`;
             });
 
             // Event delegation para variáveis
@@ -108,7 +108,7 @@
             });
 
             function copyVariable(variable) {
-                const text = '{{' + variable + '}}';
+                const text = `{{ ${variable} }}`;
 
                 // Copiar para clipboard
                 navigator.clipboard.writeText(text).then(() => {
@@ -124,7 +124,7 @@
 
                     Swal.fire({
                         title: 'Copiado!',
-                        text: 'Variável copiada: ' + text,
+                        text: `Variável copiada: ${text}`,
                         icon: 'success',
                         timer: 1500,
                         showConfirmButton: false
