@@ -49,6 +49,12 @@
                     <span>Cupom de desconto</span>
                 </a>
             </li>
+            <li class="sidebar-item">
+                <a href="{{ route('panel.emailTemplates.index') }}" class='sidebar-link'>
+                    <i data-feather="mail" width="20"></i>
+                    <span>Email Automático</span>
+                </a>
+            </li>
             @if(Auth::user()->planPurchase()->active()->where('plan_id', 2)->count() == 1)
                 <li class="sidebar-item">
                     <a href="{{ route('panel.whatsapp.index') }}" class='sidebar-link'>
@@ -86,9 +92,6 @@
 
                     <li>
                         <a href="{{ route('panel.conversionTags.edit') }}">Tags de conversões</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('panel.emailTemplates.index') }}">Email Automático</a>
                     </li>
                 </ul>
             </li>
