@@ -24,7 +24,7 @@ Ver Detalhes do Pedido
 
 ---
 
-Esperamos que tenha gostado do nosso serviço! 
+Esperamos que tenha gostado do nosso serviço!
 
 ⭐ **Sua opinião é muito importante para nós!**
 
