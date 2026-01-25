@@ -92,15 +92,18 @@ class PurchaseController extends Controller
                 }
 
                 // Envio de email de PIX gerado
-                AutomaticEmailService::sendPixGeneratedEmail($user, [
-                    'cliente_nome' => $request->name,
-                    'cliente_email' => $request->email,
-                    'servico_nome' => $service->name,
-                    'valor_pix' => 'R$ ' . number_format($purchase->price, 2, ',', '.'),
-                    'pix_qr_code' => $qrCode,
-                    'pix_codigo' => $qrCode,
-                    'data_expiracao' => date('d/m/Y H:i', strtotime('+30 minutes'))
-                ]);
+                $customerEmail = $request->email ?? $purchase->email ?? null;
+                if ($customerEmail) {
+                    AutomaticEmailService::sendPixGeneratedEmail($user, [
+                        'customer_name' => $request->name ?? $purchase->name ?? 'Cliente',
+                        'customer_email' => $customerEmail,
+                        'service_name' => $service->name,
+                        'value' => $purchase->price,
+                        'qr_code' => $qrCode,
+                        'qr_code_base64' => $qrCodeBase64 ?? '',
+                        'expiration_date' => date('d/m/Y H:i', strtotime('+30 minutes'))
+                    ]);
+                }
 
                 return response()->json([
                     'id' => $purchase->id,
@@ -257,15 +260,18 @@ class PurchaseController extends Controller
                     }
 
                     // Envio de email de PIX gerado
-                    AutomaticEmailService::sendPixGeneratedEmail($user, [
-                        'cliente_nome' => $request->name,
-                        'cliente_email' => $request->email,
-                        'servico_nome' => implode(', ', $cartProducts->pluck('service.name')->toArray()),
-                        'valor_pix' => 'R$ ' . number_format($sumProductsTotal, 2, ',', '.'),
-                        'pix_qr_code' => $qrCode,
-                        'pix_codigo' => $qrCode,
-                        'data_expiracao' => date('d/m/Y H:i', strtotime('+30 minutes'))
-                    ]);
+                    $customerEmail = $request->email ?? $purchase->email ?? null;
+                    if ($customerEmail) {
+                        AutomaticEmailService::sendPixGeneratedEmail($user, [
+                            'customer_name' => $request->name ?? $purchase->name ?? 'Cliente',
+                            'customer_email' => $customerEmail,
+                            'service_name' => implode(', ', $cartProducts->pluck('service.name')->toArray()),
+                            'value' => $sumProductsTotal,
+                            'qr_code' => $qrCode,
+                            'qr_code_base64' => $qrCodeBase64 ?? '',
+                            'expiration_date' => date('d/m/Y H:i', strtotime('+30 minutes'))
+                        ]);
+                    }
 
                     // Limpa o carrinho após gerar o pedido e o PIX
                     CartProduct::where('hash', $hash)->delete();
