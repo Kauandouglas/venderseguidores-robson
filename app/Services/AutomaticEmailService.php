@@ -97,6 +97,16 @@ class AutomaticEmailService
     }
 
     /**
+     * Mapeamento de tipo para view de email
+     */
+    private static $emailViews = [
+        EmailTemplate::TYPE_PURCHASE => 'emails.automatic.purchase',
+        EmailTemplate::TYPE_PIX_GENERATED => 'emails.automatic.pix-generated',
+        EmailTemplate::TYPE_PAYMENT_REMINDER => 'emails.automatic.payment-reminder',
+        EmailTemplate::TYPE_ORDER_COMPLETED => 'emails.automatic.order-completed',
+    ];
+
+    /**
      * Método genérico para enviar email
      */
     private static function sendEmail(User $user, $templateType, $variables)
@@ -126,23 +136,39 @@ class AutomaticEmailService
                 return false;
             }
 
-            // Substituir variáveis
-            $content = $template->replaceVariables($variables);
+            // Substituir variáveis no assunto
+            $subject = $template->subject;
+            foreach ($variables as $key => $value) {
+                $subject = str_replace('{{ ' . $key . ' }}', $value, $subject);
+            }
 
             Log::info('[EMAIL-AUTO] Enviando email...', [
                 'user_id' => $user->id,
                 'template_type' => $templateType,
                 'para' => $variables['cliente_email'],
-                'assunto' => $content['subject']
+                'assunto' => $subject
             ]);
 
-            // Enviar email
-            Mail::send([], [], function ($mail) use ($variables, $content) {
-                $mail->from(config('mail.from.address'), config('mail.from.name'))
-                    ->to($variables['cliente_email'])
-                    ->subject($content['subject'])
-                    ->setBody($content['body'], 'text/html');
-            });
+            // Obter a view correspondente
+            $viewName = self::$emailViews[$templateType] ?? null;
+
+            if ($viewName) {
+                // Enviar usando template Markdown bonito
+                Mail::send($viewName, $variables, function ($mail) use ($variables, $subject) {
+                    $mail->from(config('mail.from.address'), config('mail.from.name'))
+                        ->to($variables['cliente_email'])
+                        ->subject($subject);
+                });
+            } else {
+                // Fallback: usar corpo do template customizado
+                $content = $template->replaceVariables($variables);
+                Mail::send([], [], function ($mail) use ($variables, $content) {
+                    $mail->from(config('mail.from.address'), config('mail.from.name'))
+                        ->to($variables['cliente_email'])
+                        ->subject($content['subject'])
+                        ->setBody($content['body'], 'text/html');
+                });
+            }
 
             Log::info('[EMAIL-AUTO] ✅ EMAIL ENVIADO COM SUCESSO!', [
                 'user_id' => $user->id,
