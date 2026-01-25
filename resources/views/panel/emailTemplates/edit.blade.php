@@ -94,37 +94,41 @@
 
     @push('scripts')
         <script>
+            // Caracteres construídos via charCode para evitar conflito com Blade
+            var OPEN = String.fromCharCode(123, 123, 32);
+            var CLOSE = String.fromCharCode(32, 125, 125);
+
             // Preencher nomes das variáveis
             document.querySelectorAll('.variable-item').forEach(function(el) {
-                const varName = el.getAttribute('data-variable');
-                const codeEl = el.querySelector('code');
-                codeEl.textContent = `{{ ${varName} }}`;
+                var varName = el.getAttribute('data-variable');
+                var codeEl = el.querySelector('code');
+                codeEl.textContent = OPEN + varName + CLOSE;
             });
 
             // Event delegation para variáveis
             $(document).on('click', '.variable-item', function() {
-                const variable = $(this).data('variable');
+                var variable = $(this).data('variable');
                 copyVariable(variable);
             });
 
             function copyVariable(variable) {
-                const text = `{{ ${variable} }}`;
+                var text = OPEN + variable + CLOSE;
 
                 // Copiar para clipboard
-                navigator.clipboard.writeText(text).then(() => {
+                navigator.clipboard.writeText(text).then(function() {
                     // Insere no textarea se estiver focado
-                    const $body = $('#body');
+                    var $body = $('#body');
                     if (document.activeElement === $body[0]) {
-                        const start = $body[0].selectionStart;
-                        const end = $body[0].selectionEnd;
-                        const before = $body.val().substring(0, start);
-                        const after = $body.val().substring(end);
+                        var start = $body[0].selectionStart;
+                        var end = $body[0].selectionEnd;
+                        var before = $body.val().substring(0, start);
+                        var after = $body.val().substring(end);
                         $body.val(before + text + after);
                     }
 
                     Swal.fire({
                         title: 'Copiado!',
-                        text: `Variável copiada: ${text}`,
+                        text: 'Variável copiada: ' + text,
                         icon: 'success',
                         timer: 1500,
                         showConfirmButton: false
