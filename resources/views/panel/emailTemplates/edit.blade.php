@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-vertical" method="post" id="emailTemplateForm" action="{{ route('panel.emailTemplates.update', $template->id) }}">
+                            <form class="form form-vertical" method="post" id="emailTemplateForm" action="{{ route('panel.emailTemplates.update', ['emailTemplate' => $template->id]) }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
