@@ -64,7 +64,7 @@
                             <p class="text-muted small mb-3">Clique em uma variável para copiar</p>
                             @forelse($availableVariables as $key => $description)
                                 <div class="variable-item mb-2 p-2 bg-light rounded cursor-pointer" data-variable="{{ $key }}">
-                                    <code class="text-primary">@{{ $key }}</code>
+                                    <code class="text-primary">{{ '{{' }}{{ $key }}{{ '}}' }}</code>
                                     <br>
                                     <small class="text-muted">{{ $description }}</small>
                                 </div>
