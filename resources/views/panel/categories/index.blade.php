@@ -11,12 +11,17 @@
             flex-direction: column;
         }
     </style>
-    <a href="{{ route('panel.categories.create') }}" class="btn btn-primary mb-3">
-        <i class="mb-1" data-feather="plus" width="20"></i> Cadastrar categoria
-    </a>
-    <a href="https://youtu.be/yJd4sx_Rf4o" target="_blank" class="btn btn-danger mb-3">
-        <i class="mb-1" data-feather="play" width="20"></i> Vídeo Tutorial
-    </a>
+    <div class="d-flex gap-2 mb-3 flex-wrap">
+        <a href="{{ route('panel.categories.create') }}" class="btn btn-primary">
+            <i class="mb-1" data-feather="plus" width="20"></i> Cadastrar categoria
+        </a>
+        <a href="https://youtu.be/yJd4sx_Rf4o" target="_blank" class="btn btn-danger">
+            <i class="mb-1" data-feather="play" width="20"></i> Vídeo Tutorial
+        </a>
+        <button type="button" class="btn btn-success" id="copyDataBtnCategories" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);border: none;color: white;font-weight: bold;">
+            <i class="mb-1" data-feather="copy" width="20"></i> Copiar Categorias e Serviços
+        </button>
+    </div>
     <section class="section">
 
         @if(session('success'))
@@ -170,7 +175,48 @@
                 moveRowDown(row);
                 updateOrder();
             });
+
+            // Copiar categorias e serviços
+            $('#copyDataBtnCategories').on('click', function(e) {
+                e.preventDefault();
+                copiarDados();
+            });
         });
+
+        function copiarDados() {
+            Swal.fire({
+                title: 'Copiar Categorias e Serviços?',
+                text: 'Isso irá copiar todas as categorias e serviços do usuário template para sua conta.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sim, copiar',
+                cancelButtonText: 'Cancelar',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post("{{ route('panel.copyData.copyFromTemplate') }}", {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    }, function(response) {
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }).fail(function(error) {
+                        var message = error.responseJSON.error || 'Erro ao copiar dados';
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: message,
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                    });
+                }
+            });
+        }
     </script>
 @endpush
 

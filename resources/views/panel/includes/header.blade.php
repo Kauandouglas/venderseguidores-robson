@@ -55,12 +55,6 @@
                     <span>Email Automático</span>
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a href="#" class='sidebar-link' id="copyDataBtn" style="background-color: #4CAF50; color: white;">
-                    <i data-feather="copy" width="20"></i>
-                    <span>Copiar Categoria e Serviços</span>
-                </a>
-            </li>
             @if(Auth::user()->planPurchase()->active()->where('plan_id', 2)->count() == 1)
                 <li class="sidebar-item">
                     <a href="{{ route('panel.whatsapp.index') }}" class='sidebar-link'>
