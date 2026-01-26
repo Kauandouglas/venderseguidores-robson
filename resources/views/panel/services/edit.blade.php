@@ -105,6 +105,7 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="custom-control custom-switch">
+                                                    <input type="hidden" name="sync_price" value="0">
                                                     <input name="sync_price" type="checkbox" value="1" {{ ($service->sync_price ? 'checked' : '') }}
                                                            class="custom-control-input" id="syncPrice">
                                                     <label class="custom-control-label" for="syncPrice">
@@ -342,9 +343,10 @@
                 // Preço = custo * (1 + margem%)
                 var price = cost * (1 + (marginPercent / 100));
 
-                // Formata para o padrão brasileiro
+                // Formata para o padrão brasileiro (com vírgula)
                 var formattedPrice = price.toFixed(2).replace('.', ',');
-                $('#price').val(formattedPrice);
+                // Remove máscara anterior e coloca o novo valor
+                $('#price').val(formattedPrice).trigger('change');
             }
         }
 
