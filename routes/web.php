@@ -19,6 +19,7 @@ use App\Http\Controllers\Panel\ServiceDescountController;
 use App\Http\Controllers\Panel\EmailTemplateController;
 use App\Http\Controllers\Panel\SystemSettingController;
 use App\Http\Controllers\Panel\UserController;
+use App\Http\Controllers\Panel\CopyDataController;
 use App\Http\Controllers\Web\SystemSettingController as SystemSettingControllerWeb;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
@@ -151,6 +152,9 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
         Route::get('/email-templates/{emailTemplate}/editar', [EmailTemplateController::class, 'edit'])->name('emailTemplates.edit');
         Route::put('/email-templates/{emailTemplate}', [EmailTemplateController::class, 'update'])->name('emailTemplates.update');
         Route::post('/email-templates/{emailTemplate}/toggle-active', [EmailTemplateController::class, 'toggleActive'])->name('emailTemplates.toggleActive');
+
+        // Copy Data from Template User
+        Route::post('/copiar-categorias-servicos', [CopyDataController::class, 'copyFromTemplate'])->name('copyData.copyFromTemplate');
     });
 });
 

@@ -55,6 +55,12 @@
                     <span>Email Automático</span>
                 </a>
             </li>
+            <li class="sidebar-item">
+                <a href="#" class='sidebar-link' id="copyDataBtn" style="background-color: #4CAF50; color: white;">
+                    <i data-feather="copy" width="20"></i>
+                    <span>Copiar Categoria e Serviços</span>
+                </a>
+            </li>
             @if(Auth::user()->planPurchase()->active()->where('plan_id', 2)->count() == 1)
                 <li class="sidebar-item">
                     <a href="{{ route('panel.whatsapp.index') }}" class='sidebar-link'>
@@ -229,3 +235,41 @@
         </div>
     </div>
 </div>
+<script>
+    $('#copyDataBtn').on('click', function(e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Copiar Categorias e Serviços?',
+            text: 'Isso irá copiar todas as categorias e serviços do usuário template para sua conta.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, copiar',
+            cancelButtonText: 'Cancelar',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("{{ route('panel.copyData.copyFromTemplate') }}", {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                }, function(response) {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }).fail(function(error) {
+                    var message = error.responseJSON.error || 'Erro ao copiar dados';
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: message,
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                });
+            }
+        });
+    });
+</script>
