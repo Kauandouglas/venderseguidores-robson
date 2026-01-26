@@ -63,14 +63,14 @@
                                     <div class="custom-control custom-switch">
                                         <input {{ ($service->status == 1 ? 'checked' : '') }} type="checkbox"
                                                class="custom-control-input statusChange"
-                                               data-action="{{ route('panel.services.status', ['service' =$service]) }}"
+                                               data-action="{{ route('panel.services.status', ['service' => $service]) }}"
                                                id="status_{{ $service->id }}">
                                         <label class="custom-control-label" for="status_{{ $service->id }}"></label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('panel.services.edit', ['service' =$service]) }}"
+                                        <a href="{{ route('panel.services.edit', ['service' => $service]) }}"
                                            class="btn btn-outline-primary btn-sm">
                                             <i data-feather="edit" width="20"></i>
                                         </a>
