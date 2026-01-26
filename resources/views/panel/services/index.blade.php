@@ -80,7 +80,7 @@
                                         </button>
                                         <a href="" class="btn btn-outline-primary btn-sm" data-toggle="modal"
                                            data-target="#deleteModal"
-                                           data-delete="{{ route('panel.services.destroy', ['service' =$service]) }}">
+                                           data-delete="{{ route('panel.services.destroy', ['service' => $service]) }}">
                                             <i data-feather="trash-2" width="20"></i>
                                         </a>
                                     </div>
