@@ -154,6 +154,12 @@
         // Submit form
         jQuery(document).ready(function () {
             jQuery('#serviceForm').submit(function () {
+                // Garante que o preÁo calculado seja enviado
+                if (#syncPrice.is(':checked')) {
+                    // Retira a m·scara do preÁo antes de enviar
+                    var priceValue = #price.val().replace(/\./g, '').replace(',', '.');
+                    #price.val(priceValue);
+                }
                 var data = jQuery(this).serialize();
                 var form = $(this);
 
@@ -343,6 +349,9 @@
                 // Pre√ßo = custo * (1 + margem%)
                 var price = cost * (1 + (marginPercent / 100));
 
+                // Salva api_rate
+                $('#api_rate').val(rate);
+                
                 // Formata para o padr√£o brasileiro (com v√≠rgula)
                 var formattedPrice = price.toFixed(2).replace('.', ',');
                 // Remove m√°scara anterior e coloca o novo valor
@@ -371,3 +380,6 @@
         });
     </script>
 @endpush
+
+
+
