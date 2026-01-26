@@ -171,8 +171,14 @@ class ServiceController extends Controller
     {
         Cache::forget('systemSettingCategories.' . Auth::id());
 
+        $services = $request->input('services');
+
+        if (!is_array($services) || empty($services)) {
+            return response()->json(['error' => 'Nenhuma lista de serviços enviada'], 422);
+        }
+
         $order = 1;
-        foreach ($request->services as $serviceId) {
+        foreach ($services as $serviceId) {
             Auth::user()->services()->where('id', $serviceId)->update(['order' => $order]);
             $order++;
         }
