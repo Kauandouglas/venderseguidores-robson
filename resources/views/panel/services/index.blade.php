@@ -179,9 +179,19 @@
                 }
             }
 
-            function updateOrder() {
-                var services = $('.services').sortable("serialize");
+            function updateOrder($list) {
+                // Usa a lista que disparou o evento; se não vier, usa a primeira
+                var $target = $list && $list.length ? $list : $('.services').first();
+                var services = $target.sortable("serialize");
+
+                if (!services) {
+                    return; // nada para enviar
+                }
+
                 displayLoading('show');
+
+                // Inclui o token CSRF manualmente
+                services += '&_token=' + $('meta[name="csrf-token"]').attr('content');
 
                 $.post("{{ route('panel.services.order') }}", services, function () {
                     displayLoading('hide');
@@ -192,20 +202,20 @@
                 handle: '.arrow-container',
                 axis: 'y',
                 update: function () {
-                    updateOrder();
+                    updateOrder($(this));
                 }
             });
 
             $('.move-up').on('click', function () {
                 var row = $(this).closest('tr');
                 moveRowUp(row);
-                updateOrder();
+                updateOrder(row.closest('.services'));
             });
 
             $('.move-down').on('click', function () {
                 var row = $(this).closest('tr');
                 moveRowDown(row);
-                updateOrder();
+                updateOrder(row.closest('.services'));
             });
 
             // Clone service
