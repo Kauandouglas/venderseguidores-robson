@@ -150,11 +150,11 @@
         // Submit form
         jQuery(document).ready(function () {
             jQuery('#serviceForm').submit(function () {
-                // Garante que o preÁo calculado seja enviado
-                if (#syncPrice.is(':checked')) {
-                    // Retira a m·scara do preÁo antes de enviar
-                    var priceValue = #price.val().replace(/\./g, '').replace(',', '.');
-                    #price.val(priceValue);
+                // Garante que o pre√ßo calculado seja enviado
+                if ($('#syncPrice').is(':checked')) {
+                    // Retira a m√°scara do pre√ßo antes de enviar
+                    var priceValue = $('#price').val().replace(/\./g, '').replace(',', '.');
+                    $('#price').val(priceValue);
                 }
                 var data = jQuery(this).serialize();
                 console.log('Dados enviados:', data);
