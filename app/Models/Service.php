@@ -61,8 +61,24 @@ class Service extends Model
         if (empty($param)) {
             return null;
         }
+        // Normaliza removendo caracteres estranhos, preservando apenas dígitos e separadores
+        $value = preg_replace('/[^0-9.,]/', '', $param);
 
-        return str_replace(',', '.', str_replace('.', '', $param));
+        // Se não houver separador, retorne apenas os dígitos
+        $lastSeparatorPos = max(strrpos($value, ','), strrpos($value, '.'));
+        if ($lastSeparatorPos === false) {
+            return preg_replace('/[^0-9]/', '', $value);
+        }
+
+        // Separa a parte inteira e a decimal considerando o último separador como separador decimal
+        $integerPart = substr($value, 0, $lastSeparatorPos);
+        $decimalPart = substr($value, $lastSeparatorPos + 1);
+
+        // Remove qualquer separador que tenha ficado na parte inteira/decimal
+        $integerPart = preg_replace('/[^0-9]/', '', $integerPart);
+        $decimalPart = preg_replace('/[^0-9]/', '', $decimalPart);
+
+        return $integerPart . '.' . $decimalPart;
     }
 
     public function showcaseDescriptions()
