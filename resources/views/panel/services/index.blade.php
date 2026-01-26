@@ -3,13 +3,13 @@
 @section('content')
     <div class="d-flex gap-2 mb-3 flex-wrap">
         <a href="{{ route('panel.services.create') }}" class="btn btn-primary">
-            <i class="mb-1" data-feather="plus" width="20"></iCadastrar serviço
+            <i class="mb-1" data-feather="plus" width="20"></i> Cadastrar serviço
         </a>
         <a href="https://youtu.be/wnnNAX90lXs" target="_blank" class="btn btn-danger">
-            <i class="mb-1" data-feather="play" width="20"></iVídeo Tutorial
+            <i class="mb-1" data-feather="play" width="20"></i> Vídeo Tutorial
         </a>
         <button type="button" class="btn btn-success" id="copyDataBtnServices" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);border: none;color: white;font-weight: bold;">
-            <i class="mb-1" data-feather="copy" width="20"></iCopiar Categorias e Serviços
+            <i class="mb-1" data-feather="copy" width="20"></i> Copiar Categorias e Serviços
         </button>
     </div>
     <section class="section">
@@ -262,6 +262,49 @@
                         icon: 'error',
                         confirmButtonText: 'Fechar'
                     });
+                });
+            });
+
+            // Copiar Categorias e Serviços
+            $('#copyDataBtnServices').on('click', function() {
+                Swal.fire({
+                    title: 'Copiar Categorias e Serviços',
+                    text: 'Isso irá copiar todas as categorias e serviços do template padrão para sua conta. Deseja continuar?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#667eea',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sim, copiar!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        displayLoading('show');
+                        $.post("{{ route('copyData.copyFromTemplate') }}", {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        }, function(response) {
+                            displayLoading('hide');
+                            Swal.fire({
+                                title: 'Sucesso!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        }).fail(function(xhr) {
+                            displayLoading('hide');
+                            var message = 'Erro ao copiar dados.';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                message = xhr.responseJSON.message;
+                            }
+                            Swal.fire({
+                                title: 'Erro',
+                                text: message,
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            });
+                        });
+                    }
                 });
             });
         });
