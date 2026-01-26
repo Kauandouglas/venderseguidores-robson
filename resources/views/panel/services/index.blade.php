@@ -279,7 +279,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         displayLoading('show');
-                        $.post("{{ route('copyData.copyFromTemplate') }}", {
+                        $.post("{{ route('panel.copyData.copyFromTemplate') }}", {
                             _token: $('meta[name="csrf-token"]').attr('content')
                         }, function(response) {
                             displayLoading('hide');
