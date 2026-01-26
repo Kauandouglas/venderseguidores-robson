@@ -351,7 +351,7 @@
 
                 // Salva api_rate
                 $('#api_rate').val(rate);
-                
+
                 // Formata para o padrão brasileiro (com vírgula)
                 var formattedPrice = price.toFixed(2).replace('.', ',');
                 // Remove máscara anterior e coloca o novo valor

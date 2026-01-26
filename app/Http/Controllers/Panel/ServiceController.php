@@ -65,7 +65,7 @@ class ServiceController extends Controller
             // Persiste o custo do provedor para evitar exibir zero logo após o cadastro
             $service->api_rate = floatval(preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $request->api_rate)));
             $service->save();
-            $service->recalcPriceFromProvider();
+            // Não recalcula aqui para não sobrescrever o preço enviado pelo formulário
         }
 
         return response()->json('Serviço cadastrado com sucesso!', 201);
@@ -106,7 +106,7 @@ class ServiceController extends Controller
             // Usa a tarifa enviada (por 1000 unidades) ao invés de dividir pelo quantity
             $service->api_rate = floatval(preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $request->api_rate)));
             $service->save();
-            $service->recalcPriceFromProvider();
+            // Não recalcula aqui para não sobrescrever o preço enviado pelo formulário
         }
 
         return response()->json('Serviço editado com sucesso!');
