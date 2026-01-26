@@ -44,7 +44,7 @@ class VerifyPriceCostService extends Command
                 $query->where('status', 1);
             })->whereHas('category', function ($query) {
                 $query->where('status', 1);
-            })->where('user_id', '359')->get();
+            })->get();
 
         foreach ($services as $service) {
             if (!empty($service->apiProvider->key)) {

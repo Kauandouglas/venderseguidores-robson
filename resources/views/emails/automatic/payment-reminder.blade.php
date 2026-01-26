@@ -16,7 +16,7 @@
                             <h1 style="color: #ffffff; margin: 0; font-size: 28px;">🤔 Esqueceu de algo?</h1>
                         </td>
                     </tr>
-                    
+
                     <!-- Content -->
                     <tr>
                         <td style="padding: 40px 30px;">
@@ -24,10 +24,10 @@
                                 Opa, <strong>{{ $cliente_nome }}</strong>!
                             </p>
                             <p style="font-size: 16px; color: #636e72; line-height: 1.6; margin: 0 0 30px;">
-                                Notamos que você tem um pagamento pendente há <strong>{{ $dias_pendente }} dia(s)</strong>. 
+                                Notamos que você tem um pagamento pendente há <strong>{{ $dias_pendente }} dia(s)</strong>.
                                 Não perca seu pedido!
                             </p>
-                            
+
                             <!-- Order Details -->
                             <table width="100%" cellpadding="15" cellspacing="0" style="background-color: #f8f9fa; border-radius: 8px; margin-bottom: 30px;">
                                 <tr>
@@ -47,7 +47,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            
+
                             <!-- CTA Button -->
                             <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
                                 <tr>
@@ -58,13 +58,13 @@
                                     </td>
                                 </tr>
                             </table>
-                            
+
                             <p style="font-size: 14px; color: #636e72; line-height: 1.6; margin: 0; text-align: center;">
                                 Complete o pagamento e garanta seu serviço! ⚡
                             </p>
                         </td>
                     </tr>
-                    
+
                     <!-- Footer -->
                     <tr>
                         <td style="background-color: #f8f9fa; padding: 20px 30px; text-align: center; border-top: 1px solid #e9ecef;">

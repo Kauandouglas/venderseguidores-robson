@@ -122,7 +122,7 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="priceCost">Preço Custo</label>
-                                                <input type="text" id="priceCost" name="api_rate" class="form-control" readonly>
+                                                <input type="text" id="priceCost" class="form-control" readonly>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -318,12 +318,54 @@
         function toggleSyncMargin() {
             const isChecked = $('#syncPrice').is(':checked');
             $('#syncMarginWrapper').toggle(isChecked);
+            
+            if (isChecked) {
+                // Desabilita o campo de preço e calcula automaticamente
+                $('#price').prop('readonly', true).css('background-color', '#e9ecef');
+                calculateSyncPrice();
+            } else {
+                // Habilita o campo de preço para edição manual
+                $('#price').prop('readonly', false).css('background-color', '#fff');
+            }
+        }
+
+        function calculateSyncPrice() {
+            if (!$('#syncPrice').is(':checked')) return;
+            
+            var rate = parseFloat($('#apiService').find(':selected').attr('data-rate')) || 0;
+            var quantity = parseFloat($('#quantity').val()) || 0;
+            var marginPercent = parseFloat($('#sync_margin_percent').val()) || 0;
+            
+            if (rate > 0 && quantity > 0) {
+                // Custo = (rate / 1000) * quantidade
+                var cost = (rate / 1000) * quantity;
+                // Preço = custo * (1 + margem%)
+                var price = cost * (1 + (marginPercent / 100));
+                
+                // Formata para o padrão brasileiro
+                var formattedPrice = price.toFixed(2).replace('.', ',');
+                $('#price').val(formattedPrice);
+            }
         }
 
         toggleSyncMargin();
 
         $('#syncPrice').on('change', function () {
             toggleSyncMargin();
+        });
+        
+        // Recalcula quando mudar margem, quantidade ou serviço da API
+        $('#sync_margin_percent').on('keyup blur change', function() {
+            calculateSyncPrice();
+        });
+        
+        $('#quantity').on('keyup blur change', function() {
+            calculateSyncPrice();
+        });
+        
+        // Quando mudar o serviço API, também recalcula
+        $('#apiService').on('change', function() {
+            calculateSyncPrice();
         });
     </script>
 @endpush

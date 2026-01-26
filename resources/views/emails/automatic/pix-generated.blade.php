@@ -16,7 +16,7 @@
                             <h1 style="color: #ffffff; margin: 0; font-size: 28px;">💰 PIX Gerado!</h1>
                         </td>
                     </tr>
-                    
+
                     <!-- Content -->
                     <tr>
                         <td style="padding: 40px 30px;">
@@ -26,7 +26,7 @@
                             <p style="font-size: 16px; color: #636e72; line-height: 1.6; margin: 0 0 30px;">
                                 Seu código PIX está pronto para pagamento! Complete a transação para garantir seu pedido.
                             </p>
-                            
+
                             <!-- Order Details -->
                             <table width="100%" cellpadding="15" cellspacing="0" style="background-color: #f8f9fa; border-radius: 8px; margin-bottom: 30px;">
                                 <tr>
@@ -46,7 +46,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            
+
                             <!-- PIX Code -->
                             <div style="background-color: #2d3436; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
                                 <p style="color: #00b894; margin: 0 0 10px; font-weight: bold; font-size: 14px;">
@@ -56,20 +56,20 @@
                                     {{ $pix_codigo }}
                                 </p>
                             </div>
-                            
+
                             <!-- Expiration Warning -->
                             <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 0 8px 8px 0; margin-bottom: 30px;">
                                 <p style="margin: 0; color: #856404; font-size: 14px;">
                                     ⏰ <strong>Atenção:</strong> Este código expira em <strong>{{ $data_expiracao }}</strong>
                                 </p>
                             </div>
-                            
+
                             <p style="font-size: 14px; color: #636e72; line-height: 1.6; margin: 0;">
                                 Após o pagamento, seu pedido será processado automaticamente. ⚡
                             </p>
                         </td>
                     </tr>
-                    
+
                     <!-- Footer -->
                     <tr>
                         <td style="background-color: #f8f9fa; padding: 20px 30px; text-align: center; border-top: 1px solid #e9ecef;">

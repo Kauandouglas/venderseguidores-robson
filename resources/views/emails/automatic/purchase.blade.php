@@ -16,7 +16,7 @@
                             <h1 style="color: #ffffff; margin: 0; font-size: 28px;">✅ Compra Confirmada!</h1>
                         </td>
                     </tr>
-                    
+
                     <!-- Content -->
                     <tr>
                         <td style="padding: 40px 30px;">
@@ -26,7 +26,7 @@
                             <p style="font-size: 16px; color: #636e72; line-height: 1.6; margin: 0 0 30px;">
                                 Ótima notícia! Seu pagamento foi confirmado e seu pedido já está sendo processado. 🚀
                             </p>
-                            
+
                             <!-- Order Details -->
                             <table width="100%" cellpadding="15" cellspacing="0" style="background-color: #f8f9fa; border-radius: 8px; margin-bottom: 30px;">
                                 <tr>
@@ -62,7 +62,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            
+
                             <!-- CTA Button -->
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
@@ -75,7 +75,7 @@
                             </table>
                         </td>
                     </tr>
-                    
+
                     <!-- Footer -->
                     <tr>
                         <td style="background-color: #f8f9fa; padding: 20px 30px; text-align: center; border-top: 1px solid #e9ecef;">

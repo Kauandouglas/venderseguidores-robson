@@ -20,7 +20,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('refill:auto')->withoutOverlapping()->runInBackground();
         $schedule->command('verify:order')->withoutOverlapping()->runInBackground();
         $schedule->command('verify:priceCostService')->withoutOverlapping()->runInBackground();
-        $schedule->command('verifyPriceNow:service')->withoutOverlapping()->runInBackground();
         $schedule->command('cancel:payment')->withoutOverlapping()->runInBackground();
         $schedule->command('generate:invoice')->withoutOverlapping()->runInBackground();
         $schedule->command('sendMessagee:notConfiguredStore')->withoutOverlapping()->runInBackground();

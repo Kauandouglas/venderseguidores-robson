@@ -13,6 +13,7 @@ class Service extends Model
         'category_id',
         'api_provider_id',
         'api_service',
+        'api_rate',
         'type_social',
         'type',
         'name',
