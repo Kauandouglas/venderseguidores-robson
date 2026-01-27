@@ -121,7 +121,9 @@ class PurchaseController extends Controller
             $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
             $ipFixed = $request->ipFixed ?? $request->ip();
 
-            $hash = md5($ipFixed . $user->domain);
+            // Usa session_id para garantir carrinho único por navegador
+            $sessionId = $request->session()->getId();
+            $hash = md5($sessionId . $user->domain);
             $cartProducts = CartProduct::with('service')->where('hash', $hash)->latest('id')->get();
 
             $sumProducts = [];
@@ -391,8 +393,7 @@ class PurchaseController extends Controller
                 ]);
 
                 $message = "Pagamento Aprovado 👏👏👏\n\n";
-                $message .= "Seu pedido já será enviado, se em 24 horas ele não chegar, envie o número do pedido para o Whats de atendimento 17-9.8145.2466\n\n";
-                $message .= "Equipe Loja do Insta 💜";
+                $message .= "Seu pedido já será enviado, se em 24 horas ele não chegar, envie o número do pedido para o Whats de atendimento.";
 
                 // Envio de mensagem de aprovação via Evolution API
                 $instance = $purchase->user()->first()->whatsappInstance()->first();

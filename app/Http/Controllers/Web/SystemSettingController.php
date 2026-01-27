@@ -60,7 +60,10 @@ class SystemSettingController extends Controller
 
     $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
     $ipFixed = $request->ipFixed ?? $request->ip();
-    $hash = md5($ipFixed . $user->domain);
+    
+    // Usa session_id para garantir carrinho único por navegador
+    $sessionId = $request->session()->getId();
+    $hash = md5($sessionId . $user->domain);
 
     $cartProductsCount = CartProduct::where('hash', $hash)->count();
 

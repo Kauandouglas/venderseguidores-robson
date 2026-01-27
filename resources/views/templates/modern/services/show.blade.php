@@ -568,6 +568,30 @@
         </div>
     </div>
 
+    <!-- Success Modal -->
+    <div class="modal fade" id="pixSuccessModal" tabindex="-1" aria-labelledby="pixSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="pixSuccessModalLabel">Pagamento Aprovado!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <svg width="80" height="80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: #00C853;">
+                        <circle cx="12" cy="12" r="10" stroke="#00C853" stroke-width="2" fill="#e8f5e9"/>
+                        <path d="M8 12l2 2l4-4" stroke="#00C853" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h4 class="mt-3">Seu pagamento foi aprovado com sucesso!</h4>
+                    <p>Obrigado pela sua compra.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/painel/pedidos" class="btn btn-success">Ver meus pedidos</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {

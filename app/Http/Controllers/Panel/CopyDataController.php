@@ -58,4 +58,52 @@ class CopyDataController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Copia uma categoria específica (e seus serviços) do usuário template para o usuário autenticado.
+     */
+    public function copyCategoryFromTemplate(Request $request)
+    {
+        $sourceUserId = 18; // Usuário template
+        $targetUserId = Auth::id();
+        $categoryId = $request->input('category_id');
+
+        if (!$categoryId) {
+            return response()->json(['message' => 'Categoria não informada.'], 400);
+        }
+
+        $sourceUser = User::findOrFail($sourceUserId);
+        $sourceCategory = $sourceUser->categories()->with('services')->find($categoryId);
+        if (!$sourceCategory) {
+            return response()->json(['message' => 'Categoria não encontrada no template.'], 404);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            // Clona a categoria
+            $newCategory = $sourceCategory->replicate();
+            $newCategory->user_id = $targetUserId;
+            $newCategory->save();
+
+            // Clona todos os serviços da categoria
+            foreach ($sourceCategory->services as $sourceService) {
+                $newService = $sourceService->replicate();
+                $newService->user_id = $targetUserId;
+                $newService->category_id = $newCategory->id;
+                $newService->save();
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Categoria e serviços clonados com sucesso!'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Erro ao clonar categoria: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

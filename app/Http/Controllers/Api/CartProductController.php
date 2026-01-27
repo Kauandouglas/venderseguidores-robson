@@ -40,8 +40,10 @@ class CartProductController extends Controller
 
         $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
         $ipFixed = $request->ipFixed ?? $request->ip();
-
-        $hash = md5($ipFixed . $user->domain);
+        
+        // Usa session_id para garantir carrinho único por navegador
+        $sessionId = $request->session()->getId();
+        $hash = md5($sessionId . $user->domain);
         $cartProducts = CartProduct::with('service.category')->where('hash', $hash)->latest('id')->get();
 
         $sumProducts = [];
@@ -77,8 +79,10 @@ class CartProductController extends Controller
         $user = User::users()->where('domain', $request->domain)->firstOrFail();
         $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
         $ipFixed = $request->ipFixed ?? $request->ip();
-
-        $hash = md5($ipFixed . $user->domain);
+        
+        // Usa session_id para garantir carrinho único por navegador
+        $sessionId = $request->session()->getId();
+        $hash = md5($sessionId . $user->domain);
         $cartProducts = CartProduct::with('service.category')->where('hash', $hash)->latest('id')->get();
 
         $sumProducts = [];
@@ -112,8 +116,10 @@ class CartProductController extends Controller
         $user = User::users()->where('domain', $request->domain)->firstOrFail();
         $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
         $ipFixed = $request->ipFixed ?? $request->ip();
-
-        $hash = md5($ipFixed . $user->domain);
+        
+        // Usa session_id para garantir carrinho único por navegador
+        $sessionId = $request->session()->getId();
+        $hash = md5($sessionId . $user->domain);
         $cartProduct = CartProduct::where('hash', $hash)->findOrFail($request->cartProduct);
 
         $cartProduct->link = $request->profile;
@@ -129,8 +135,10 @@ class CartProductController extends Controller
         $user = User::users()->where('domain', $request->domain)->firstOrFail();
         $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
         $ipFixed = $request->ipFixed ?? $request->ip();
-
-        $hash = md5($ipFixed . $user->domain);
+        
+        // Usa session_id para garantir carrinho único por navegador
+        $sessionId = $request->session()->getId();
+        $hash = md5($sessionId . $user->domain);
         $cartProduct = CartProduct::where('hash', $hash)->findOrFail($request->cartProduct);
 
         $cartProduct->comment = $request->comments;
@@ -146,8 +154,10 @@ class CartProductController extends Controller
         $user = User::users()->where('domain', $request->domain)->firstOrFail();
         $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
         $ipFixed = $request->ipFixed ?? $request->ip();
-
-        $hash = md5($ipFixed . $user->domain);
+        
+        // Usa session_id para garantir carrinho único por navegador
+        $sessionId = $request->session()->getId();
+        $hash = md5($sessionId . $user->domain);
         $cartProduct = CartProduct::where('hash', $hash)->findOrFail($request->cartProduct);
 
         $cartProduct->delete();
@@ -172,8 +182,10 @@ class CartProductController extends Controller
 
         $userAgentFixed = $request->userAgentFixed ?? $request->userAgent();
         $ipFixed = $request->ipFixed ?? $request->ip();
-
-        $hash = md5($ipFixed . $user->domain);
+        
+        // Usa session_id para garantir carrinho único por navegador
+        $sessionId = $request->session()->getId();
+        $hash = md5($sessionId . $user->domain);
         $cartProducts = CartProduct::with('service.category')->where('hash', $hash)->latest('id')->get();
 
         $sumProducts = [];

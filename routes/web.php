@@ -67,6 +67,9 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
     Route::post('/sair', [AuthController::class, 'logout'])->name('auth.logout');
 
     // Users
+    Route::get('/cadastro', function() {
+        return view('panel.auth.register');
+    })->name('users.register');
     Route::post('/cadastro', [UserController::class, 'store'])->name('users.store');
     Route::get('/verificar-dominio', [UserController::class, 'verifyDomain'])->name('users.verifyDomain');
 
@@ -155,6 +158,7 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
 
         // Copy Data from Template User
         Route::post('/copiar-categorias-servicos', [CopyDataController::class, 'copyFromTemplate'])->name('copyData.copyFromTemplate');
+        Route::post('/copiar-categoria-template', [CopyDataController::class, 'copyCategoryFromTemplate'])->name('copyData.copyCategoryFromTemplate');
     });
 });
 
