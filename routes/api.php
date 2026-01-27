@@ -44,8 +44,10 @@ Route::group(['as' => 'api.'], function () {
         Route::post('/carrinho/addCoupon/{domain}', [CartProductController::class, 'addCoupon'])->name('cartProducts.addCoupon');
     });
 
-    // Purchases
-    Route::post('/finalizar-compra/{domain}', [PurchaseController::class, 'store'])->name('purchases.store');
+    // Purchases (store precisa de sessão)
+    Route::middleware('web')->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])->group(function () {
+        Route::post('/finalizar-compra/{domain}', [PurchaseController::class, 'store'])->name('purchases.store');
+    });
     Route::get('/finalizar-compra/status',  [PurchaseController::class, 'status'])->name('purchases.status');
     Route::post('/notification-template', [PurchaseController::class, 'notificationTemplate'])->name('purchases.notificationTemplate');
     Route::get('/compras/historic', [PurchaseController::class, 'historic'])->name('purchases.historic');
