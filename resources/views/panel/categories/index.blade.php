@@ -83,6 +83,32 @@
         </div>
     </section>
 
+        <!-- Modal Selecionar Categoria para Clonar -->
+        <div class="modal fade" id="selectCategoryCloneModal" tabindex="-1" aria-labelledby="selectCategoryCloneModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="selectCategoryCloneModalLabel">Escolher Categoria para Clonar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="cloneCategoryForm">
+                            <div class="mb-3">
+                                <label for="categoryToClone" class="form-label">Selecione a categoria do template:</label>
+                                <select class="form-select" id="categoryToClone" name="category_id" required>
+                                    <option value="">Selecione...</option>
+                                    @foreach(\App\Models\Category::where('user_id', 18)->get() as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success">Clonar Categoria</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- Modal Delete -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -176,47 +202,48 @@
                 updateOrder();
             });
 
-            // Copiar categorias e serviços
-            $('#copyDataBtnCategories').on('click', function(e) {
+            // Copiar categorias e serviços (selecionar categoria específica do template)
+            $('#copyDataBtnCategories').off('click').on('click', function(e) {
                 e.preventDefault();
-                copiarDados();
+                $('#selectCategoryCloneModal').modal('show');
+            });
+
+            $('#cloneCategoryForm').on('submit', function(e) {
+                e.preventDefault();
+                var categoryId = $('#categoryToClone').val();
+                if (!categoryId) {
+                    Swal.fire('Selecione uma categoria!', '', 'warning');
+                    return;
+                }
+                displayLoading('show');
+                $.post("{{ route('panel.copyData.copyCategoryFromTemplate') }}", {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    category_id: categoryId
+                }, function(response) {
+                    displayLoading('hide');
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then(function() {
+                        window.location.reload();
+                    });
+                }).fail(function(xhr) {
+                    displayLoading('hide');
+                    var message = 'Erro ao copiar categoria.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        title: 'Erro',
+                        text: message,
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                });
             });
         });
-
-        function copiarDados() {
-            Swal.fire({
-                title: 'Copiar Categorias e Serviços?',
-                text: 'Isso irá copiar todas as categorias e serviços do usuário template para sua conta.',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sim, copiar',
-                cancelButtonText: 'Cancelar',
-                allowOutsideClick: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.post("{{ route('panel.copyData.copyFromTemplate') }}", {
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    }, function(response) {
-                        Swal.fire({
-                            title: 'Sucesso!',
-                            text: response.message,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            window.location.reload();
-                        });
-                    }).fail(function(error) {
-                        var message = error.responseJSON.error || 'Erro ao copiar dados';
-                        Swal.fire({
-                            title: 'Erro!',
-                            text: message,
-                            icon: 'error',
-                            confirmButtonText: 'Fechar'
-                        });
-                    });
-                }
-            });
-        }
     </script>
 @endpush
 
