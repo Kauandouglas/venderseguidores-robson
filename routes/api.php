@@ -33,11 +33,9 @@ Route::group(['as' => 'api.'], function () {
         Route::post('list-posts', [ServiceController::class, 'listTiktokPosts']);
     });
 
-    // System Settings
-    Route::post('/carinho/{domain}/{service}', [SystemSettingController::class, 'addCart'])->name('systemSettings.addCart');
-
-    // Cart Products
+    // System Settings + Cart Products (precisam de sessão)
     Route::middleware('web')->group(function () {
+        Route::post('/carinho/{domain}/{service}', [SystemSettingController::class, 'addCart'])->name('systemSettings.addCart');
         Route::get('/carinho/{domain}', [CartProductController::class, 'index'])->name('cartProducts.index');
         Route::get('/carrinho/produtos/{domain}', [CartProductController::class, 'fragmentIndex'])->name('carts.fragmentIndex');
         Route::post('/carinho/link/{cartProduct}/{domain}', [CartProductController::class, 'addLink'])->name('cartProducts.addLink');
