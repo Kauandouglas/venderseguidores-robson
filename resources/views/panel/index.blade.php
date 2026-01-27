@@ -142,8 +142,22 @@
             <div id="area" class="w-100"></div>
         </div>
     </div>
+    @include('panel.users.register-modal')
 @endsection
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('cadastro') == '1') {
+                // Se houver parâmetro plan, preenche o campo oculto
+                const plan = urlParams.get('plan');
+                if (plan) {
+                    $('#registerPlanInput').val(plan);
+                }
+                $('#registerModal').modal('show');
+            }
+        });
+    </script>
     <script>
         var areaOptions = {
             series: [

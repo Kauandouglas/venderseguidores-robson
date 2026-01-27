@@ -68,7 +68,8 @@ Route::group(['as' => 'panel.', 'prefix' => 'painel'], function () {
 
     // Users
     Route::get('/cadastro', function() {
-        return view('panel.auth.register');
+        $plan = request('plan');
+        return redirect()->route('panel.index', ['cadastro' => 1, 'plan' => $plan]);
     })->name('users.register');
     Route::post('/cadastro', [UserController::class, 'store'])->name('users.store');
     Route::get('/verificar-dominio', [UserController::class, 'verifyDomain'])->name('users.verifyDomain');

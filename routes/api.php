@@ -37,12 +37,14 @@ Route::group(['as' => 'api.'], function () {
     Route::post('/carinho/{domain}/{service}', [SystemSettingController::class, 'addCart'])->name('systemSettings.addCart');
 
     // Cart Products
-    Route::get('/carinho/{domain}', [CartProductController::class, 'index'])->name('cartProducts.index');
-    Route::get('/carrinho/produtos/{domain}', [CartProductController::class, 'fragmentIndex'])->name('carts.fragmentIndex');
-    Route::post('/carinho/link/{cartProduct}/{domain}', [CartProductController::class, 'addLink'])->name('cartProducts.addLink');
-    Route::post('/carinho/comment/{cartProduct}/{domain}', [CartProductController::class, 'addComment'])->name('cartProducts.addComment');
-    Route::delete('/carinho/remover/{cartProduct}/{domain}', [CartProductController::class, 'destroy'])->name('cartProducts.destroy');
-    Route::post('/carrinho/addCoupon/{domain}', [CartProductController::class, 'addCoupon'])->name('cartProducts.addCoupon');
+    Route::middleware('web')->group(function () {
+        Route::get('/carinho/{domain}', [CartProductController::class, 'index'])->name('cartProducts.index');
+        Route::get('/carrinho/produtos/{domain}', [CartProductController::class, 'fragmentIndex'])->name('carts.fragmentIndex');
+        Route::post('/carinho/link/{cartProduct}/{domain}', [CartProductController::class, 'addLink'])->name('cartProducts.addLink');
+        Route::post('/carinho/comment/{cartProduct}/{domain}', [CartProductController::class, 'addComment'])->name('cartProducts.addComment');
+        Route::delete('/carinho/remover/{cartProduct}/{domain}', [CartProductController::class, 'destroy'])->name('cartProducts.destroy');
+        Route::post('/carrinho/addCoupon/{domain}', [CartProductController::class, 'addCoupon'])->name('cartProducts.addCoupon');
+    });
 
     // Purchases
     Route::post('/finalizar-compra/{domain}', [PurchaseController::class, 'store'])->name('purchases.store');
