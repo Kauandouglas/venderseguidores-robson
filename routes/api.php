@@ -34,7 +34,7 @@ Route::group(['as' => 'api.'], function () {
     });
 
     // System Settings + Cart Products (precisam de sessão)
-    Route::middleware('web')->group(function () {
+    Route::middleware('web')->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])->group(function () {
         Route::post('/carinho/{domain}/{service}', [SystemSettingController::class, 'addCart'])->name('systemSettings.addCart');
         Route::get('/carinho/{domain}', [CartProductController::class, 'index'])->name('cartProducts.index');
         Route::get('/carrinho/produtos/{domain}', [CartProductController::class, 'fragmentIndex'])->name('carts.fragmentIndex');
